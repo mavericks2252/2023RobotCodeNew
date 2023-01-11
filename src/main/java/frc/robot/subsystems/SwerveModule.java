@@ -6,6 +6,7 @@ import com.ctre.phoenix.sensors.WPI_CANCoder;
 
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -105,6 +106,8 @@ public class SwerveModule {
 
         drivingMotor.setSelectedSensorPosition(0);
         turningMotor.setSelectedSensorPosition( radsToTicks( getAbsoluteEncoderRad() ) );
+        SmartDashboard.putBoolean("Reset Encoders", true);
+       
     }
 
     public SwerveModuleState getState(){
@@ -125,6 +128,11 @@ public class SwerveModule {
     public void stop() {
         drivingMotor.set(0);
         turningMotor.set(0);
+    }
+
+    public SwerveModulePosition getModulePosition( SwerveModule module){
+
+        return new SwerveModulePosition(module.getDrivePosition(), new Rotation2d(module.getTurningPosition()));
     }
     
 

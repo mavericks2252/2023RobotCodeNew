@@ -4,10 +4,14 @@
 
 package frc.robot.subsystems;
 
+
 import com.ctre.phoenix.sensors.Pigeon2;
 
+import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
+import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
+import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -55,6 +59,13 @@ public class SwerveSubsystem extends SubsystemBase {
 
   private Pigeon2 gyro = new Pigeon2(PortConstants.kPigeonPort);
   
+  private SwerveDriveOdometry odometer = new SwerveDriveOdometry(DriveConstants.kDriveKinematics, new Rotation2d(gyro.getYaw()), new SwerveModulePosition[] {
+    frontLeft.getModulePosition(frontLeft),
+    frontRight.getModulePosition(frontRight),
+    backLeft.getModulePosition(backLeft),
+    backRight.getModulePosition(backRight)
+  }
+  );
 
   /** Creates a new SwerveSubsystem. */
   public SwerveSubsystem() {
@@ -86,6 +97,12 @@ public class SwerveSubsystem extends SubsystemBase {
    SmartDashboard.putNumber("FR CANCoder Rads", frontRight.getAbsoluteEncoderRad());
    SmartDashboard.putNumber("FL CANCoder Rads", frontLeft.getAbsoluteEncoderRad());
    SmartDashboard.putNumber("BL CANCoder Rads", backLeft.getAbsoluteEncoderRad());
+
+   odometer.update(getRotation2d(), new SwerveModulePosition[] {
+    frontLeft.getModulePosition(frontLeft), 
+    frontRight.getModulePosition(frontRight), 
+    backLeft.getModulePosition(backLeft), 
+    backRight.getModulePosition(backRight)});
   }
 
   public void zeroHeading() {
@@ -98,6 +115,20 @@ public class SwerveSubsystem extends SubsystemBase {
 
   public Rotation2d getRotation2d() {
     return Rotation2d.fromDegrees(getHeading());
+  }
+
+  public Pose2d getPose() {
+    return odometer.getPoseMeters();
+  }
+
+  public void resetOdometry(Pose2d pose) {
+    odometer.resetPosition(getRotation2d(), new SwerveModulePosition[] {
+      frontLeft.getModulePosition(frontLeft), 
+      frontRight.getModulePosition(frontRight), 
+      backLeft.getModulePosition(backLeft), 
+      backRight.getModulePosition(backRight)
+    }, pose);
+      SmartDashboard.putString("RobotLocation", getPose().getTranslation().toString());
   }
 
   public void stopModules() {

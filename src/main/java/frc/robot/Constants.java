@@ -6,6 +6,8 @@ package frc.robot;
 
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
+import edu.wpi.first.math.trajectory.TrapezoidProfile;
+
 import edu.wpi.first.math.util.Units;
 
 /**
@@ -56,23 +58,23 @@ public final class Constants {
         public static final boolean kFrontRightDriveMotorInverted = true;
         public static final boolean kFrontRightTurningMotorInverted = true;
         public static final double kFrontRightAbsoluteEncoderOffsetRad = Units.degreesToRadians(347.607422);
-        public static final boolean kFrontRightAbsoluteEncoderReversed = false;
+        public static final boolean kFrontRightAbsoluteEncoderReversed = true;
 
         public static final boolean kbackRightDriveMotorInverted = true;
         public static final boolean kbackRightTurningMotorInverted = true;
-        public static final double kbackRightAbsoluteEncoderOffsetRad = Units.degreesToRadians(252.158203);
-        public static final boolean kbackRightAbsoluteEncoderReversed = false;
+        public static final double kbackRightAbsoluteEncoderOffsetRad = Units.degreesToRadians(253.5);
+        public static final boolean kbackRightAbsoluteEncoderReversed = true;
 
         public static final boolean kbackLeftDriveMotorInverted = false;
         public static final boolean kbackLeftTurningMotorInverted = true;
         public static final double kbackLeftAbsoluteEncoderOffsetRad = Units.degreesToRadians(19.3359);
-        public static final boolean kbackLeftAbsoluteEncoderReversed = false;
+        public static final boolean kbackLeftAbsoluteEncoderReversed = true;
 
         public static final double kPhysicalMaxSpeedMetersPerSecond = Units.feetToMeters(16.3);
         public static final double kTeleDriveMaxAccelerationUnitsPerSecond = 1;
         public static final double kTeleDriveMaxAngularAccelerationUnitsPerSecond = 15;
-        public static final double kTeleDriveMaxSpeedMetersPerSecond = 10;
-        public static final double kTeleDriveMaxAngularSpeedRadiansPerSecond = 15;
+        public static final double kTeleDriveMaxSpeedMetersPerSecond = 2;//10
+        public static final double kTeleDriveMaxAngularSpeedRadiansPerSecond = 2;//15
     }
 
     public static final class OIConstants {
@@ -87,6 +89,23 @@ public final class Constants {
 
     }
 
+    public static final class AutoConstants {
+
+        
+        public static final double kMaxSpeedMetersPerSecond = 0;
+        public static final double kMaxAccelerationMetersPerSecondSquared = 0;
+        public static final double kPXController = 0;
+        public static final double kPYController = 0;
+        public static final double kPThetaController = 0;
+        public static final TrapezoidProfile.Constraints kThetaControllerConstraints = 
+                    new TrapezoidProfile.Constraints
+                        (DriveConstants.kTeleDriveMaxAngularSpeedRadiansPerSecond,
+                         DriveConstants.kTeleDriveMaxAngularAccelerationUnitsPerSecond);
+
+        
+
+    }
+    
     public static final class PortConstants {
 
     // Controllers
