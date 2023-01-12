@@ -1,6 +1,7 @@
 package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
+import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import com.ctre.phoenix.sensors.WPI_CANCoder;
 
@@ -48,6 +49,8 @@ public class SwerveModule {
 
         turningPIDController = new PIDController(ModuleConstants.kPTurning, 0, 0);
         turningPIDController.enableContinuousInput(-Math.PI, Math.PI);
+
+        drivingMotor.setNeutralMode(NeutralMode.Brake);
 
         resetEncoders();
 
@@ -130,9 +133,9 @@ public class SwerveModule {
         turningMotor.set(0);
     }
 
-    public SwerveModulePosition getModulePosition( SwerveModule module){
+    public SwerveModulePosition getModulePosition( ){
 
-        return new SwerveModulePosition(module.getDrivePosition(), new Rotation2d(module.getTurningPosition()));
+        return new SwerveModulePosition(getDrivePosition(), new Rotation2d(getTurningPosition()));
     }
     
 
