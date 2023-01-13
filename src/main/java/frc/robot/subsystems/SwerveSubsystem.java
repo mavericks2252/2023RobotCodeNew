@@ -97,6 +97,10 @@ public class SwerveSubsystem extends SubsystemBase {
    SmartDashboard.putNumber("FR CANCoder Rads", frontRight.getAbsoluteEncoderRad());
    SmartDashboard.putNumber("FL CANCoder Rads", frontLeft.getAbsoluteEncoderRad());
    SmartDashboard.putNumber("BL CANCoder Rads", backLeft.getAbsoluteEncoderRad());
+   SmartDashboard.putNumber("FL Distance", frontLeft.getDrivePosition());
+   SmartDashboard.putNumber("FR Distance", frontRight.getDrivePosition());
+   SmartDashboard.putNumber("BL Distance", backLeft.getDrivePosition());
+   SmartDashboard.putNumber("BR Distance", backRight.getDrivePosition());
 
    odometer.update(getRotation2d(), new SwerveModulePosition[] {
     frontLeft.getModulePosition(), 

@@ -51,6 +51,7 @@ public class SwerveModule {
         turningPIDController.enableContinuousInput(-Math.PI, Math.PI);
 
         drivingMotor.setNeutralMode(NeutralMode.Brake);
+        turningMotor.setNeutralMode(NeutralMode.Brake);
 
         resetEncoders();
 

@@ -5,7 +5,6 @@
 package frc.robot;
 
 import edu.wpi.first.math.controller.PIDController;
-import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
@@ -93,20 +92,22 @@ public final class Constants {
     public static final class AutoConstants {
 
         
-        public static final double kMaxSpeedMetersPerSecond = 1;
-        public static final double kMaxAccelerationMetersPerSecondSquared = 1;
-        public static final double kPXController = .8;
-        public static final double kPYController = .8;
-        public static final double kPThetaController = 3;
+        public static final double kMaxSpeedMetersPerSecond = 6;
+        public static final double kMaxAccelerationMetersPerSecondSquared = 4;
+        public static final double kPXController = 2;
+        public static final double kPYController = 2.5;
+        public static final double kPThetaController = 4;
         public static final TrapezoidProfile.Constraints kThetaControllerConstraints = 
                     new TrapezoidProfile.Constraints
                         (DriveConstants.kTeleDriveMaxAngularSpeedRadiansPerSecond,
                          DriveConstants.kTeleDriveMaxAngularAccelerationUnitsPerSecond);
 
-        public static final PIDController kxController = new PIDController(AutoConstants.kPXController, 0, 0);
-        public static final PIDController kyController = new PIDController(AutoConstants.kPYController, 0, 0);
-        public static final ProfiledPIDController kThetaController = new ProfiledPIDController(
-            AutoConstants.kPThetaController, 0, 0, AutoConstants.kThetaControllerConstraints);
+        public static final PIDController kxController = new PIDController(kPXController, 0, 0);
+        public static final PIDController kyController = new PIDController(kPYController, 0, 0);
+        public static final PIDController kThetaController = new PIDController(kPThetaController, 0, 0);
+        
+        /*public static final ProfiledPIDController kThetaController = new ProfiledPIDController(
+            AutoConstants.kPThetaController, 0, 0, AutoConstants.kThetaControllerConstraints);*/
         
         
         }

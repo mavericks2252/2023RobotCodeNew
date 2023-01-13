@@ -4,10 +4,15 @@
 
 package frc.robot;
 
+import java.util.HashMap;
+
 import com.pathplanner.lib.PathConstraints;
 import com.pathplanner.lib.PathPlanner;
 import com.pathplanner.lib.PathPlannerTrajectory;
 import com.pathplanner.lib.PathPlannerTrajectory.PathPlannerState;
+import com.pathplanner.lib.commands.FollowPathWithEvents;
+import com.pathplanner.lib.commands.PPSwerveControllerCommand;
+
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
@@ -15,7 +20,6 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-import edu.wpi.first.wpilibj2.command.SwerveControllerCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.Constants.AutoConstants;
 import frc.robot.Constants.DriveConstants;
@@ -45,7 +49,6 @@ public class RobotContainer {
           () -> -driverJoystick.getRawAxis(OIConstants.kDriverRotAxis), 
           () -> !driverJoystick.getRawButton(OIConstants.kDriverFieldOrientedButtonIdx)));
 
-
     // Configure the button bindings
     configureButtonBindings();
   }
@@ -71,14 +74,23 @@ public class RobotContainer {
       // ***Place auto Commands AFTER this line
       // Enabling Continuous Input on Rotational PID Controler to pass through -180 to 180 degrees (in Radians)
       AutoConstants.kThetaController.enableContinuousInput(-Math.PI, Math.PI);
+      SmartDashboard.putBoolean("Passed Marker 1", false);
 
-      PathPlannerTrajectory testPath = PathPlanner.loadPath("Test Path", // Configuring name of the path
+
+      PathPlannerTrajectory testPath = PathPlanner.loadPath("Figure 8", // Configuring name of the path
       new PathConstraints(AutoConstants.kMaxSpeedMetersPerSecond, AutoConstants.kMaxAccelerationMetersPerSecondSquared));// New path constraints
 
       PathPlannerState exampleState = (PathPlannerState) testPath.sample(1.2);
 
       SmartDashboard.putNumber("Path Velocity", exampleState.velocityMetersPerSecond);
-     /* PPSwerveControllerCommand testAuto = new PPSwerveControllerCommand (
+     
+      
+     
+      HashMap<String, Command> eventMap = new HashMap<>();
+      eventMap.put("marker1", new InstantCommand (() -> SmartDashboard.putBoolean("Passed Marker 1", true)));
+
+      FollowPathWithEvents pathWithEvents = new FollowPathWithEvents(
+        new PPSwerveControllerCommand (
         testPath,
         swerveSubsystem::getPose,
         DriveConstants.kDriveKinematics,
@@ -86,29 +98,23 @@ public class RobotContainer {
         AutoConstants.kyController,
         AutoConstants.kThetaController,
         swerveSubsystem::setModuleStates,
-        swerveSubsystem);*/
-     
-     SwerveControllerCommand swerveControllerCommand = new SwerveControllerCommand(
-                  testPath, 
-                  swerveSubsystem::getPose, 
-                  DriveConstants.kDriveKinematics, 
-                  AutoConstants.kxController, 
-                  AutoConstants.kyController, 
-                  AutoConstants.kThetaController, 
-                  swerveSubsystem::setModuleStates, 
-                  swerveSubsystem);
+        swerveSubsystem), 
+        testPath.getMarkers(), 
+        eventMap);
 
 
       return new SequentialCommandGroup(
         new InstantCommand(() -> swerveSubsystem.resetOdometry(testPath.getInitialHolonomicPose())),
-        swerveControllerCommand,
+        pathWithEvents,
         new InstantCommand(() -> swerveSubsystem.stopModules()));
 
 
   }
 }
 
-/*// Create trajectory settings
+/* Code used while learning
+
+// Create trajectory settings
       TrajectoryConfig trajectoryConfig = new TrajectoryConfig(AutoConstants.kMaxSpeedMetersPerSecond, 
       AutoConstants.kMaxAccelerationMetersPerSecondSquared).setKinematics(DriveConstants.kDriveKinematics);
 
@@ -121,10 +127,29 @@ public class RobotContainer {
                 trajectoryConfig); 
                 
     // Construct command to follow trajectory
-       
+       SwerveControllerCommand swerveControllerCommand = new SwerveControllerCommand(
+                  testPath, 
+                  swerveSubsystem::getPose, 
+                  DriveConstants.kDriveKinematics, 
+                  AutoConstants.kxController, 
+                  AutoConstants.kyController, 
+                  AutoConstants.kThetaController, 
+                  swerveSubsystem::setModuleStates, 
+                  swerveSubsystem);
       return null;
 
       // Add some init and wrap-up, and return evrything
       
       );
-      ;*/
+      ;
+      
+      
+      PPSwerveControllerCommand testAuto = new PPSwerveControllerCommand (
+        testPath,
+        swerveSubsystem::getPose,
+        DriveConstants.kDriveKinematics,
+        AutoConstants.kxController,
+        AutoConstants.kyController,
+        AutoConstants.kThetaController,
+        swerveSubsystem::setModuleStates,
+        swerveSubsystem);*/
