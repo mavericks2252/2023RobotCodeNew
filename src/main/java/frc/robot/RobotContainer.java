@@ -24,8 +24,10 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.Constants.AutoConstants;
 import frc.robot.Constants.DriveConstants;
 import frc.robot.Constants.OIConstants;
+import frc.robot.commands.AprilTagAutoAlign;
 import frc.robot.commands.SwerveJoystickCmd;
 import frc.robot.subsystems.SwerveSubsystem;
+import frc.robot.subsystems.Vision;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -37,6 +39,8 @@ public class RobotContainer {
   // The robot's subsystems and commands are defined here...
  
   private final SwerveSubsystem swerveSubsystem = new SwerveSubsystem();
+  private final Vision vision = new Vision();
+  private final AprilTagAutoAlign aprilTagAutoAlign = new AprilTagAutoAlign(swerveSubsystem);
 
   private final Joystick driverJoystick = new Joystick(OIConstants.kDriverControllerPort);
 
@@ -62,6 +66,10 @@ public class RobotContainer {
    */
   private void configureButtonBindings() {
       new JoystickButton(driverJoystick, 2).onTrue(new InstantCommand(() -> swerveSubsystem.zeroHeading()));
+
+      new JoystickButton(driverJoystick, OIConstants.aButton).onTrue(aprilTagAutoAlign);
+
+      
   }
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.

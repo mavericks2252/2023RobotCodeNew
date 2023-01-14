@@ -85,6 +85,12 @@ public final class Constants {
         public static final int kDriverYAxis = 1;
         public static final int kDriverRotAxis = 4;
         public static final int kDriverFieldOrientedButtonIdx = 4;
+
+        // Controller Buttons
+        public static final int xButton = 3;
+        public static final int aButton = 1;
+        public static final int bButton = 2;
+        public static final int yButton = 4;
   
 
     }
@@ -138,11 +144,7 @@ public final class Constants {
 
         public static final int kPigeonPort = 13;
 
-    // Controller Buttons
-        public static final int xButton = 3;
-        public static final int aButton = 1;
-        public static final int bButton = 2;
-        public static final int yButton = 4;
+    
     
     }
 
