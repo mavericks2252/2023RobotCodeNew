@@ -35,7 +35,7 @@
         "x": 3.0,
         "y": 4.0
       },
-      "holonomicAngle": 0,
+      "holonomicAngle": -169.77733674038646,
       "isReversal": true,
       "velOverride": null,
       "isLocked": false,
@@ -72,7 +72,7 @@
   ],
   "markers": [
     {
-      "position": 1.5272727272727251,
+      "position": 0.6000000000000025,
       "names": [
         "event"
       ]

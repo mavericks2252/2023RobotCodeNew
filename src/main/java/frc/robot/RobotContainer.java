@@ -25,7 +25,11 @@ import frc.robot.Constants.AutoConstants;
 import frc.robot.Constants.DriveConstants;
 import frc.robot.Constants.OIConstants;
 import frc.robot.commands.AprilTagAutoAlign;
+import frc.robot.commands.RunIntake;
+import frc.robot.commands.SpinIndexer;
 import frc.robot.commands.SwerveJoystickCmd;
+import frc.robot.subsystems.Indexer;
+import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.SwerveSubsystem;
 import frc.robot.subsystems.Vision;
 
@@ -40,7 +44,11 @@ public class RobotContainer {
  
   private final SwerveSubsystem swerveSubsystem = new SwerveSubsystem();
   private final Vision vision = new Vision();
-  private final AprilTagAutoAlign aprilTagAutoAlign = new AprilTagAutoAlign(swerveSubsystem);
+  private final AprilTagAutoAlign aprilTagAutoAlign = new AprilTagAutoAlign(swerveSubsystem, vision);
+  private final Intake intake = new Intake();
+  private final RunIntake runIntake = new RunIntake(intake);
+  private final Indexer indexer = new Indexer();
+  private final SpinIndexer spinIndexer = new SpinIndexer(indexer);
 
   private final Joystick driverJoystick = new Joystick(OIConstants.kDriverControllerPort);
 
@@ -48,9 +56,10 @@ public class RobotContainer {
   public RobotContainer() {
     swerveSubsystem.setDefaultCommand(new SwerveJoystickCmd(
           swerveSubsystem,
+          () -> -driverJoystick.getRawAxis(OIConstants.kDriverYAxis),
           () -> -driverJoystick.getRawAxis(OIConstants.kDriverXAxis),
-          () -> driverJoystick.getRawAxis(OIConstants.kDriverYAxis),
           () -> -driverJoystick.getRawAxis(OIConstants.kDriverRotAxis), 
+          //Change the button to yButton and delete the constant that is used here for consistancy
           () -> !driverJoystick.getRawButton(OIConstants.kDriverFieldOrientedButtonIdx)));
 
     // Configure the button bindings
@@ -65,9 +74,10 @@ public class RobotContainer {
    * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
-      new JoystickButton(driverJoystick, 2).onTrue(new InstantCommand(() -> swerveSubsystem.zeroHeading()));
-
-      new JoystickButton(driverJoystick, OIConstants.aButton).onTrue(aprilTagAutoAlign);
+      new JoystickButton(driverJoystick, OIConstants.bButton).onTrue(new InstantCommand(() -> swerveSubsystem.zeroHeading()));
+      new JoystickButton(driverJoystick, OIConstants.aButton).whileTrue(aprilTagAutoAlign);
+      new JoystickButton(driverJoystick, OIConstants.xButton).whileTrue(runIntake);
+      new JoystickButton(driverJoystick, OIConstants.yButton).whileTrue(spinIndexer);
 
       
   }
@@ -78,22 +88,29 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
       
-      // ***DO NOT DELETE THIS LINE
-      // ***Place auto Commands AFTER this line
-      // Enabling Continuous Input on Rotational PID Controler to pass through -180 to 180 degrees (in Radians)
+      /*
+        ***DO NOT DELETE THIS LINE
+        ***Place auto Commands AFTER this line
+        Enabling Continuous Input on Rotational PID Controler to pass through -180 to 180 degrees (in Radians)
+      */
       AutoConstants.kThetaController.enableContinuousInput(-Math.PI, Math.PI);
-      SmartDashboard.putBoolean("Passed Marker 1", false);
+      
+      
+      SmartDashboard.putBoolean("Passed Marker 1", false); // Used for testing passing a marker
 
 
       PathPlannerTrajectory testPath = PathPlanner.loadPath("Figure 8", // Configuring name of the path
-      new PathConstraints(AutoConstants.kMaxSpeedMetersPerSecond, AutoConstants.kMaxAccelerationMetersPerSecondSquared));// New path constraints
+      new PathConstraints(
+        AutoConstants.kMaxSpeedMetersPerSecond, //Max speed for path
+        AutoConstants.kMaxAccelerationMetersPerSecondSquared //Max acceleration for path
+        ));// New path constraints
 
+     // Sampling the velocity at a given time in program
       PathPlannerState exampleState = (PathPlannerState) testPath.sample(1.2);
-
       SmartDashboard.putNumber("Path Velocity", exampleState.velocityMetersPerSecond);
      
       
-     
+     //Creating the eventmap for markers in auto program
       HashMap<String, Command> eventMap = new HashMap<>();
       eventMap.put("marker1", new InstantCommand (() -> SmartDashboard.putBoolean("Passed Marker 1", true)));
 
@@ -120,7 +137,7 @@ public class RobotContainer {
   }
 }
 
-/* Code used while learning
+/* Code used while learning Path Planning
 
 // Create trajectory settings
       TrajectoryConfig trajectoryConfig = new TrajectoryConfig(AutoConstants.kMaxSpeedMetersPerSecond, 

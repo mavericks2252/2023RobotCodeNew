@@ -22,15 +22,19 @@ public final class Constants {
 
     public static final class ModuleConstants {
 
-        public static final double kWheelDiameterMeters = Units.inchesToMeters(4);
+        public static final double kWheelDiameterMeters = Units.inchesToMeters(4); // May want to measure the wheels to see if they are exactly 4" diameter
         public static final double kWheelCircumferenceMeters = kWheelDiameterMeters * Math.PI;
         public static final double kDriveMotorGearRatio = 6.75;
         public static final double kTurningMotorGearRatio = 21.4285714;
         public static final double kDriveEncoderRotToMeter = kDriveMotorGearRatio * Math.PI * kWheelDiameterMeters;
         public static final double kTurningEncoderRotToRad = kTurningMotorGearRatio * 2 * Math.PI;
-        public static final double kDriveEncoderRPMToMeterPerSec = kDriveEncoderRotToMeter / 60;
-        public static final double kTurningEncoderRPMToRadPerSec = kTurningEncoderRotToRad / 60;
         public static final double kPTurning = 0.5; //Will need tuning
+
+        // What are these two?  Are we using them?
+        public static final double kDriveEncoderRPMToMeterPerSec = kDriveEncoderRotToMeter / 60; 
+        public static final double kTurningEncoderRPMToRadPerSec = kTurningEncoderRotToRad / 60;
+        
+        
 
     }
 
@@ -74,7 +78,12 @@ public final class Constants {
         public static final double kTeleDriveMaxAccelerationUnitsPerSecond = 1;
         public static final double kTeleDriveMaxAngularAccelerationUnitsPerSecond = 15;
         public static final double kTeleDriveMaxSpeedMetersPerSecond = 2;//10
-        public static final double kTeleDriveMaxAngularSpeedRadiansPerSecond = 2;//15
+        public static final double kTeleDriveMaxAngularSpeedRadiansPerSecond = 5;//15
+    }
+
+    public static final class IntakeConstants {
+
+        public static final double kIntakeMotorSpeed = .5;
     }
 
     public static final class OIConstants {
@@ -111,12 +120,15 @@ public final class Constants {
         public static final PIDController kxController = new PIDController(kPXController, 0, 0);
         public static final PIDController kyController = new PIDController(kPYController, 0, 0);
         public static final PIDController kThetaController = new PIDController(kPThetaController, 0, 0);
+        public static final double kPAlignmentTheta = 0.115;
+        public static final double kPAlignmentY = 0.1;
         
         /*public static final ProfiledPIDController kThetaController = new ProfiledPIDController(
             AutoConstants.kPThetaController, 0, 0, AutoConstants.kThetaControllerConstraints);*/
         
         
         }
+        
     
     public static final class PortConstants {
 
@@ -140,6 +152,10 @@ public final class Constants {
         public static final int kbackRightDriveMotorPort = 10;
         public static final int kbackRightTurningMotorPort = 11;
         public static final int kbackRightAbsoluteEncoderPort = 12;
+
+        public static final int kIntakeMotorPort = 14;
+
+        public static final int kIndexerMotorPort = 15;
 
 
         public static final int kPigeonPort = 13;
