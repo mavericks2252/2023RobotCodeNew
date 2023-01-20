@@ -125,7 +125,7 @@ public final class Constants {
         public static final PIDController kThetaController = new PIDController(kPThetaController, 0, 0);
         public static final double kPAlignmentTheta = 0.115;
         public static final double kPAlignmentY = 0.05;
-        public static final double kPAlignmentX = 0.12;
+        public static final double kPAlignmentX = 0.8;
         
         /*public static final ProfiledPIDController kThetaController = new ProfiledPIDController(
             AutoConstants.kPThetaController, 0, 0, AutoConstants.kThetaControllerConstraints);*/
