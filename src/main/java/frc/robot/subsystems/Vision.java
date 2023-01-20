@@ -18,7 +18,8 @@ public class Vision extends SubsystemBase {
 
   /** Creates a new Vision. */
   public Vision() {
-SmartDashboard.putBoolean("target check", false);
+    SmartDashboard.putBoolean("target check", false);
+    setPipeline(0);
 
 
   }
@@ -36,15 +37,16 @@ SmartDashboard.putBoolean("target check", false);
     SmartDashboard.putNumber("Vision Target Found", tv);
     SmartDashboard.putNumber("Horizontal Position", tx);
     SmartDashboard.putNumber("Vertical Postion", ty);
-    SmartDashboard.putNumber("Target Distance", ta);
+    SmartDashboard.putNumber("Target Area", ta);
     SmartDashboard.putNumber("Turning Position", ry);
+    SmartDashboard.putNumber("Pipeline", NetworkTableInstance.getDefault().getTable("limelight").getEntry("getpipe").getDouble(10));
 
 
   }
 
   public double limeLightTargetCheck() {
             SmartDashboard.putBoolean("target check", true);
-    return NetworkTableInstance.getDefault().getTable("limelight").getEntry("tv").getDouble(5);
+    return NetworkTableInstance.getDefault().getTable("limelight").getEntry("tv").getDouble(0);
   }
 
   public double limeLightHorizontalPosition() {
@@ -65,5 +67,10 @@ SmartDashboard.putBoolean("target check", false);
   public double limeLightTurnAngle() {
 
     return NetworkTableInstance.getDefault().getTable("limelight").getEntry("ry").getDouble(0);
+  }
+
+  public void setPipeline(int pipeline) {
+
+    NetworkTableInstance.getDefault().getTable("limelight").getEntry("pipeline").setNumber(pipeline);
   }
 }

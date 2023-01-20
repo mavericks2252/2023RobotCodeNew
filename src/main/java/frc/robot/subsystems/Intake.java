@@ -4,20 +4,21 @@
 
 package frc.robot.subsystems;
 
-import com.revrobotics.CANSparkMax;
-import com.revrobotics.CANSparkMaxLowLevel.MotorType;
-
+import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.IntakeConstants;
 import frc.robot.Constants.PortConstants;
 
 public class Intake extends SubsystemBase {
   /** Creates a new SparkMax. */
-  CANSparkMax intakeMotor;
+  WPI_TalonFX topIntakeMotor;
+  WPI_TalonFX bottomIntakeMotor;
 
   public Intake() {
 
-    intakeMotor = new CANSparkMax(PortConstants.kIntakeMotorPort, MotorType.kBrushless);
+    topIntakeMotor = new WPI_TalonFX(PortConstants.kIntakeTopMotorPort);
+    bottomIntakeMotor = new WPI_TalonFX(PortConstants.kIntakeBottomMotorPort);
   }
 
   @Override
@@ -27,12 +28,14 @@ public class Intake extends SubsystemBase {
 
   public void runIntake() {
 
-    intakeMotor.set(IntakeConstants.kIntakeMotorSpeed);
+    topIntakeMotor.set(ControlMode.PercentOutput, IntakeConstants.kIntakeMotorSpeed);
+    bottomIntakeMotor.set(ControlMode.PercentOutput, -IntakeConstants.kIntakeMotorSpeed);
   }
 
   public void stopIntake() {
 
-    intakeMotor.stopMotor();
+    topIntakeMotor.stopMotor();
+    bottomIntakeMotor.stopMotor();
   }
 
 }

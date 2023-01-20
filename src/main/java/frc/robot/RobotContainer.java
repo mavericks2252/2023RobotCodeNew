@@ -20,6 +20,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.Constants.AutoConstants;
 import frc.robot.Constants.DriveConstants;
@@ -99,7 +100,7 @@ public class RobotContainer {
       SmartDashboard.putBoolean("Passed Marker 1", false); // Used for testing passing a marker
 
 
-      PathPlannerTrajectory testPath = PathPlanner.loadPath("Figure 8", // Configuring name of the path
+      PathPlannerTrajectory testPath = PathPlanner.loadPath("New Path", // Configuring name of the path
       new PathConstraints(
         AutoConstants.kMaxSpeedMetersPerSecond, //Max speed for path
         AutoConstants.kMaxAccelerationMetersPerSecondSquared //Max acceleration for path
@@ -113,6 +114,8 @@ public class RobotContainer {
      //Creating the eventmap for markers in auto program
       HashMap<String, Command> eventMap = new HashMap<>();
       eventMap.put("marker1", new InstantCommand (() -> SmartDashboard.putBoolean("Passed Marker 1", true)));
+
+      eventMap.put("event", new WaitCommand(1));
 
       FollowPathWithEvents pathWithEvents = new FollowPathWithEvents(
         new PPSwerveControllerCommand (

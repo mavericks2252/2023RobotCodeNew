@@ -4,10 +4,10 @@
 
 package frc.robot.commands;
 
-import edu.wpi.first.math.Drake;
 import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants.AutoConstants;
 import frc.robot.Constants.DriveConstants;
@@ -20,13 +20,18 @@ public class AprilTagAutoAlign extends CommandBase {
 
   private double tv;
   private double tx;
+  private double ta;
   private double headingError;
   private ChassisSpeeds chassisSpeeds;
   private double ySpeed;
+  private double xSpeed;
   private double turningSpeed;
-  private double targetHeading = 90;
+  private double targetHeading = 180;
+  private double targetArea = 1.75;
   SlewRateLimiter turningLimiter = new SlewRateLimiter(DriveConstants.kTeleDriveMaxAngularAccelerationUnitsPerSecond);
   SlewRateLimiter ySpeedLimiter = new SlewRateLimiter(DriveConstants.kTeleDriveMaxAccelerationUnitsPerSecond);
+  SlewRateLimiter xSpeedLimiter = new SlewRateLimiter(DriveConstants.kTeleDriveMaxAccelerationUnitsPerSecond);
+
 
   /** Creates a new VisionTracking. */
   public AprilTagAutoAlign(SwerveSubsystem ss, Vision v) {
@@ -46,15 +51,16 @@ public class AprilTagAutoAlign extends CommandBase {
   public void execute() {
 
     tv = vision.limeLightTargetCheck();
-    tx = -vision.limeLightHorizontalPosition();
+    tx = vision.limeLightHorizontalPosition();
+    ta = vision.limeLightTargetArea();
 
-    if(true) {//tv == 1
-      headingError = targetHeading - swerveSubsystem.getHeading();
-
+    if(tv == 1) {//
+      headingError = targetHeading - Math.abs(swerveSubsystem.getHeading());
+      headingError = Math.copySign(headingError, swerveSubsystem.getHeading());
       //If heading error is greater than assceptable error 
       //mupliply the heading error by a kP to get a turning speed
       
-      if (Math.abs(headingError) > 1) {
+      if (Math.abs(headingError) > 1.5) {
 
         turningSpeed = headingError * AutoConstants.kPAlignmentTheta;
         
@@ -62,6 +68,11 @@ public class AprilTagAutoAlign extends CommandBase {
           if (Math.abs(turningSpeed) > DriveConstants.kTeleDriveMaxAngularSpeedRadiansPerSecond) {
             
             turningSpeed = Math.copySign(DriveConstants.kTeleDriveMaxAngularSpeedRadiansPerSecond, turningSpeed);
+          }
+
+          else if (Math.abs(turningSpeed) < DriveConstants.kMinimumTurningSpeed) {
+
+            turningSpeed = Math.copySign(DriveConstants.kMinimumTurningSpeed, turningSpeed);
           }
         
       }
@@ -85,20 +96,46 @@ public class AprilTagAutoAlign extends CommandBase {
         ySpeed = 0;
       }
 
+
+      if (ta < targetArea) {
+
+        xSpeed = (targetArea - ta) * AutoConstants.kPAlignmentX;
+
+          if (xSpeed > DriveConstants.kTeleDriveMaxSpeedMetersPerSecond) {
+            xSpeed = DriveConstants.kTeleDriveMaxSpeedMetersPerSecond;
+          }
+
+          else if (xSpeed < DriveConstants.kMinimumDriveSpeed) {
+
+            xSpeed = DriveConstants.kMinimumDriveSpeed;
+          }
+      }
+
+      else {
+        xSpeed = 0;
+      }
+
       
     } 
+
+    else {
+      turningSpeed = 0;
+      ySpeed = 0;
+      xSpeed = 0;
+    }
     
 
     //Need an else statement for setting all the speeds to 0
-      
+      SmartDashboard.putNumber("Heading Error", headingError);
 
     //Moved this out here so it assigns a value to the drive motors everytime through the program
     turningSpeed = turningLimiter.calculate(turningSpeed);
     ySpeed = ySpeedLimiter.calculate(ySpeed);
+    xSpeed = xSpeedLimiter.calculate(xSpeed);
 
       chassisSpeeds = ChassisSpeeds.fromFieldRelativeSpeeds(
         //*******Then use this turning speed to calculate the chassis speeds
-        0, ySpeed, 0, swerveSubsystem.getRotation2d());
+        -xSpeed, ySpeed, turningSpeed, swerveSubsystem.getRotation2d());
       SwerveModuleState[] moduleStates = DriveConstants.kDriveKinematics.toSwerveModuleStates(chassisSpeeds);
       swerveSubsystem.setModuleStates(moduleStates);
   }

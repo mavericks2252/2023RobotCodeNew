@@ -51,14 +51,23 @@ public class SwerveJoystickCmd extends CommandBase {
     double turningSpeed = turningSpdFunction.get();
 
     // Apply deadband
-    xSpeed = Math.abs(xSpeed) > OIConstants.kDeadBand ? xSpeed : 0.0;
-    ySpeed = Math.abs(ySpeed) > OIConstants.kDeadBand ? ySpeed : 0.0;
-    turningSpeed = Math.abs(turningSpeed) > OIConstants.kDeadBand ? turningSpeed : 0.0;
+    /*    xSpeed = Math.abs(xSpeed) > OIConstants.kDeadBand ? xSpeed : 0.0;
+          ySpeed = Math.abs(ySpeed) > OIConstants.kDeadBand ? ySpeed : 0.0;
+          turningSpeed = Math.abs(turningSpeed) > OIConstants.kDeadBand ? turningSpeed : 0.0;
+        
+           if (Math.abs(xSpeed) < Math.abs(OIConstants.kDeadBand)) return 0.0;
+          return OIConstants.kDeadBand * Math.signum(xSpeed) + ((xSpeed - OIConstants.kDeadBand) / (1.0 - OIConstants.kDeadBand));
+          if (Math.abs(ySpeed) < Math.abs(OIConstants.kDeadBand)) return 0.0;
+          return OIConstants.kDeadBand * Math.signum(ySpeed) + ((ySpeed - OIConstants.kDeadBand) / (1.0 - OIConstants.kDeadBand));
+
+          if (Math.abs(turningSpeed) < Math.abs(OIConstants.kDeadBand)) return 0.0;
+          return OIConstants.kDeadBand * Math.signum(turningSpeed) + ((turningSpeed - OIConstants.kDeadBand) / (1.0 - OIConstants.kDeadBand));
+    */      
 
     // Make driving smoother
-    xSpeed = xLimiter.calculate(xSpeed) * DriveConstants.kTeleDriveMaxSpeedMetersPerSecond;
-    ySpeed = yLimiter.calculate(ySpeed) * DriveConstants.kTeleDriveMaxSpeedMetersPerSecond;
-    turningSpeed = turningLimiter.calculate(turningSpeed)
+    xSpeed = xLimiter.calculate(joystickDeadband(xSpeed)) * DriveConstants.kTeleDriveMaxSpeedMetersPerSecond;
+    ySpeed = yLimiter.calculate(joystickDeadband(ySpeed)) * DriveConstants.kTeleDriveMaxSpeedMetersPerSecond;
+    turningSpeed = turningLimiter.calculate(joystickDeadband(turningSpeed))
             * DriveConstants.kTeleDriveMaxAngularSpeedRadiansPerSecond;
     
     SmartDashboard.putNumber("TurningSpeedValue", turningSpeed);
@@ -85,6 +94,10 @@ public class SwerveJoystickCmd extends CommandBase {
 
   }
 
+  public double joystickDeadband(Double speed) {
+    if (Math.abs(speed) < Math.abs(OIConstants.kDeadBand)) return 0.0;
+    return Math.signum(speed) * ((Math.abs(speed) - OIConstants.kDeadBand) / (1.0 - OIConstants.kDeadBand));}
+    
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
