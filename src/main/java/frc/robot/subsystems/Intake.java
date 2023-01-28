@@ -28,8 +28,8 @@ public class Intake extends SubsystemBase {
 
   public void runIntake() {
 
-    topIntakeMotor.set(ControlMode.PercentOutput, IntakeConstants.kIntakeMotorSpeed);
-    bottomIntakeMotor.set(ControlMode.PercentOutput, -IntakeConstants.kIntakeMotorSpeed);
+    topIntakeMotor.set(ControlMode.PercentOutput, -IntakeConstants.kIntakeMotorSpeedtop);
+    bottomIntakeMotor.set(ControlMode.PercentOutput, IntakeConstants.kIntakeMotorSpeedbottom);
   }
 
   public void stopIntake() {

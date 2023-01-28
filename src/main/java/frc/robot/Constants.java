@@ -75,9 +75,9 @@ public final class Constants {
         public static final boolean kbackLeftAbsoluteEncoderReversed = true;
 
         public static final double kPhysicalMaxSpeedMetersPerSecond = Units.feetToMeters(16.3);
-        public static final double kTeleDriveMaxAccelerationUnitsPerSecond = 1;
+        public static final double kTeleDriveMaxAccelerationUnitsPerSecond = 3;
         public static final double kTeleDriveMaxAngularAccelerationUnitsPerSecond = 15;
-        public static final double kTeleDriveMaxSpeedMetersPerSecond = 2;//10
+        public static final double kTeleDriveMaxSpeedMetersPerSecond = 4;//10
         public static final double kTeleDriveMaxAngularSpeedRadiansPerSecond = 5;//15
 
         public static final double kMinimumTurningSpeed = .75;
@@ -86,7 +86,31 @@ public final class Constants {
 
     public static final class IntakeConstants {
 
-        public static final double kIntakeMotorSpeed = .5;
+        public static final double kIntakeMotorSpeedtop = -.5;
+        public static final double kIntakeMotorSpeedbottom = .3;
+    }
+
+    public static final class ArmConstants {
+
+        public static final double kPTop = 0;
+        public static final double kPBottom = 0;
+        public static final double kITop = 0;
+        public static final double kIBottom = 0;
+        public static final double kDTop = 0;
+        public static final double kDBottom = 0;
+        public static final double kIntegralZoneTop = 0;
+        public static final double kIntegralZoneBottom = 0;
+        public static final double kFeedForwardTop = 0;
+        public static final double kFeedForwardBottom = 0;
+        public static final double kMinOutput = 0;
+        public static final double kMaxOutput = 0;
+        public static final double maxVelocity = 0;
+        public static final int smartMotionSlot = 0;
+        public static final double minVelocity = 0;
+        public static final double maxAcceleration = 0;
+        public static final double allowedError = 0;
+
+
     }
 
     public static final class OIConstants {
@@ -103,9 +127,9 @@ public final class Constants {
         public static final int aButton = 1;
         public static final int bButton = 2;
         public static final int yButton = 4;
-  
+        public static final int rbButton = 6;
 
-    }
+    }         
 
     public static final class AutoConstants {
 
@@ -163,8 +187,12 @@ public final class Constants {
 
 
         public static final int kPigeonPort = 13;
-        public static final int kIntakeBottomMotorPort = 0;
-        public static final int kIntakeTopMotorPort = 0;
+        public static final int kIntakeBottomMotorPort = 17;
+        public static final int kIntakeTopMotorPort = 16;
+       
+        public static final int kBottomArmMasterMotorPort = 0;
+        public static final int kBottomArmSlaveMotorPort = 0;
+        public static final int kTopArmMotorPort = 0;
 
     
     

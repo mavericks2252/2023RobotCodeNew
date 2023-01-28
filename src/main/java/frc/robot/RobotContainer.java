@@ -77,7 +77,7 @@ public class RobotContainer {
   private void configureButtonBindings() {
       new JoystickButton(driverJoystick, OIConstants.bButton).onTrue(new InstantCommand(() -> swerveSubsystem.zeroHeading()));
       new JoystickButton(driverJoystick, OIConstants.aButton).whileTrue(aprilTagAutoAlign);
-      new JoystickButton(driverJoystick, OIConstants.xButton).whileTrue(runIntake);
+      new JoystickButton(driverJoystick, OIConstants.rbButton).whileTrue(runIntake);
       new JoystickButton(driverJoystick, OIConstants.yButton).whileTrue(spinIndexer);
 
       
