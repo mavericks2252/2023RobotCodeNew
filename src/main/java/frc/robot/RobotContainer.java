@@ -5,13 +5,13 @@
 package frc.robot;
 
 import java.util.HashMap;
+import java.util.List;
 
 import com.pathplanner.lib.PathConstraints;
 import com.pathplanner.lib.PathPlanner;
 import com.pathplanner.lib.PathPlannerTrajectory;
-import com.pathplanner.lib.PathPlannerTrajectory.PathPlannerState;
-import com.pathplanner.lib.commands.FollowPathWithEvents;
-import com.pathplanner.lib.commands.PPSwerveControllerCommand;
+import com.pathplanner.lib.auto.SwerveAutoBuilder;
+
 
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
@@ -19,7 +19,6 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
-import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.Constants.AutoConstants;
@@ -29,9 +28,12 @@ import frc.robot.commands.AprilTagAutoAlign;
 import frc.robot.commands.RunIntake;
 import frc.robot.commands.SpinIndexer;
 import frc.robot.commands.SwerveJoystickCmd;
+import frc.robot.subsystems.BottomArm;
+import frc.robot.subsystems.Gripper;
 import frc.robot.subsystems.Indexer;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.SwerveSubsystem;
+import frc.robot.subsystems.TopArm;
 import frc.robot.subsystems.Vision;
 
 /**
@@ -50,6 +52,9 @@ public class RobotContainer {
   private final RunIntake runIntake = new RunIntake(intake);
   private final Indexer indexer = new Indexer();
   private final SpinIndexer spinIndexer = new SpinIndexer(indexer);
+  public final BottomArm bottomArm = new BottomArm();
+  public final TopArm topArm = new TopArm();
+  public final Gripper gripper = new Gripper();
 
   private final Joystick driverJoystick = new Joystick(OIConstants.kDriverControllerPort);
 
@@ -79,8 +84,14 @@ public class RobotContainer {
       new JoystickButton(driverJoystick, OIConstants.aButton).whileTrue(aprilTagAutoAlign);
       new JoystickButton(driverJoystick, OIConstants.rbButton).whileTrue(runIntake);
       new JoystickButton(driverJoystick, OIConstants.yButton).whileTrue(spinIndexer);
+      /*new JoystickButton(driverJoystick, OIConstants.lbButton).whileTrue(new InstantCommand(() -> intake.reverseIntake()));
+      new JoystickButton(driverJoystick, OIConstants.lbButton).whileFalse(new InstantCommand(() -> intake.stopIntake()));*/
+      new JoystickButton(driverJoystick, OIConstants.xButton).whileTrue(new InstantCommand(() -> topArm.setMotorPosition()));
+      new JoystickButton(driverJoystick, OIConstants.rbButton).whileTrue(new InstantCommand(() -> gripper.runGripper()));
+      new JoystickButton(driverJoystick, OIConstants.lbButton).whileTrue(new InstantCommand(() -> gripper.reverseGripper()));
+      new JoystickButton(driverJoystick, OIConstants.lbButton).whileFalse(new InstantCommand(() -> gripper.stopGripper()));
+      new JoystickButton(driverJoystick, OIConstants.rbButton).whileFalse(new InstantCommand(() -> gripper.stopGripper()));
 
-      
   }
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.
@@ -94,48 +105,42 @@ public class RobotContainer {
         ***Place auto Commands AFTER this line
         Enabling Continuous Input on Rotational PID Controler to pass through -180 to 180 degrees (in Radians)
       */
-      AutoConstants.kThetaController.enableContinuousInput(-Math.PI, Math.PI);
+      //AutoConstants.kThetaController.enableContinuousInput(-Math.PI, Math.PI);
       
       
       SmartDashboard.putBoolean("Passed Marker 1", false); // Used for testing passing a marker
 
+      
+      List<PathPlannerTrajectory> pathGroup1 = 
+        PathPlanner.loadPathGroup(
+          "Example Path Group", 
+          new PathConstraints(
+            AutoConstants.kMaxSpeedMetersPerSecond, 
+            AutoConstants.kMaxAccelerationMetersPerSecondSquared));
 
-      PathPlannerTrajectory testPath = PathPlanner.loadPath("New Path", // Configuring name of the path
-      new PathConstraints(
-        AutoConstants.kMaxSpeedMetersPerSecond, //Max speed for path
-        AutoConstants.kMaxAccelerationMetersPerSecondSquared //Max acceleration for path
-        ));// New path constraints
-
-     // Sampling the velocity at a given time in program
-      PathPlannerState exampleState = (PathPlannerState) testPath.sample(1.2);
-      SmartDashboard.putNumber("Path Velocity", exampleState.velocityMetersPerSecond);
+     
      
       
      //Creating the eventmap for markers in auto program
       HashMap<String, Command> eventMap = new HashMap<>();
-      eventMap.put("marker1", new InstantCommand (() -> SmartDashboard.putBoolean("Passed Marker 1", true)));
+      eventMap.put("event 1", new WaitCommand(3));
 
-      eventMap.put("event", new WaitCommand(1));
+      eventMap.put("event 1", new InstantCommand(() -> SmartDashboard.putBoolean("Passed Marker 1", true)));
 
-      FollowPathWithEvents pathWithEvents = new FollowPathWithEvents(
-        new PPSwerveControllerCommand (
-        testPath,
-        swerveSubsystem::getPose,
-        DriveConstants.kDriveKinematics,
-        AutoConstants.kxController,
-        AutoConstants.kyController,
-        AutoConstants.kThetaController,
-        swerveSubsystem::setModuleStates,
-        swerveSubsystem), 
-        testPath.getMarkers(), 
-        eventMap);
+      SwerveAutoBuilder autoBuilder = new SwerveAutoBuilder(
+        swerveSubsystem::getPose, 
+        swerveSubsystem::resetOdometry, 
+        DriveConstants.kDriveKinematics, 
+        AutoConstants.kXYController, 
+        AutoConstants.kThetaController, 
+        swerveSubsystem::setModuleStates, 
+        eventMap, 
+        false, 
+        swerveSubsystem);
+        
+       Command fullAuto = autoBuilder.fullAuto(pathGroup1);
 
-
-      return new SequentialCommandGroup(
-        new InstantCommand(() -> swerveSubsystem.resetOdometry(testPath.getInitialHolonomicPose())),
-        pathWithEvents,
-        new InstantCommand(() -> swerveSubsystem.stopModules()));
-
+       return fullAuto;
 
   }
 }
@@ -181,3 +186,40 @@ public class RobotContainer {
         AutoConstants.kThetaController,
         swerveSubsystem::setModuleStates,
         swerveSubsystem);*/
+
+/*  *  *  *  *  *  PathPlanner  *  *  *  *  *  *  */
+
+        /*PathPlannerTrajectory path1 = PathPlanner.loadPath("Path 1", // Configuring name of the path
+      new PathConstraints(
+        AutoConstants.kMaxSpeedMetersPerSecond, //Max speed for path
+        AutoConstants.kMaxAccelerationMetersPerSecondSquared //Max acceleration for path
+        ));// New path constraints
+        // Sampling the velocity at a given time in program
+      PathPlannerState exampleState = (PathPlannerState) path1.sample(1.2);
+      SmartDashboard.putNumber("Path Velocity", exampleState.velocityMetersPerSecond);
+     
+      
+     //Creating the eventmap for markers in auto program
+      HashMap<String, Command> eventMap = new HashMap<>();
+      eventMap.put("Stop", new WaitCommand(3));
+
+      eventMap.put("Stop", new InstantCommand(() -> SmartDashboard.putBoolean("Passed Marker 1", true)));
+
+      FollowPathWithEvents pathWithEvents = new FollowPathWithEvents(
+        new PPSwerveControllerCommand (
+        path1,
+        swerveSubsystem::getPose,
+        DriveConstants.kDriveKinematics,
+        AutoConstants.kxController,
+        AutoConstants.kyController,
+        AutoConstants.kThetaController,
+        swerveSubsystem::setModuleStates,
+        swerveSubsystem), 
+        path1.getMarkers(), 
+        eventMap);
+
+
+      return new SequentialCommandGroup(
+        new InstantCommand(() -> swerveSubsystem.resetOdometry(path1.getInitialHolonomicPose())),
+        pathWithEvents,
+        new InstantCommand(() -> swerveSubsystem.stopModules()));*/

@@ -4,7 +4,8 @@
 
 package frc.robot;
 
-import edu.wpi.first.math.controller.PIDController;
+import com.pathplanner.lib.auto.PIDConstants;
+
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
@@ -46,7 +47,7 @@ public final class Constants {
     public static final class DriveConstants {
 
         public static final double kTrackWidth = Units.inchesToMeters(24.25); //Distance between right and left wheels
-        public static final double kWheelBase = Units.inchesToMeters(24.25); //Distance between front and back wheels
+        public static final double kWheelBase = Units.inchesToMeters(21.50); //Distance between front and back wheels
         public static final SwerveDriveKinematics kDriveKinematics = new SwerveDriveKinematics(
          new Translation2d(kWheelBase / 2, kTrackWidth / 2), // Front Left
          new Translation2d(kWheelBase / 2, -kTrackWidth / 2), // Front Right
@@ -86,30 +87,53 @@ public final class Constants {
 
     public static final class IntakeConstants {
 
-        public static final double kIntakeMotorSpeedtop = -.5;
-        public static final double kIntakeMotorSpeedbottom = .3;
+        public static final double kIntakeMotorSpeedtop = -.6;
+        public static final double kIntakeMotorSpeedbottom = .7;
     }
 
-    public static final class ArmConstants {
+    public static final class TopArmConstants {
 
-        public static final double kPTop = 0;
-        public static final double kPBottom = 0;
-        public static final double kITop = 0;
-        public static final double kIBottom = 0;
-        public static final double kDTop = 0;
-        public static final double kDBottom = 0;
-        public static final double kIntegralZoneTop = 0;
-        public static final double kIntegralZoneBottom = 0;
-        public static final double kFeedForwardTop = 0;
-        public static final double kFeedForwardBottom = 0;
-        public static final double kMinOutput = 0;
-        public static final double kMaxOutput = 0;
-        public static final double maxVelocity = 0;
+        public static final double kP = 0.165;
+        public static final double kI = 0;
+        public static final double kD = 0;
+        public static final double kIntegralZone = 0;
+        public static final double kFeedForward = 0;
+        public static final double kMinOutput = -1;
+        public static final double kMaxOutput = 1;
+        public static final int kSmartMotionSlot = 0;
+        public static final double kAllowedError = 5;
+        public static final double kMaxAcceleration = 5;
+        public static final double kMinVelocity = 0;
+        public static final double kMaxVelocity = 5;
+
+        public static final double kGearRatio = 72 / 10 * 68 / 18 * 60 / 26 * 36 / 15;
+
+
+    }
+
+    public static final class BottomArmConstants {
+        
+        public static final double kP = 0;
+        public static final double kI = 0;
+        public static final double kD = 0;
+        public static final double kIntegralZone = 0;
+        public static final double kFeedForward = 0;
+        public static final double kMinOutput = -1;
+        public static final double kMaxOutput = 1;
         public static final int smartMotionSlot = 0;
-        public static final double minVelocity = 0;
-        public static final double maxAcceleration = 0;
         public static final double allowedError = 0;
+        public static final double maxAcceleration = 500;
+        public static final double minVelocity = 0;
+        public static final double maxVelocity = 60;
+        
+        public static final double kGearRatio = 64 * 72 * 80 * 48 / 10 / 18 / 24 / 18;
 
+
+    }
+
+    public static final class GripperConstants {
+
+        public static final double gripperMotorSpeed = 0.75;
 
     }
 
@@ -128,33 +152,33 @@ public final class Constants {
         public static final int bButton = 2;
         public static final int yButton = 4;
         public static final int rbButton = 6;
-
+        public static final int lbButton = 5;
     }         
 
     public static final class AutoConstants {
 
         
-        public static final double kMaxSpeedMetersPerSecond = 6;
+        public static final double kMaxSpeedMetersPerSecond = 2;
         public static final double kMaxAccelerationMetersPerSecondSquared = 4;
-        public static final double kPXController = 2;
-        public static final double kPYController = 2.5;
+        
         public static final double kPThetaController = 4;
         public static final TrapezoidProfile.Constraints kThetaControllerConstraints = 
                     new TrapezoidProfile.Constraints
                         (DriveConstants.kTeleDriveMaxAngularSpeedRadiansPerSecond,
                          DriveConstants.kTeleDriveMaxAngularAccelerationUnitsPerSecond);
 
-        public static final PIDController kxController = new PIDController(kPXController, 0, 0);
-        public static final PIDController kyController = new PIDController(kPYController, 0, 0);
-        public static final PIDController kThetaController = new PIDController(kPThetaController, 0, 0);
+        public static final PIDConstants kXYController = new PIDConstants(2, 0, 0);
+        public static final PIDConstants kThetaController = new PIDConstants(kPThetaController, 0, 0);
         public static final double kPAlignmentTheta = 0.115;
         public static final double kPAlignmentY = 0.05;
         public static final double kPAlignmentX = 0.8;
         
         /*public static final ProfiledPIDController kThetaController = new ProfiledPIDController(
             AutoConstants.kPThetaController, 0, 0, AutoConstants.kThetaControllerConstraints);*/
-        
-        
+        //public static final double kPXController = 2;
+        //public static final double kPYController = 2.5;
+        //public static final PIDController kxController = new PIDController(kPXController, 0, 0);
+        //public static final PIDController kyController = new PIDController(kPYController, 0, 0);
         }
         
     
@@ -187,12 +211,14 @@ public final class Constants {
 
 
         public static final int kPigeonPort = 13;
-        public static final int kIntakeBottomMotorPort = 17;
         public static final int kIntakeTopMotorPort = 16;
+        public static final int kIntakeBottomMotorPort = 17;
+        
        
         public static final int kBottomArmMasterMotorPort = 0;
-        public static final int kBottomArmSlaveMotorPort = 0;
-        public static final int kTopArmMotorPort = 0;
+        public static final int kBottomArmSlaveMotorPort = 19;
+        public static final int kTopArmMotorPort = 21;//18
+        public static final int kGripperMotorPort = 18;//21
 
     
     
