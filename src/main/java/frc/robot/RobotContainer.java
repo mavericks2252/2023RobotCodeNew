@@ -16,6 +16,7 @@ import com.pathplanner.lib.auto.SwerveAutoBuilder;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
@@ -58,6 +59,8 @@ public class RobotContainer {
 
   private final Joystick driverJoystick = new Joystick(OIConstants.kDriverControllerPort);
 
+  SendableChooser<Command> autoChooser;
+
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
     swerveSubsystem.setDefaultCommand(new SwerveJoystickCmd(
@@ -68,6 +71,8 @@ public class RobotContainer {
           //Change the button to yButton and delete the constant that is used here for consistancy
           () -> !driverJoystick.getRawButton(OIConstants.kDriverFieldOrientedButtonIdx)));
 
+          autoChooser = new SendableChooser<>();
+          SmartDashboard.putData(autoChooser);
     // Configure the button bindings
     configureButtonBindings();
   }
@@ -123,25 +128,27 @@ public class RobotContainer {
       
      //Creating the eventmap for markers in auto program
       HashMap<String, Command> eventMap = new HashMap<>();
-      eventMap.put("event 1", new WaitCommand(3));
+      eventMap.put("Marker 1", new WaitCommand(3));
 
-      eventMap.put("event 1", new InstantCommand(() -> SmartDashboard.putBoolean("Passed Marker 1", true)));
+      //eventMap.put("Marker 1", new InstantCommand(() -> SmartDashboard.putBoolean("Passed Marker 1", true)));
 
       SwerveAutoBuilder autoBuilder = new SwerveAutoBuilder(
-        swerveSubsystem::getPose, 
-        swerveSubsystem::resetOdometry, 
-        DriveConstants.kDriveKinematics, 
-        AutoConstants.kXYController, 
-        AutoConstants.kThetaController, 
+        swerveSubsystem::getPose, // Pose 2d supplier
+        swerveSubsystem::resetOdometry, // Used to reset odometry at the start of the path
+        DriveConstants.kDriveKinematics, // Swerve kinematics
+        AutoConstants.kXYController, // PID for translation error(X and Y pid)
+        AutoConstants.kThetaController, // PID for rotation error
         swerveSubsystem::setModuleStates, 
         eventMap, 
-        false, 
+        false, // Should the path be mirrored depending on alliance color
         swerveSubsystem);
         
-       Command fullAuto = autoBuilder.fullAuto(pathGroup1);
+        Command fullAuto = autoBuilder.fullAuto(pathGroup1);
 
-       return fullAuto;
+        return fullAuto;
 
+        /*autoChooser.setDefaultOption("Test Auto", autoBuilder.fullAuto(pathGroup1));
+        return autoChooser.getSelected();*/
   }
 }
 
