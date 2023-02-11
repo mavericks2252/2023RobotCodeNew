@@ -6,26 +6,25 @@ package frc.robot;
 
 import java.util.HashMap;
 import java.util.List;
-
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 import com.pathplanner.lib.PathConstraints;
 import com.pathplanner.lib.PathPlanner;
 import com.pathplanner.lib.PathPlannerTrajectory;
 import com.pathplanner.lib.auto.SwerveAutoBuilder;
-
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import frc.robot.Constants.AutoConstants;
+import frc.robot.Constants.DriveConstants;
 
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
-import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
-import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
-import frc.robot.Constants.AutoConstants;
-import frc.robot.Constants.DriveConstants;
 import frc.robot.Constants.OIConstants;
 import frc.robot.commands.AprilTagAutoAlign;
+import frc.robot.commands.RunGripper;
 import frc.robot.commands.RunIntake;
 import frc.robot.commands.SpinIndexer;
 import frc.robot.commands.SwerveJoystickCmd;
@@ -56,6 +55,7 @@ public class RobotContainer {
   public final BottomArm bottomArm = new BottomArm();
   public final TopArm topArm = new TopArm();
   public final Gripper gripper = new Gripper();
+ 
 
   private final Joystick driverJoystick = new Joystick(OIConstants.kDriverControllerPort);
 
@@ -71,8 +71,9 @@ public class RobotContainer {
           //Change the button to yButton and delete the constant that is used here for consistancy
           () -> !driverJoystick.getRawButton(OIConstants.kDriverFieldOrientedButtonIdx)));
 
-          autoChooser = new SendableChooser<>();
-          SmartDashboard.putData(autoChooser);
+        
+        SmartDashboard.putData(autoChooser); 
+  
     // Configure the button bindings
     configureButtonBindings();
   }
@@ -92,10 +93,11 @@ public class RobotContainer {
       /*new JoystickButton(driverJoystick, OIConstants.lbButton).whileTrue(new InstantCommand(() -> intake.reverseIntake()));
       new JoystickButton(driverJoystick, OIConstants.lbButton).whileFalse(new InstantCommand(() -> intake.stopIntake()));*/
       new JoystickButton(driverJoystick, OIConstants.xButton).whileTrue(new InstantCommand(() -> topArm.setMotorPosition()));
-      new JoystickButton(driverJoystick, OIConstants.rbButton).whileTrue(new InstantCommand(() -> gripper.runGripper()));
+
+
+      new JoystickButton(driverJoystick, OIConstants.rbButton).toggleOnTrue(new RunGripper(gripper));
       new JoystickButton(driverJoystick, OIConstants.lbButton).whileTrue(new InstantCommand(() -> gripper.reverseGripper()));
       new JoystickButton(driverJoystick, OIConstants.lbButton).whileFalse(new InstantCommand(() -> gripper.stopGripper()));
-      new JoystickButton(driverJoystick, OIConstants.rbButton).whileFalse(new InstantCommand(() -> gripper.stopGripper()));
 
   }
   /**
@@ -113,7 +115,6 @@ public class RobotContainer {
       //AutoConstants.kThetaController.enableContinuousInput(-Math.PI, Math.PI);
       
       
-      SmartDashboard.putBoolean("Passed Marker 1", false); // Used for testing passing a marker
 
       
       List<PathPlannerTrajectory> pathGroup1 = 
@@ -123,14 +124,18 @@ public class RobotContainer {
             AutoConstants.kMaxSpeedMetersPerSecond, 
             AutoConstants.kMaxAccelerationMetersPerSecondSquared));
 
-     
-     
+      List<PathPlannerTrajectory> pathGroup2 = 
+        PathPlanner.loadPathGroup(
+          "Example Path Group 2", 
+          new PathConstraints(
+            AutoConstants.kMaxSpeedMetersPerSecond, 
+            AutoConstants.kMaxAccelerationMetersPerSecondSquared));
+          
       
      //Creating the eventmap for markers in auto program
       HashMap<String, Command> eventMap = new HashMap<>();
       eventMap.put("Marker 1", new WaitCommand(3));
 
-      //eventMap.put("Marker 1", new InstantCommand(() -> SmartDashboard.putBoolean("Passed Marker 1", true)));
 
       SwerveAutoBuilder autoBuilder = new SwerveAutoBuilder(
         swerveSubsystem::getPose, // Pose 2d supplier
@@ -143,12 +148,12 @@ public class RobotContainer {
         false, // Should the path be mirrored depending on alliance color
         swerveSubsystem);
         
-        Command fullAuto = autoBuilder.fullAuto(pathGroup1);
+        //Command fullAuto = autoBuilder.fullAuto(pathGroup1);
 
-        return fullAuto;
 
-        /*autoChooser.setDefaultOption("Test Auto", autoBuilder.fullAuto(pathGroup1));
-        return autoChooser.getSelected();*/
+        
+
+        return null;// autoChooser.getSelected();
   }
 }
 

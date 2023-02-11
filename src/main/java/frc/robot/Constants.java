@@ -219,6 +219,7 @@ public final class Constants {
         public static final int kBottomArmSlaveMotorPort = 19;
         public static final int kTopArmMotorPort = 21;//18
         public static final int kGripperMotorPort = 18;//21
+        public static final int kGripperSolenoidPort = 0;
 
     
     
