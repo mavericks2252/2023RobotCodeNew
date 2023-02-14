@@ -3,19 +3,18 @@
 // the WPILib BSD license file in the root directory of this project.
 
 package frc.robot.commands;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.Gripper;
+import frc.robot.subsystems.SwerveSubsystem;
 
-public class RunGripper extends CommandBase {
-  /** Creates a new RunGripper. */
-  Gripper gripper;
+public class AutoBalanceCommand extends CommandBase {
+  /** Creates a new AutoBalanceCommand. */
 
-  public RunGripper(Gripper g) {
-    gripper = g;
+  SwerveSubsystem swerveSubsystem;
+  Double balanceAngle;
+  public AutoBalanceCommand(SwerveSubsystem ss) {
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(gripper);
-
+    swerveSubsystem = ss;
   }
 
   // Called when the command is initially scheduled.
@@ -26,20 +25,21 @@ public class RunGripper extends CommandBase {
   @Override
   public void execute() {
 
-    gripper.runGripper();
-    
+    balanceAngle = swerveSubsystem.getBalanceAngle();
+
+    if (balanceAngle < 10 & balanceAngle > -10) {
+      swerveSubsystem.stopModules();
+    }
+    //else if()
   }
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {
-    gripper.stopGripper();
-    SmartDashboard.putBoolean("Intake Running", false);
-  }
+  public void end(boolean interrupted) {}
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return (gripper.rangsensorGetVoltage() > 2.0) ? true : false;
+    return false;
   }
 }

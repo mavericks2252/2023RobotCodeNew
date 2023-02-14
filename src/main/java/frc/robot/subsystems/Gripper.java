@@ -5,6 +5,7 @@
 package frc.robot.subsystems;
 
 import com.revrobotics.CANSparkMax;
+import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import frc.robot.Constants.GripperConstants;
@@ -23,6 +24,7 @@ public class Gripper extends SubsystemBase {
   public Gripper() {
 
     gripperMotor = new CANSparkMax(PortConstants.kGripperMotorPort, MotorType.kBrushless);
+    gripperMotor.setIdleMode(IdleMode.kBrake);
     rangeSensor = new AnalogInput(1);
     
     

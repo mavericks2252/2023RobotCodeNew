@@ -118,6 +118,10 @@ public class SwerveSubsystem extends SubsystemBase {
     return Math.IEEEremainder(gyro.getYaw(), 360);
   }
 
+  public double getBalanceAngle() {
+    return gyro.getPitch();
+  }
+
   public Rotation2d getRotation2d() {
     return Rotation2d.fromDegrees(getHeading());
   }
