@@ -4,7 +4,9 @@
 
 package frc.robot.commands;
 
+import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.Constants.DriveConstants;
 import frc.robot.subsystems.SwerveSubsystem;
 
 public class AutoBalanceCommand extends CommandBase {
@@ -12,9 +14,14 @@ public class AutoBalanceCommand extends CommandBase {
 
   SwerveSubsystem swerveSubsystem;
   Double balanceAngle;
+  Double lastAngle;
+  private double xSpeed;
+  SlewRateLimiter xSpeedLimiter = new SlewRateLimiter(DriveConstants.kTeleDriveMaxAccelerationUnitsPerSecond);
+
   public AutoBalanceCommand(SwerveSubsystem ss) {
     // Use addRequirements() here to declare subsystem dependencies.
     swerveSubsystem = ss;
+    addRequirements(swerveSubsystem);
   }
 
   // Called when the command is initially scheduled.
@@ -25,12 +32,20 @@ public class AutoBalanceCommand extends CommandBase {
   @Override
   public void execute() {
 
-    balanceAngle = swerveSubsystem.getBalanceAngle();
-
-    if (balanceAngle < 10 & balanceAngle > -10) {
-      swerveSubsystem.stopModules();
+    if (lastAngle < 10 & lastAngle > -10) {
+      xSpeed = 0;
     }
-    //else if()
+    else if(lastAngle > swerveSubsystem.getBalanceAngle() & lastAngle > balanceAngle){
+      xSpeed = DriveConstants.kAutoBalanceSpeed;
+    }
+    //else if(lastAngle)
+
+    
+    
+    
+    
+    lastAngle = swerveSubsystem.getBalanceAngle();
+
   }
 
   // Called once the command ends or is interrupted.

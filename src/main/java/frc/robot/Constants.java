@@ -83,6 +83,7 @@ public final class Constants {
 
         public static final double kMinimumTurningSpeed = .75;
         public static final double kMinimumDriveSpeed = .3;
+        public static final double kAutoBalanceSpeed = 0;
     }
 
     public static final class IntakeConstants {

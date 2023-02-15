@@ -5,12 +5,8 @@
 package frc.robot;
 
 import java.util.HashMap;
-import java.util.List;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
-import com.pathplanner.lib.PathConstraints;
-import com.pathplanner.lib.PathPlanner;
-import com.pathplanner.lib.PathPlannerTrajectory;
 import com.pathplanner.lib.auto.SwerveAutoBuilder;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import frc.robot.Constants.AutoConstants;
@@ -28,6 +24,7 @@ import frc.robot.commands.RunGripper;
 import frc.robot.commands.RunIntake;
 import frc.robot.commands.SpinIndexer;
 import frc.robot.commands.SwerveJoystickCmd;
+import frc.robot.subsystems.AutoPaths;
 import frc.robot.subsystems.BottomArm;
 import frc.robot.subsystems.Gripper;
 import frc.robot.subsystems.Indexer;
@@ -55,6 +52,7 @@ public class RobotContainer {
   public final BottomArm bottomArm = new BottomArm();
   public final TopArm topArm = new TopArm();
   public final Gripper gripper = new Gripper();
+  public final AutoPaths autoPaths = new AutoPaths();
  
 
   private final Joystick driverJoystick = new Joystick(OIConstants.kDriverControllerPort);
@@ -117,7 +115,7 @@ public class RobotContainer {
       
 
       
-      List<PathPlannerTrajectory> pathGroup1 = 
+      /*List<PathPlannerTrajectory> pathGroup1 = 
         PathPlanner.loadPathGroup(
           "Example Path Group", 
           new PathConstraints(
@@ -129,7 +127,7 @@ public class RobotContainer {
           "Example Path Group 2", 
           new PathConstraints(
             AutoConstants.kMaxSpeedMetersPerSecond, 
-            AutoConstants.kMaxAccelerationMetersPerSecondSquared));
+            AutoConstants.kMaxAccelerationMetersPerSecondSquared));*/
           
       
      //Creating the eventmap for markers in auto program
@@ -148,12 +146,9 @@ public class RobotContainer {
         false, // Should the path be mirrored depending on alliance color
         swerveSubsystem);
         
-        //Command fullAuto = autoBuilder.fullAuto(pathGroup1);
+        Command fullAuto = autoBuilder.fullAuto(autoPaths.getSelectedAuto());
 
-
-        
-
-        return null;// autoChooser.getSelected();
+        return fullAuto;
   }
 }
 
