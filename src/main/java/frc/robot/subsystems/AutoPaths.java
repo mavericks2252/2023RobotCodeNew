@@ -27,7 +27,7 @@ public class AutoPaths extends SubsystemBase {
 
     List<PathPlannerTrajectory> pathGroup1 = 
         PathPlanner.loadPathGroup(
-          "Example Path Group", 
+          "Path 1", 
           new PathConstraints(
             AutoConstants.kMaxSpeedMetersPerSecond, 
             AutoConstants.kMaxAccelerationMetersPerSecondSquared));

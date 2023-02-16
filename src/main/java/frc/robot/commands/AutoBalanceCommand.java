@@ -5,7 +5,11 @@
 package frc.robot.commands;
 
 import edu.wpi.first.math.filter.SlewRateLimiter;
+import edu.wpi.first.math.kinematics.ChassisSpeeds;
+import edu.wpi.first.math.kinematics.SwerveModuleState;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.Constants.AutoConstants;
 import frc.robot.Constants.DriveConstants;
 import frc.robot.subsystems.SwerveSubsystem;
 
@@ -14,9 +18,12 @@ public class AutoBalanceCommand extends CommandBase {
 
   SwerveSubsystem swerveSubsystem;
   Double balanceAngle;
+  Double currentAngle;
   Double lastAngle;
   private double xSpeed;
   SlewRateLimiter xSpeedLimiter = new SlewRateLimiter(DriveConstants.kTeleDriveMaxAccelerationUnitsPerSecond);
+  private ChassisSpeeds chassisSpeeds;
+
 
   public AutoBalanceCommand(SwerveSubsystem ss) {
     // Use addRequirements() here to declare subsystem dependencies.
@@ -26,22 +33,33 @@ public class AutoBalanceCommand extends CommandBase {
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {}
+  public void initialize() {
+    lastAngle = swerveSubsystem.getBalanceAngle();
+  }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
 
-    if (lastAngle < 10 & lastAngle > -10) {
+    if (lastAngle <= 2 & lastAngle >= -2) {
       xSpeed = 0;
     }
-    else if(lastAngle > swerveSubsystem.getBalanceAngle() & lastAngle > balanceAngle){
-      xSpeed = DriveConstants.kAutoBalanceSpeed;
+    else if(lastAngle > 2){
+      xSpeed = -AutoConstants.kAutoBalanceSpeed; // drive backward
     }
-    //else if(lastAngle)
+    else if(lastAngle < -2) {
+      xSpeed = AutoConstants.kAutoBalanceSpeed; // drive forward
+    }
+    else {
+      xSpeed = 0;
+    }
 
-    
-    
+    xSpeedLimiter.calculate(xSpeed);
+
+    chassisSpeeds = ChassisSpeeds.fromFieldRelativeSpeeds(
+      xSpeed, 0, 0, swerveSubsystem.getRotation2d());
+    SwerveModuleState[] moduleStates = DriveConstants.kDriveKinematics.toSwerveModuleStates(chassisSpeeds);
+    swerveSubsystem.setModuleStates(moduleStates);
     
     
     lastAngle = swerveSubsystem.getBalanceAngle();
@@ -50,7 +68,9 @@ public class AutoBalanceCommand extends CommandBase {
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {}
+  public void end(boolean interrupted) {
+    swerveSubsystem.stopModules();
+  }
 
   // Returns true when the command should end.
   @Override

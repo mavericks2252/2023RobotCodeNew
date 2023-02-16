@@ -83,7 +83,6 @@ public final class Constants {
 
         public static final double kMinimumTurningSpeed = .75;
         public static final double kMinimumDriveSpeed = .3;
-        public static final double kAutoBalanceSpeed = 0;
     }
 
     public static final class IntakeConstants {
@@ -141,6 +140,7 @@ public final class Constants {
     public static final class OIConstants {
 
         public static final double kDeadBand = .15;
+        public static final int kOperatorControllerPort = 0;
         public static final int kDriverControllerPort = 1;
         public static final int kDriverXAxis = 0;
         public static final int kDriverYAxis = 1;
@@ -173,6 +173,8 @@ public final class Constants {
         public static final double kPAlignmentTheta = 0.115;
         public static final double kPAlignmentY = 0.05;
         public static final double kPAlignmentX = 0.8;
+        public static final double kAutoBalanceSpeed = .5;
+
         
         /*public static final ProfiledPIDController kThetaController = new ProfiledPIDController(
             AutoConstants.kPThetaController, 0, 0, AutoConstants.kThetaControllerConstraints);*/

@@ -20,6 +20,7 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.Constants.OIConstants;
 import frc.robot.commands.AprilTagAutoAlign;
+import frc.robot.commands.AutoBalanceCommand;
 import frc.robot.commands.RunGripper;
 import frc.robot.commands.RunIntake;
 import frc.robot.commands.SpinIndexer;
@@ -53,9 +54,11 @@ public class RobotContainer {
   public final TopArm topArm = new TopArm();
   public final Gripper gripper = new Gripper();
   public final AutoPaths autoPaths = new AutoPaths();
+  public final AutoBalanceCommand autoBalanceCommand = new AutoBalanceCommand(swerveSubsystem);
  
 
   private final Joystick driverJoystick = new Joystick(OIConstants.kDriverControllerPort);
+  private final Joystick operatorJoystick = new Joystick(OIConstants.kOperatorControllerPort);
 
   SendableChooser<Command> autoChooser;
 
@@ -86,14 +89,14 @@ public class RobotContainer {
   private void configureButtonBindings() {
       new JoystickButton(driverJoystick, OIConstants.bButton).onTrue(new InstantCommand(() -> swerveSubsystem.zeroHeading()));
       new JoystickButton(driverJoystick, OIConstants.aButton).whileTrue(aprilTagAutoAlign);
-      new JoystickButton(driverJoystick, OIConstants.rbButton).whileTrue(runIntake);
+      new JoystickButton(driverJoystick, OIConstants.rbButton).whileTrue(runIntake); 
       new JoystickButton(driverJoystick, OIConstants.yButton).whileTrue(spinIndexer);
       /*new JoystickButton(driverJoystick, OIConstants.lbButton).whileTrue(new InstantCommand(() -> intake.reverseIntake()));
       new JoystickButton(driverJoystick, OIConstants.lbButton).whileFalse(new InstantCommand(() -> intake.stopIntake()));*/
       new JoystickButton(driverJoystick, OIConstants.xButton).whileTrue(new InstantCommand(() -> topArm.setMotorPosition()));
+      new JoystickButton(operatorJoystick, OIConstants.rbButton).toggleOnTrue(new AutoBalanceCommand(swerveSubsystem));
 
-
-      new JoystickButton(driverJoystick, OIConstants.rbButton).toggleOnTrue(new RunGripper(gripper));
+      new JoystickButton(driverJoystick, OIConstants.rbButton).toggleOnTrue(new RunGripper(gripper));/*** CONFLICTS WITH INTAKE ***/
       new JoystickButton(driverJoystick, OIConstants.lbButton).whileTrue(new InstantCommand(() -> gripper.reverseGripper()));
       new JoystickButton(driverJoystick, OIConstants.lbButton).whileFalse(new InstantCommand(() -> gripper.stopGripper()));
 
@@ -133,6 +136,8 @@ public class RobotContainer {
      //Creating the eventmap for markers in auto program
       HashMap<String, Command> eventMap = new HashMap<>();
       eventMap.put("Marker 1", new WaitCommand(3));
+      eventMap.put("Place Cube", new WaitCommand(2));
+      eventMap.put("Get Cube", new WaitCommand(2));
 
 
       SwerveAutoBuilder autoBuilder = new SwerveAutoBuilder(

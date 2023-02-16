@@ -102,6 +102,7 @@ public class SwerveSubsystem extends SubsystemBase {
    SmartDashboard.putNumber("FR Distance", frontRight.getDrivePosition());
    SmartDashboard.putNumber("BL Distance", backLeft.getDrivePosition());
    SmartDashboard.putNumber("BR Distance", backRight.getDrivePosition());
+   SmartDashboard.putNumber("Robot Tilt Angle", getBalanceAngle());
 
    odometer.update(getRotation2d(), new SwerveModulePosition[] {
     frontLeft.getModulePosition(), 
@@ -119,7 +120,7 @@ public class SwerveSubsystem extends SubsystemBase {
   }
 
   public double getBalanceAngle() {
-    return gyro.getPitch();
+    return gyro.getRoll();
   }
 
   public Rotation2d getRotation2d() {
