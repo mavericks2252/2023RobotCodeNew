@@ -136,8 +136,9 @@ public class RobotContainer {
      //Creating the eventmap for markers in auto program
       HashMap<String, Command> eventMap = new HashMap<>();
       eventMap.put("Marker 1", new WaitCommand(3));
-      eventMap.put("Place Cube", new WaitCommand(2));
-      eventMap.put("Get Cube", new WaitCommand(2));
+      eventMap.put("Place Cube", new WaitCommand(1));
+      eventMap.put("Get Cube", new WaitCommand(1));
+      eventMap.put("Auto Balance", new AutoBalanceCommand(swerveSubsystem).withTimeout(5));
 
 
       SwerveAutoBuilder autoBuilder = new SwerveAutoBuilder(

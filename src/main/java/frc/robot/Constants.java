@@ -56,23 +56,23 @@ public final class Constants {
 
         
         public static final boolean kFrontLeftDriveMotorInverted = false;
-        public static final boolean kFrontLeftTurningMotorInverted = false;
-        public static final double kFrontLeftAbsoluteEncoderOffsetRad = Units.degreesToRadians(107.841797);
-        public static final boolean kFrontLeftAbsoluteEncoderReversed = true;
+        public static final boolean kFrontLeftTurningMotorInverted = true;
+        public static final double kFrontLeftAbsoluteEncoderOffsetRad = Units.degreesToRadians(107.84);
+        public static final boolean kFrontLeftAbsoluteEncoderReversed = false;// Changed to False from True 2/16/23 ... Motor Not following direction it should
 
         public static final boolean kFrontRightDriveMotorInverted = true;
         public static final boolean kFrontRightTurningMotorInverted = true;
-        public static final double kFrontRightAbsoluteEncoderOffsetRad = Units.degreesToRadians(232.910156);
+        public static final double kFrontRightAbsoluteEncoderOffsetRad = Units.degreesToRadians(233.701);
         public static final boolean kFrontRightAbsoluteEncoderReversed = true;
 
         public static final boolean kbackRightDriveMotorInverted = false;
         public static final boolean kbackRightTurningMotorInverted = true;
-        public static final double kbackRightAbsoluteEncoderOffsetRad = Units.degreesToRadians(256.8164);
+        public static final double kbackRightAbsoluteEncoderOffsetRad = Units.degreesToRadians(77.431);
         public static final boolean kbackRightAbsoluteEncoderReversed = true;
 
         public static final boolean kbackLeftDriveMotorInverted = false;
-        public static final boolean kbackLeftTurningMotorInverted = false;
-        public static final double kbackLeftAbsoluteEncoderOffsetRad = Units.degreesToRadians(163.125);
+        public static final boolean kbackLeftTurningMotorInverted = true;
+        public static final double kbackLeftAbsoluteEncoderOffsetRad = Units.degreesToRadians(162.597);
         public static final boolean kbackLeftAbsoluteEncoderReversed = true;
 
         public static final double kPhysicalMaxSpeedMetersPerSecond = Units.feetToMeters(16.3);

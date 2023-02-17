@@ -16,6 +16,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.AutoConstants;
 
 public class AutoPaths extends SubsystemBase {
+  
 
   SendableChooser<List <PathPlannerTrajectory>> autoChooser;
   /** Creates a new AutoPaths. */
@@ -34,7 +35,7 @@ public class AutoPaths extends SubsystemBase {
 
       List<PathPlannerTrajectory> pathGroup2 = 
         PathPlanner.loadPathGroup(
-          "Example Path Group 2", 
+          "Path 2", 
           new PathConstraints(
             AutoConstants.kMaxSpeedMetersPerSecond, 
             AutoConstants.kMaxAccelerationMetersPerSecondSquared));
@@ -46,7 +47,9 @@ public class AutoPaths extends SubsystemBase {
       autoChooser.setDefaultOption("Do Nothing", doNothing);
       autoChooser.addOption("Path 1", pathGroup1);
       autoChooser.addOption("Path 2", pathGroup2);
+
       SmartDashboard.putData(autoChooser);
+
   }
 
   @Override
