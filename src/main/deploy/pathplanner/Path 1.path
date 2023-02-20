@@ -91,7 +91,7 @@
         "x": 3.1059173055949407,
         "y": 3.4700780234341755
       },
-      "holonomicAngle": 0,
+      "holonomicAngle": 0.0,
       "isReversal": false,
       "velOverride": null,
       "isLocked": false,
@@ -105,15 +105,15 @@
     },
     {
       "anchorPoint": {
-        "x": 3.918574694292246,
-        "y": 3.4498530425632286
+        "x": 4.080718687753165,
+        "y": 3.464032191222278
       },
       "prevControl": {
-        "x": 2.7644749251180767,
-        "y": 3.4498530425632286
+        "x": 2.9266189185789955,
+        "y": 3.464032191222278
       },
       "nextControl": null,
-      "holonomicAngle": 0,
+      "holonomicAngle": 0.0,
       "isReversal": false,
       "velOverride": 1.0,
       "isLocked": false,
