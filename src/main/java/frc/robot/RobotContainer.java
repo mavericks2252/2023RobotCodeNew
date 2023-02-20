@@ -23,12 +23,10 @@ import frc.robot.commands.AprilTagAutoAlign;
 import frc.robot.commands.AutoBalanceCommand;
 import frc.robot.commands.RunGripper;
 import frc.robot.commands.RunIntake;
-import frc.robot.commands.SpinIndexer;
 import frc.robot.commands.SwerveJoystickCmd;
 import frc.robot.subsystems.AutoPaths;
 import frc.robot.subsystems.BottomArm;
 import frc.robot.subsystems.Gripper;
-import frc.robot.subsystems.Indexer;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.SwerveSubsystem;
 import frc.robot.subsystems.TopArm;
@@ -48,8 +46,6 @@ public class RobotContainer {
   private final AprilTagAutoAlign aprilTagAutoAlign = new AprilTagAutoAlign(swerveSubsystem, vision);
   private final Intake intake = new Intake();
   private final RunIntake runIntake = new RunIntake(intake);
-  private final Indexer indexer = new Indexer();
-  private final SpinIndexer spinIndexer = new SpinIndexer(indexer);
   public final BottomArm bottomArm = new BottomArm();
   public final TopArm topArm = new TopArm();
   public final Gripper gripper = new Gripper();
@@ -87,19 +83,27 @@ public class RobotContainer {
    * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
-      new JoystickButton(driverJoystick, OIConstants.bButton).onTrue(new InstantCommand(() -> swerveSubsystem.zeroHeading()));
-      new JoystickButton(driverJoystick, OIConstants.aButton).whileTrue(aprilTagAutoAlign);
-      new JoystickButton(driverJoystick, OIConstants.rbButton).whileTrue(runIntake); 
-      new JoystickButton(driverJoystick, OIConstants.yButton).whileTrue(spinIndexer);
-      /*new JoystickButton(driverJoystick, OIConstants.lbButton).whileTrue(new InstantCommand(() -> intake.reverseIntake()));
-      new JoystickButton(driverJoystick, OIConstants.lbButton).whileFalse(new InstantCommand(() -> intake.stopIntake()));*/
+      //Driver Controller
+        //Drive Commands
+          new JoystickButton(driverJoystick, OIConstants.bButton).onTrue(new InstantCommand(() -> swerveSubsystem.zeroHeading()));
+          new JoystickButton(driverJoystick, OIConstants.aButton).whileTrue(aprilTagAutoAlign);
+        
+        //Arm Commands
       new JoystickButton(driverJoystick, OIConstants.xButton).whileTrue(new InstantCommand(() -> topArm.setMotorPosition()));
-      new JoystickButton(operatorJoystick, OIConstants.rbButton).toggleOnTrue(new AutoBalanceCommand(swerveSubsystem));
 
+        //Gripper Commands
       new JoystickButton(driverJoystick, OIConstants.rbButton).toggleOnTrue(new RunGripper(gripper));/*** CONFLICTS WITH INTAKE ***/
       new JoystickButton(driverJoystick, OIConstants.lbButton).whileTrue(new InstantCommand(() -> gripper.reverseGripper()));
       new JoystickButton(driverJoystick, OIConstants.lbButton).whileFalse(new InstantCommand(() -> gripper.stopGripper()));
 
+      //Opperator Controller
+        //Drive Commands
+         new JoystickButton(operatorJoystick, OIConstants.rbButton).toggleOnTrue(new AutoBalanceCommand(swerveSubsystem));
+      
+      //Unussed Archieved Buttons
+         //new JoystickButton(driverJoystick, OIConstants.rbButton).whileTrue(runIntake); //Need to change Button or Controller
+            /*new JoystickButton(driverJoystick, OIConstants.lbButton).whileTrue(new InstantCommand(() -> intake.reverseIntake()));
+            new JoystickButton(driverJoystick, OIConstants.lbButton).whileFalse(new InstantCommand(() -> intake.stopIntake()));*/
   }
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.
@@ -116,24 +120,7 @@ public class RobotContainer {
       //AutoConstants.kThetaController.enableContinuousInput(-Math.PI, Math.PI);
       
       
-
-      
-      /*List<PathPlannerTrajectory> pathGroup1 = 
-        PathPlanner.loadPathGroup(
-          "Example Path Group", 
-          new PathConstraints(
-            AutoConstants.kMaxSpeedMetersPerSecond, 
-            AutoConstants.kMaxAccelerationMetersPerSecondSquared));
-
-      List<PathPlannerTrajectory> pathGroup2 = 
-        PathPlanner.loadPathGroup(
-          "Example Path Group 2", 
-          new PathConstraints(
-            AutoConstants.kMaxSpeedMetersPerSecond, 
-            AutoConstants.kMaxAccelerationMetersPerSecondSquared));*/
-          
-      
-     //Creating the eventmap for markers in auto program
+      //Creating the eventmap for markers in auto program
       HashMap<String, Command> eventMap = new HashMap<>();
       eventMap.put("Marker 1", new WaitCommand(3));
       eventMap.put("Place Cube", new WaitCommand(1));
@@ -236,3 +223,16 @@ public class RobotContainer {
         new InstantCommand(() -> swerveSubsystem.resetOdometry(path1.getInitialHolonomicPose())),
         pathWithEvents,
         new InstantCommand(() -> swerveSubsystem.stopModules()));*/
+/*List<PathPlannerTrajectory> pathGroup1 = 
+        PathPlanner.loadPathGroup(
+          "Example Path Group", 
+          new PathConstraints(
+            AutoConstants.kMaxSpeedMetersPerSecond, 
+            AutoConstants.kMaxAccelerationMetersPerSecondSquared));
+
+      List<PathPlannerTrajectory> pathGroup2 = 
+        PathPlanner.loadPathGroup(
+          "Example Path Group 2", 
+          new PathConstraints(
+            AutoConstants.kMaxSpeedMetersPerSecond, 
+            AutoConstants.kMaxAccelerationMetersPerSecondSquared));*/
