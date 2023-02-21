@@ -29,7 +29,7 @@ public final class Constants {
         public static final double kTurningMotorGearRatio = 21.4285714;
         public static final double kDriveEncoderRotToMeter = kDriveMotorGearRatio * Math.PI * kWheelDiameterMeters;
         public static final double kTurningEncoderRotToRad = kTurningMotorGearRatio * 2 * Math.PI;
-        public static final double kPTurning = 0.5; //Will need tuning
+        public static final double kPTurning = 0.825; //Will need tuning
 
         // What are these two?  Are we using them?
         public static final double kDriveEncoderRPMToMeterPerSec = kDriveEncoderRotToMeter / 60; 
@@ -65,15 +65,17 @@ public final class Constants {
         public static final double kFrontRightAbsoluteEncoderOffsetRad = Units.degreesToRadians(53.523);
         public static final boolean kFrontRightAbsoluteEncoderReversed = true;
 
+        public static final boolean kbackLeftDriveMotorInverted = false;
+        public static final boolean kbackLeftTurningMotorInverted = true;
+        public static final double kbackLeftAbsoluteEncoderOffsetRad = Units.degreesToRadians(162.509);
+        public static final boolean kbackLeftAbsoluteEncoderReversed = true;
+
         public static final boolean kbackRightDriveMotorInverted = true;
         public static final boolean kbackRightTurningMotorInverted = true;
         public static final double kbackRightAbsoluteEncoderOffsetRad = Units.degreesToRadians(76.816);
         public static final boolean kbackRightAbsoluteEncoderReversed = true;
 
-        public static final boolean kbackLeftDriveMotorInverted = false;
-        public static final boolean kbackLeftTurningMotorInverted = true;
-        public static final double kbackLeftAbsoluteEncoderOffsetRad = Units.degreesToRadians(162.509);
-        public static final boolean kbackLeftAbsoluteEncoderReversed = true;
+        
 
         public static final double kPhysicalMaxSpeedMetersPerSecond = Units.feetToMeters(16.3);
         public static final double kTeleDriveMaxAccelerationUnitsPerSecond = 3;
@@ -107,6 +109,7 @@ public final class Constants {
         public static final double kMaxVelocity = 5;
 
         public static final double kGearRatio = 72 / 10 * 68 / 18 * 60 / 26 * 36 / 15;
+        public static final Double kStowPosition = null;
 
 
     }
@@ -127,6 +130,7 @@ public final class Constants {
         public static final double maxVelocity = 60;
         
         public static final double kGearRatio = 64 * 72 * 80 * 48 / 10 / 18 / 24 / 18;
+        public static final Double kStowPosition = null;
 
 
     }
@@ -159,8 +163,8 @@ public final class Constants {
     public static final class AutoConstants {
 
         
-        public static final double kMaxSpeedMetersPerSecond = 2.5;
-        public static final double kMaxAccelerationMetersPerSecondSquared = 4;
+        public static final double kMaxSpeedMetersPerSecond = 3;
+        public static final double kMaxAccelerationMetersPerSecondSquared = 3;
         
         public static final double kPThetaController = 4;
         public static final TrapezoidProfile.Constraints kThetaControllerConstraints = 
@@ -173,7 +177,7 @@ public final class Constants {
         public static final double kPAlignmentTheta = 0.115;
         public static final double kPAlignmentY = 0.05;
         public static final double kPAlignmentX = 0.8;
-        public static final double kAutoBalanceSpeed = .5;
+        public static final double kAutoBalanceSpeed = .75;
 
         
         /*public static final ProfiledPIDController kThetaController = new ProfiledPIDController(

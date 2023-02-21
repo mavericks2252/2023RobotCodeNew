@@ -80,9 +80,9 @@ public class TopArm extends SubsystemBase {
     relativeEncoder.setPosition(encoderPositionAngle());
   }
 
-  public void setMotorPosition() {
+  public void setMotorPosition(Double angle) {
     
-    armPIDController.setReference(armGoalPos, CANSparkMax.ControlType.kPosition);
+    armPIDController.setReference(angle, CANSparkMax.ControlType.kPosition);
   }
 
   public void stopMotors() {

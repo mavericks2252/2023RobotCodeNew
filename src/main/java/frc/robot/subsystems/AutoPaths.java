@@ -26,16 +26,30 @@ public class AutoPaths extends SubsystemBase {
           "do nothing", 
           new PathConstraints(0, 0));
 
-    List<PathPlannerTrajectory> pathGroup1 = 
+    List<PathPlannerTrajectory> twoPieceRightSide = 
         PathPlanner.loadPathGroup(
           "Path 1", 
           new PathConstraints(
             AutoConstants.kMaxSpeedMetersPerSecond, 
             AutoConstants.kMaxAccelerationMetersPerSecondSquared));
 
-      List<PathPlannerTrajectory> pathGroup2 = 
+      List<PathPlannerTrajectory> threePieceRightSide = 
         PathPlanner.loadPathGroup(
           "Path 2", 
+          new PathConstraints(
+            AutoConstants.kMaxSpeedMetersPerSecond, 
+            AutoConstants.kMaxAccelerationMetersPerSecondSquared));
+            
+      List<PathPlannerTrajectory> twoPieceLeftSide = 
+        PathPlanner.loadPathGroup(
+          "Path 3", 
+          new PathConstraints(
+            AutoConstants.kMaxSpeedMetersPerSecond, 
+            AutoConstants.kMaxAccelerationMetersPerSecondSquared));
+
+      List<PathPlannerTrajectory> twoPiecePlusLeftSide = 
+        PathPlanner.loadPathGroup(
+          "Path 4", 
           new PathConstraints(
             AutoConstants.kMaxSpeedMetersPerSecond, 
             AutoConstants.kMaxAccelerationMetersPerSecondSquared));
@@ -45,8 +59,10 @@ public class AutoPaths extends SubsystemBase {
 
       autoChooser = new SendableChooser<>();
       autoChooser.setDefaultOption("Do Nothing", doNothing);
-      autoChooser.addOption("Path 1", pathGroup1);
-      autoChooser.addOption("Path 2", pathGroup2);
+      autoChooser.addOption("Path 1", twoPieceRightSide);
+      autoChooser.addOption("Path 2", threePieceRightSide);
+      autoChooser.addOption("Path 3", twoPieceLeftSide);
+      autoChooser.addOption("Path 4", twoPiecePlusLeftSide);
 
       SmartDashboard.putData(autoChooser);
 

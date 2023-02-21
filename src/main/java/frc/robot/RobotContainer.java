@@ -51,6 +51,7 @@ public class RobotContainer {
   public final Gripper gripper = new Gripper();
   public final AutoPaths autoPaths = new AutoPaths();
   public final AutoBalanceCommand autoBalanceCommand = new AutoBalanceCommand(swerveSubsystem);
+  
  
 
   private final Joystick driverJoystick = new Joystick(OIConstants.kDriverControllerPort);
@@ -89,17 +90,19 @@ public class RobotContainer {
           new JoystickButton(driverJoystick, OIConstants.aButton).whileTrue(aprilTagAutoAlign);
         
         //Arm Commands
-      new JoystickButton(driverJoystick, OIConstants.xButton).whileTrue(new InstantCommand(() -> topArm.setMotorPosition()));
+          new JoystickButton(driverJoystick, OIConstants.xButton).whileTrue(new InstantCommand(() -> topArm.setMotorPosition(30.0)));
 
         //Gripper Commands
-      new JoystickButton(driverJoystick, OIConstants.rbButton).toggleOnTrue(new RunGripper(gripper));/*** CONFLICTS WITH INTAKE ***/
-      new JoystickButton(driverJoystick, OIConstants.lbButton).whileTrue(new InstantCommand(() -> gripper.reverseGripper()));
-      new JoystickButton(driverJoystick, OIConstants.lbButton).whileFalse(new InstantCommand(() -> gripper.stopGripper()));
+          new JoystickButton(driverJoystick, OIConstants.rbButton).toggleOnTrue(new RunGripper(gripper));
+          new JoystickButton(driverJoystick, OIConstants.lbButton).whileTrue(new InstantCommand(() -> gripper.reverseGripper()));
+          new JoystickButton(driverJoystick, OIConstants.lbButton).whileFalse(new InstantCommand(() -> gripper.stopGripper()));
 
-      //Opperator Controller
+      //Operator Controller
         //Drive Commands
-         new JoystickButton(operatorJoystick, OIConstants.rbButton).toggleOnTrue(new AutoBalanceCommand(swerveSubsystem));
+          new JoystickButton(operatorJoystick, OIConstants.rbButton).toggleOnTrue(new AutoBalanceCommand(swerveSubsystem));
       
+
+          
       //Unussed Archieved Buttons
          //new JoystickButton(driverJoystick, OIConstants.rbButton).whileTrue(runIntake); //Need to change Button or Controller
             /*new JoystickButton(driverJoystick, OIConstants.lbButton).whileTrue(new InstantCommand(() -> intake.reverseIntake()));
@@ -124,8 +127,9 @@ public class RobotContainer {
       HashMap<String, Command> eventMap = new HashMap<>();
       eventMap.put("Marker 1", new WaitCommand(3));
       eventMap.put("Place Cube", new WaitCommand(1));
+      eventMap.put("Place Cone", new WaitCommand(1));
       eventMap.put("Get Cube", new WaitCommand(1));
-      eventMap.put("Auto Balance", new AutoBalanceCommand(swerveSubsystem).withTimeout(5));
+      eventMap.put("Auto Balance", new AutoBalanceCommand(swerveSubsystem).withTimeout(10));
 
 
       SwerveAutoBuilder autoBuilder = new SwerveAutoBuilder(

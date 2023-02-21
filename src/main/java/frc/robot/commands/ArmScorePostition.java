@@ -5,24 +5,65 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.subsystems.BottomArm;
+import frc.robot.subsystems.TopArm;
 
 public class ArmScorePostition extends CommandBase {
   /** Creates a new ArmScorePostition. */
-  public ArmScorePostition() {
+  TopArm topArm;
+  BottomArm bottomArm;
+  Double bottomGoalPostition;
+  Double topGoalPosition;
+  Double bottomArmError;
+  Boolean topArmHold;
+  Boolean bottomArmHold;
+  public ArmScorePostition(Double bottomGoalPosition, Double topGoalPosition) {
+    this.bottomGoalPostition = bottomGoalPosition;
+    this.topGoalPosition = topGoalPosition;
+
+    addRequirements(bottomArm, topArm);
     // Use addRequirements() here to declare subsystem dependencies.
   }
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {}
+  public void initialize() {
+
+    bottomArm.setMotorPosition(45.0); // Set the lower arm angle back
+
+    topArmHold = true;
+    bottomArmHold = true;
+
+  }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute() {}
+  public void execute() {
+
+    bottomArmError = bottomGoalPostition - bottomArm.encoderPositionAngle();
+
+    if (Math.abs(bottomArmError) > 1) {
+      topArmHold = false;
+    }
+    if (topArm.encoderPositionAngle() > 30) {
+      bottomArmHold = false;
+    }
+
+    if (!topArmHold) {
+      topArm.setMotorPosition(topGoalPosition);
+    }
+    if (!bottomArmHold) {
+      bottomArm.setMotorPosition(bottomGoalPostition);
+    }
+    
+  }
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {}
+  public void end(boolean interrupted) {
+    topArm.stopMotors();
+    bottomArm.stopMotors();
+  }
 
   // Returns true when the command should end.
   @Override

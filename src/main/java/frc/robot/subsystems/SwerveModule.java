@@ -35,8 +35,8 @@ public class SwerveModule {
         absoluteEncoder = new WPI_CANCoder(absoluteEncoderId);
     
 
-        drivingMotor = new WPI_TalonFX(drivingMotorId);
-        turningMotor = new WPI_TalonFX(turningMotorId);
+        drivingMotor = new WPI_TalonFX(drivingMotorId);//, "CANivore");
+        turningMotor = new WPI_TalonFX(turningMotorId);//, "CANivore");
 
         drivingMotor.setInverted(driveMotorReversed);
         turningMotor.setInverted(turningMotorReversed);
