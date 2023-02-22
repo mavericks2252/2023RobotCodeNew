@@ -7,20 +7,24 @@ package frc.robot.subsystems;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.StatorCurrentLimitConfiguration;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
+
+import edu.wpi.first.wpilibj.DoubleSolenoid;
+import edu.wpi.first.wpilibj.PneumaticsModuleType;
+import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.IntakeConstants;
 import frc.robot.Constants.PortConstants;
 
 public class Intake extends SubsystemBase {
   /** Creates a new SparkMax. */
-  WPI_TalonFX topIntakeMotor;
-  WPI_TalonFX bottomIntakeMotor;
+  WPI_TalonFX intakeMotor;
+  DoubleSolenoid intakeSolenoid;
   StatorCurrentLimitConfiguration currentLimit = new StatorCurrentLimitConfiguration(true, 20, 40, .5);
 
   public Intake() {
 
-    topIntakeMotor = new WPI_TalonFX(PortConstants.kIntakeTopMotorPort);
-    bottomIntakeMotor = new WPI_TalonFX(PortConstants.kIntakeBottomMotorPort);
+    intakeMotor = new WPI_TalonFX(PortConstants.kIntakeMotorPort);
+    intakeSolenoid = new DoubleSolenoid(PneumaticsModuleType.REVPH, PortConstants.kIntakeSolenoidForwardChannel, PortConstants.kIntakeSolenoidReverseChannel);
     //topIntakeMotor.configStatorCurrentLimit(currentLimit);
     //bottomIntakeMotor.configStatorCurrentLimit(currentLimit);
   }
@@ -32,19 +36,26 @@ public class Intake extends SubsystemBase {
 
   public void runIntake() {
 
-    topIntakeMotor.set(ControlMode.PercentOutput, -IntakeConstants.kIntakeMotorSpeedtop);
-    bottomIntakeMotor.set(ControlMode.PercentOutput, IntakeConstants.kIntakeMotorSpeedbottom);
+    intakeMotor.set(ControlMode.PercentOutput, -IntakeConstants.kIntakeMotorSpeed);
   }
 
   public void reverseIntake()  {
-    topIntakeMotor.set(ControlMode.PercentOutput, IntakeConstants.kIntakeMotorSpeedtop);
-bottomIntakeMotor.set(ControlMode.PercentOutput, -IntakeConstants.kIntakeMotorSpeedbottom);
+    intakeMotor.set(ControlMode.PercentOutput, IntakeConstants.kIntakeMotorSpeed);
+  }
+
+  public void extendIntake() {
+
+    intakeSolenoid.set(Value.kForward);
+  }
+
+  public void retractIntake() {
+
+    intakeSolenoid.set(Value.kReverse);
   }
 
   public void stopIntake() {
 
-    topIntakeMotor.stopMotor();
-    bottomIntakeMotor.stopMotor();
+    intakeMotor.stopMotor();
   }
 
 }

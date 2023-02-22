@@ -27,6 +27,7 @@ public class RunGripper extends CommandBase {
   public void execute() {
 
     gripper.runGripper();
+    gripper.openGripper();
     
   }
 
@@ -34,6 +35,7 @@ public class RunGripper extends CommandBase {
   @Override
   public void end(boolean interrupted) {
     gripper.stopGripper();
+    gripper.closeGripper();
     SmartDashboard.putBoolean("Intake Running", false);
   }
 

@@ -11,6 +11,9 @@ import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import frc.robot.Constants.GripperConstants;
 import frc.robot.Constants.PortConstants;
 import edu.wpi.first.wpilibj.AnalogInput;
+import edu.wpi.first.wpilibj.DoubleSolenoid;
+import edu.wpi.first.wpilibj.PneumaticsModuleType;
+import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
@@ -18,6 +21,7 @@ public class Gripper extends SubsystemBase {
 
   CANSparkMax gripperMotor;
   AnalogInput rangeSensor;
+  DoubleSolenoid gripperSolenoid;
 
 
   /** Creates a new Gripper. */
@@ -26,6 +30,7 @@ public class Gripper extends SubsystemBase {
     gripperMotor = new CANSparkMax(PortConstants.kGripperMotorPort, MotorType.kBrushless);
     gripperMotor.setIdleMode(IdleMode.kBrake);
     rangeSensor = new AnalogInput(1);
+    gripperSolenoid = new DoubleSolenoid(PneumaticsModuleType.REVPH, PortConstants.kGripperSolenoidForwardChannel, PortConstants.kGripperSolenoidReverseChannel);
     
     
 
@@ -48,6 +53,16 @@ public class Gripper extends SubsystemBase {
   public void reverseGripper() {
 
     gripperMotor.set(-GripperConstants.gripperMotorSpeed);
+  }
+
+  public void openGripper() {
+
+    gripperSolenoid.set(Value.kForward);
+  }
+
+  public void closeGripper() {
+
+    gripperSolenoid.set(Value.kReverse);
   }
 
   public void stopGripper() {

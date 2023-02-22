@@ -28,6 +28,7 @@ public class RunIntake extends CommandBase {
   public void execute() {
 
     intake.runIntake();
+    intake.extendIntake();
     SmartDashboard.putBoolean("Intake Running", true);
   }
 
@@ -36,6 +37,7 @@ public class RunIntake extends CommandBase {
   public void end(boolean interrupted) {
     SmartDashboard.putBoolean("Intake Running", false);
     intake.stopIntake();
+    intake.retractIntake();
   }
 
   // Returns true when the command should end.

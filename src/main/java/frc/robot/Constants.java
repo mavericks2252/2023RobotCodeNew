@@ -89,8 +89,7 @@ public final class Constants {
 
     public static final class IntakeConstants {
 
-        public static final double kIntakeMotorSpeedtop = -.6;
-        public static final double kIntakeMotorSpeedbottom = .7;
+        public static final double kIntakeMotorSpeed = -.6;
     }
 
     public static final class TopArmConstants {
@@ -163,7 +162,7 @@ public final class Constants {
     public static final class AutoConstants {
 
         
-        public static final double kMaxSpeedMetersPerSecond = 3;
+        public static final double kMaxSpeedMetersPerSecond = 2;
         public static final double kMaxAccelerationMetersPerSecondSquared = 3;
         
         public static final double kPThetaController = 4;
@@ -224,9 +223,15 @@ public final class Constants {
        
         public static final int kBottomArmMasterMotorPort = 0;
         public static final int kBottomArmSlaveMotorPort = 19;
-        public static final int kTopArmMotorPort = 21;//18
-        public static final int kGripperMotorPort = 18;//21
-        public static final int kGripperSolenoidPort = 0;
+        public static final int kTopArmMotorPort = 18;
+        public static final int kGripperMotorPort = 21;
+
+        // Solenoids
+        public static final int kIntakeSolenoidForwardChannel = 0;
+        public static final int kIntakeSolenoidReverseChannel = 1;
+       
+        public static final int kGripperSolenoidForwardChannel = 2;
+        public static final int kGripperSolenoidReverseChannel = 3;
 
     
     
