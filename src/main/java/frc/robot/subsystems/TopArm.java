@@ -7,6 +7,7 @@ package frc.robot.subsystems;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.SparkMaxPIDController;
+import com.revrobotics.CANSparkMax.SoftLimitDirection;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import edu.wpi.first.wpilibj.DutyCycleEncoder;
@@ -28,13 +29,19 @@ public class TopArm extends SubsystemBase {
     topArmMotor = new CANSparkMax(PortConstants.kTopArmMotorPort, MotorType.kBrushless);
 
     topArmMotor.restoreFactoryDefaults();
-
+    topArmMotor.setInverted(true);
+    topArmMotor.enableSoftLimit(SoftLimitDirection.kForward, true);
+    topArmMotor.enableSoftLimit(SoftLimitDirection.kReverse, true);
+    topArmMotor.setSoftLimit( SoftLimitDirection.kReverse, 0);
+    topArmMotor.setSoftLimit(SoftLimitDirection.kForward, 150);
     armPIDController = topArmMotor.getPIDController();
 
     absDutyCycleEncoder = new DutyCycleEncoder(1);
     
+    
     relativeEncoder = topArmMotor.getEncoder();
     relativeEncoder.setPositionConversionFactor(360 / TopArmConstants.kGearRatio);
+    
 
     armPIDController.setP(TopArmConstants.kP);
     armPIDController.setI(TopArmConstants.kI);
@@ -42,6 +49,8 @@ public class TopArm extends SubsystemBase {
     armPIDController.setIZone(TopArmConstants.kIntegralZone);
     armPIDController.setFF(TopArmConstants.kFeedForward);
     armPIDController.setOutputRange(TopArmConstants.kMinOutput, TopArmConstants.kMaxOutput);
+    
+
 
     armPIDController.setSmartMotionMaxVelocity(TopArmConstants.kMaxVelocity, TopArmConstants.kSmartMotionSlot);
     armPIDController.setSmartMotionMinOutputVelocity(TopArmConstants.kMinVelocity, TopArmConstants.kSmartMotionSlot);
@@ -66,13 +75,14 @@ public class TopArm extends SubsystemBase {
     // This method will be called once per scheduler run
     SmartDashboard.putNumber("Top Motor Encoder Position", relativeEncoder.getPosition());
     SmartDashboard.putNumber("Top Absolute Encoder Position", encoderPositionAngle());
-    SmartDashboard.putNumber("Top Absolute Position", absDutyCycleEncoder.getAbsolutePosition());
+    SmartDashboard.putNumber("Top Absolute Position", absDutyCycleEncoder.getAbsolutePosition() * 360);
     armGoalPos = SmartDashboard.getNumber("Arm Goal Position", 0);
   }
 
   public Double encoderPositionAngle() {
-
-    return absDutyCycleEncoder.getAbsolutePosition() * 360;
+    double angle = absDutyCycleEncoder.getAbsolutePosition() * 360;
+    angle -= TopArmConstants.kAbsEncoderOffset;
+    return angle * (TopArmConstants.kAbsEncoderReversed ? -1 : 1);
   }
 
   public void resetEncoderPosition() {

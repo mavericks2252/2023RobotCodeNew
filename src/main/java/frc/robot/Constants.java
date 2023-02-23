@@ -54,8 +54,29 @@ public final class Constants {
          new Translation2d(-kWheelBase / 2, kTrackWidth / 2), // Back Left
          new Translation2d(-kWheelBase / 2, -kTrackWidth / 2)); // Back Right
 
-        
+            //Comp Robot
         public static final boolean kFrontLeftDriveMotorInverted = false;
+        public static final boolean kFrontLeftTurningMotorInverted = true;
+        public static final double kFrontLeftAbsoluteEncoderOffsetRad = Units.degreesToRadians(19.160);
+        public static final boolean kFrontLeftAbsoluteEncoderReversed = false;// Changed to False from True 2/16/23 ... Motor Not following direction it should
+
+        public static final boolean kFrontRightDriveMotorInverted = false;
+        public static final boolean kFrontRightTurningMotorInverted = true;
+        public static final double kFrontRightAbsoluteEncoderOffsetRad = Units.degreesToRadians(132.367);
+        public static final boolean kFrontRightAbsoluteEncoderReversed = true;
+
+        public static final boolean kbackLeftDriveMotorInverted = false;
+        public static final boolean kbackLeftTurningMotorInverted = true;
+        public static final double kbackLeftAbsoluteEncoderOffsetRad = Units.degreesToRadians(339.970);
+        public static final boolean kbackLeftAbsoluteEncoderReversed = true;
+
+        public static final boolean kbackRightDriveMotorInverted = true;
+        public static final boolean kbackRightTurningMotorInverted = true;
+        public static final double kbackRightAbsoluteEncoderOffsetRad = Units.degreesToRadians(235.107);
+        public static final boolean kbackRightAbsoluteEncoderReversed = true;
+
+            //Practice Robot
+        /*public static final boolean kFrontLeftDriveMotorInverted = false;
         public static final boolean kFrontLeftTurningMotorInverted = true;
         public static final double kFrontLeftAbsoluteEncoderOffsetRad = Units.degreesToRadians(108.984);
         public static final boolean kFrontLeftAbsoluteEncoderReversed = false;// Changed to False from True 2/16/23 ... Motor Not following direction it should
@@ -73,7 +94,7 @@ public final class Constants {
         public static final boolean kbackRightDriveMotorInverted = true;
         public static final boolean kbackRightTurningMotorInverted = true;
         public static final double kbackRightAbsoluteEncoderOffsetRad = Units.degreesToRadians(76.816);
-        public static final boolean kbackRightAbsoluteEncoderReversed = true;
+        public static final boolean kbackRightAbsoluteEncoderReversed = true;*/
 
         
 
@@ -107,17 +128,20 @@ public final class Constants {
         public static final double kMinVelocity = 0;
         public static final double kMaxVelocity = 5;
 
-        public static final double kGearRatio = 72 / 10 * 68 / 18 * 60 / 26 * 36 / 15;
-        public static final Double kStowPosition = null;
+        public static final double kGearRatio = 150.65;
+        public static final double kStowPosition = 0;
+
+        public static final double kAbsEncoderOffset = 127.4;
+        public static final boolean kAbsEncoderReversed = false;
 
 
     }
 
     public static final class BottomArmConstants {
         
-        public static final double kP = 0;
+        public static final double kP = 0.1;
         public static final double kI = 0;
-        public static final double kD = 0;
+        public static final double kD = 5;
         public static final double kIntegralZone = 0;
         public static final double kFeedForward = 0;
         public static final double kMinOutput = -1;
@@ -128,8 +152,12 @@ public final class Constants {
         public static final double minVelocity = 0;
         public static final double maxVelocity = 60;
         
-        public static final double kGearRatio = 64 * 72 * 80 * 48 / 10 / 18 / 24 / 18;
-        public static final Double kStowPosition = null;
+        public static final double kGearRatio = 227.5555556;
+        public static final double kStowPosition = 0;
+        
+        public static final double kAbsEncoderOffset = 179.3;
+        public static final boolean kAbsEncoderReversed = false;
+        public static final double kClosedLoopRampRate = 0.5;
 
 
     }
@@ -221,7 +249,7 @@ public final class Constants {
         public static final int kIntakeBottomMotorPort = 17;
         
        
-        public static final int kBottomArmMasterMotorPort = 0;
+        public static final int kBottomArmMasterMotorPort = 20;
         public static final int kBottomArmSlaveMotorPort = 19;
         public static final int kTopArmMotorPort = 18;
         public static final int kGripperMotorPort = 21;

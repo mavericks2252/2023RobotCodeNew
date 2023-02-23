@@ -9,6 +9,7 @@ package frc.robot.subsystems;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.SparkMaxPIDController;
+import com.revrobotics.CANSparkMax.SoftLimitDirection;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import edu.wpi.first.wpilibj.DutyCycleEncoder;
@@ -27,19 +28,30 @@ public class BottomArm extends SubsystemBase {
   
   
   
+  
   public BottomArm() {
   bottomArmMasterMotor = new CANSparkMax(PortConstants.kBottomArmMasterMotorPort, MotorType.kBrushless);
   bottomArmSlaveMotor = new CANSparkMax(PortConstants.kBottomArmSlaveMotorPort, MotorType.kBrushless);
-  bottomArmSlaveMotor.follow(bottomArmMasterMotor);
+  
   
 
   bottomArmMasterMotor.restoreFactoryDefaults();
   bottomArmSlaveMotor.restoreFactoryDefaults();
+  
+  bottomArmSlaveMotor.follow(bottomArmMasterMotor);
+  bottomArmMasterMotor.setClosedLoopRampRate(BottomArmConstants.kClosedLoopRampRate);
+  bottomArmMasterMotor.enableSoftLimit(SoftLimitDirection.kForward, true);
+  bottomArmMasterMotor.enableSoftLimit(SoftLimitDirection.kReverse, true);
+  bottomArmMasterMotor.setSoftLimit(SoftLimitDirection.kForward, 125);
+  bottomArmMasterMotor.setSoftLimit(SoftLimitDirection.kReverse, 75);
+
+
 
   armPidController = bottomArmMasterMotor.getPIDController();
 
   //alternateEncoder = bottomArmMasterMotor.getAbsoluteEncoder(Type.kDutyCycle);
-  absDutyCycleEncoder = new DutyCycleEncoder(2);
+  absDutyCycleEncoder = new DutyCycleEncoder(0);
+  
 
   relativeEncoder = bottomArmMasterMotor.getEncoder();
   
@@ -76,12 +88,15 @@ public class BottomArm extends SubsystemBase {
 
     SmartDashboard.putNumber("Bottom Motor Encoder Position", relativeEncoder.getPosition());
     SmartDashboard.putNumber("Bottom Absolute Encoder Position", encoderPositionAngle());
-    SmartDashboard.putNumber("Bottom Absolute Position", absDutyCycleEncoder.getAbsolutePosition());
+    SmartDashboard.putNumber("Bottom Absolute Position", absDutyCycleEncoder.getAbsolutePosition() * 360);
   }
 
   public Double encoderPositionAngle() {
+    double angle = absDutyCycleEncoder.getAbsolutePosition() * 360;
+    angle -= BottomArmConstants.kAbsEncoderOffset;
+    return angle * (BottomArmConstants.kAbsEncoderReversed ? -1 : 1);
 
-    return absDutyCycleEncoder.getAbsolutePosition() * 360;
+    //return absDutyCycleEncoder.getAbsolutePosition() * 360;
   }
 
   public void resetEncoderPosition() {

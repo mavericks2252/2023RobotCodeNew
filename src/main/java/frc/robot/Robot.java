@@ -7,6 +7,7 @@ package frc.robot;
 import com.pathplanner.lib.server.PathPlannerServer;
 
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 
@@ -54,6 +55,9 @@ public class Robot extends TimedRobot {
     // and running subsystem periodic() methods.  This must be called from the robot's periodic
     // block in order for anything in the Command-based framework to work.
     CommandScheduler.getInstance().run();
+
+    SmartDashboard.putNumber("Bottom Arm Current", m_robotContainer.pdh.getCurrent(15));
+
   }
 
   /** This function is called once each time the robot enters Disabled mode. */
@@ -61,7 +65,7 @@ public class Robot extends TimedRobot {
   public void disabledInit() {
     m_robotContainer.bottomArm.stopMotors();
     m_robotContainer.topArm.stopMotors();
-    m_robotContainer.gripper.stopGripper();
+   
   }
 
   @Override
@@ -100,7 +104,8 @@ public class Robot extends TimedRobot {
 
   /** This function is called periodically during operator control. */
   @Override
-  public void teleopPeriodic() {}
+  public void teleopPeriodic() {
+  }
 
   @Override
   public void testInit() {

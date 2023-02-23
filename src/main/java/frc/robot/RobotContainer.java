@@ -14,9 +14,12 @@ import frc.robot.Constants.DriveConstants;
 
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.PowerDistribution;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.PowerDistribution.ModuleType;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.Constants.OIConstants;
 import frc.robot.commands.AprilTagAutoAlign;
@@ -48,7 +51,7 @@ public class RobotContainer {
   private final RunIntake runIntake = new RunIntake(intake);
   public final BottomArm bottomArm = new BottomArm();
   public final TopArm topArm = new TopArm();
-  public final Gripper gripper = new Gripper();
+  //public final Gripper gripper = new Gripper();
   public final AutoPaths autoPaths = new AutoPaths();
   public final AutoBalanceCommand autoBalanceCommand = new AutoBalanceCommand(swerveSubsystem);
   
@@ -58,6 +61,8 @@ public class RobotContainer {
   private final Joystick operatorJoystick = new Joystick(OIConstants.kOperatorControllerPort);
 
   SendableChooser<Command> autoChooser;
+
+  PowerDistribution pdh = new PowerDistribution(1, ModuleType.kRev);
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
@@ -90,12 +95,20 @@ public class RobotContainer {
           new JoystickButton(driverJoystick, OIConstants.aButton).whileTrue(aprilTagAutoAlign);
         
         //Arm Commands
-          new JoystickButton(driverJoystick, OIConstants.xButton).whileTrue(new InstantCommand(() -> topArm.setMotorPosition(30.0)));
+          new JoystickButton(driverJoystick, OIConstants.xButton).onTrue(
+            new ParallelCommandGroup(
+             new InstantCommand(() -> bottomArm.setMotorPosition(80.)),
+             new InstantCommand(() -> topArm.setMotorPosition(135.0))));
 
-        //Gripper Commands
+          new JoystickButton(driverJoystick, OIConstants.yButton).onTrue(
+            new ParallelCommandGroup(
+             new InstantCommand(() -> bottomArm.setMotorPosition(135.)),
+             new InstantCommand(() -> topArm.setMotorPosition(10.0))));
+
+        /*Gripper Commands
           new JoystickButton(driverJoystick, OIConstants.rbButton).toggleOnTrue(new RunGripper(gripper));
           new JoystickButton(driverJoystick, OIConstants.lbButton).whileTrue(new InstantCommand(() -> gripper.reverseGripper()));
-          new JoystickButton(driverJoystick, OIConstants.lbButton).whileFalse(new InstantCommand(() -> gripper.stopGripper()));
+          new JoystickButton(driverJoystick, OIConstants.lbButton).whileFalse(new InstantCommand(() -> gripper.stopGripper()));*/
 
       //Operator Controller
         //Drive Commands

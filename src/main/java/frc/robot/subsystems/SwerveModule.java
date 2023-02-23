@@ -32,11 +32,17 @@ public class SwerveModule {
 
         this.absoluteEncoderOffsetRad = absoluteEncoderOffset;
         this.absoluteEncoderReversed = absoluteEncoderReversed;
-        absoluteEncoder = new WPI_CANCoder(absoluteEncoderId);
-    
+         
+        
+        // Comp Robot
+        absoluteEncoder = new WPI_CANCoder(absoluteEncoderId, "Drive System");
+        drivingMotor = new WPI_TalonFX(drivingMotorId, "Drive System");
+        turningMotor = new WPI_TalonFX(turningMotorId, "Drive System");
 
-        drivingMotor = new WPI_TalonFX(drivingMotorId);//, "CANivore");
-        turningMotor = new WPI_TalonFX(turningMotorId);//, "CANivore");
+        /* //Practice Robot
+        absoluteEncoder = new WPI_CANCoder(absoluteEncoderId);
+        drivingMotor = new WPI_TalonFX(drivingMotorId);
+        turningMotor = new WPI_TalonFX(turningMotorId);*/
 
         drivingMotor.setInverted(driveMotorReversed);
         turningMotor.setInverted(turningMotorReversed);
