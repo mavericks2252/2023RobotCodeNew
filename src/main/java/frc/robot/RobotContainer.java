@@ -23,6 +23,8 @@ import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.Constants.OIConstants;
 import frc.robot.commands.AprilTagAutoAlign;
+import frc.robot.commands.ArmScorePostition;
+import frc.robot.commands.ArmStowPosition;
 import frc.robot.commands.AutoBalanceCommand;
 import frc.robot.commands.RunGripper;
 import frc.robot.commands.RunIntake;
@@ -95,15 +97,17 @@ public class RobotContainer {
           new JoystickButton(driverJoystick, OIConstants.aButton).whileTrue(aprilTagAutoAlign);
         
         //Arm Commands
-          new JoystickButton(driverJoystick, OIConstants.xButton).onTrue(
+         /*  new JoystickButton(driverJoystick, OIConstants.xButton).onTrue(
             new ParallelCommandGroup(
-             new InstantCommand(() -> bottomArm.setMotorPosition(80.)),
-             new InstantCommand(() -> topArm.setMotorPosition(135.0))));
+             new InstantCommand(() -> bottomArm.setMotorPosition(90.)),
+             new InstantCommand(() -> topArm.setMotorPosition(10.0))));
 
           new JoystickButton(driverJoystick, OIConstants.yButton).onTrue(
             new ParallelCommandGroup(
-             new InstantCommand(() -> bottomArm.setMotorPosition(135.)),
-             new InstantCommand(() -> topArm.setMotorPosition(10.0))));
+             new InstantCommand(() -> bottomArm.setMotorPosition(130.0)),
+             new InstantCommand(() -> topArm.setMotorPosition(10.0))));*/
+          new JoystickButton(driverJoystick, OIConstants.xButton).onTrue(new ArmScorePostition(110.0, 30.0, bottomArm, topArm));
+          new JoystickButton(driverJoystick, OIConstants.yButton).onTrue(new ArmStowPosition(bottomArm, topArm));
 
         /*Gripper Commands
           new JoystickButton(driverJoystick, OIConstants.rbButton).toggleOnTrue(new RunGripper(gripper));

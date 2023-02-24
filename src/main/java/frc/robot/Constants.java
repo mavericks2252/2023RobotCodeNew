@@ -115,7 +115,7 @@ public final class Constants {
 
     public static final class TopArmConstants {
 
-        public static final double kP = 0.165;
+        public static final double kP = 0.2;
         public static final double kI = 0;
         public static final double kD = 0;
         public static final double kIntegralZone = 0;
@@ -129,7 +129,7 @@ public final class Constants {
         public static final double kMaxVelocity = 5;
 
         public static final double kGearRatio = 150.65;
-        public static final double kStowPosition = 0;
+        public static final double kStowPosition = 90;
 
         public static final double kAbsEncoderOffset = 127.4;
         public static final boolean kAbsEncoderReversed = false;
@@ -139,10 +139,10 @@ public final class Constants {
 
     public static final class BottomArmConstants {
         
-        public static final double kP = 0.1;
-        public static final double kI = 0;
-        public static final double kD = 5;
-        public static final double kIntegralZone = 0;
+        public static final double kP = 0.05;
+        public static final double kI = 0.001;
+        public static final double kD = 0.1;
+        public static final double kIntegralZone = 0.5;
         public static final double kFeedForward = 0;
         public static final double kMinOutput = -1;
         public static final double kMaxOutput = 1;
@@ -153,11 +153,11 @@ public final class Constants {
         public static final double maxVelocity = 60;
         
         public static final double kGearRatio = 227.5555556;
-        public static final double kStowPosition = 0;
+        public static final double kStowPosition = 90;
         
         public static final double kAbsEncoderOffset = 179.3;
         public static final boolean kAbsEncoderReversed = false;
-        public static final double kClosedLoopRampRate = 0.5;
+        public static final double kClosedLoopRampRate = 0;
 
 
     }

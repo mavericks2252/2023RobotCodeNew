@@ -9,6 +9,7 @@ package frc.robot.subsystems;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.SparkMaxPIDController;
+import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMax.SoftLimitDirection;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
@@ -39,11 +40,13 @@ public class BottomArm extends SubsystemBase {
   bottomArmSlaveMotor.restoreFactoryDefaults();
   
   bottomArmSlaveMotor.follow(bottomArmMasterMotor);
-  bottomArmMasterMotor.setClosedLoopRampRate(BottomArmConstants.kClosedLoopRampRate);
+  bottomArmMasterMotor.setIdleMode(IdleMode.kBrake);
+  bottomArmSlaveMotor.setIdleMode(IdleMode.kBrake);
+  //bottomArmMasterMotor.setClosedLoopRampRate(BottomArmConstants.kClosedLoopRampRate);
   bottomArmMasterMotor.enableSoftLimit(SoftLimitDirection.kForward, true);
   bottomArmMasterMotor.enableSoftLimit(SoftLimitDirection.kReverse, true);
-  bottomArmMasterMotor.setSoftLimit(SoftLimitDirection.kForward, 125);
-  bottomArmMasterMotor.setSoftLimit(SoftLimitDirection.kReverse, 75);
+  bottomArmMasterMotor.setSoftLimit(SoftLimitDirection.kForward, 160);
+  bottomArmMasterMotor.setSoftLimit(SoftLimitDirection.kReverse, 60);
 
 
 
@@ -65,10 +68,12 @@ public class BottomArm extends SubsystemBase {
   armPidController.setFF(BottomArmConstants.kFeedForward);
   armPidController.setOutputRange(BottomArmConstants.kMinOutput, BottomArmConstants.kMaxOutput);
 
-  armPidController.setSmartMotionMaxVelocity(BottomArmConstants.maxVelocity, BottomArmConstants.smartMotionSlot);
-  armPidController.setSmartMotionMinOutputVelocity(BottomArmConstants.minVelocity, BottomArmConstants.smartMotionSlot);
-  armPidController.setSmartMotionMaxAccel(BottomArmConstants.maxAcceleration, BottomArmConstants.smartMotionSlot);
-  armPidController.setSmartMotionAllowedClosedLoopError(BottomArmConstants.allowedError, BottomArmConstants.smartMotionSlot);
+  SmartDashboard.putNumber("Bottom Arm kP", armPidController.getP());
+  SmartDashboard.putNumber("Bottom Arm kI", armPidController.getI());
+  SmartDashboard.putNumber("Bottom Arm IZone", armPidController.getIZone());
+  SmartDashboard.putNumber("Bottom Arm kD", armPidController.getD());
+
+  
   
   new Thread(() -> {
     try {
@@ -89,6 +94,13 @@ public class BottomArm extends SubsystemBase {
     SmartDashboard.putNumber("Bottom Motor Encoder Position", relativeEncoder.getPosition());
     SmartDashboard.putNumber("Bottom Absolute Encoder Position", encoderPositionAngle());
     SmartDashboard.putNumber("Bottom Absolute Position", absDutyCycleEncoder.getAbsolutePosition() * 360);
+    SmartDashboard.putNumber("Bottom Arm Percent Output", bottomArmMasterMotor.getAppliedOutput());
+
+
+    armPidController.setP(SmartDashboard.getNumber("Bottom Arm kP", 0));
+    armPidController.setI(SmartDashboard.getNumber("Bottom Arm kI", 0));
+    armPidController.setIZone(SmartDashboard.getNumber("Bottom Arm IZone", 0));
+    armPidController.setD(SmartDashboard.getNumber("Bottom Arm kD", 0));
   }
 
   public Double encoderPositionAngle() {

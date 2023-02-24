@@ -4,6 +4,7 @@
 
 package frc.robot.commands;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants.BottomArmConstants;
 import frc.robot.Constants.TopArmConstants;
@@ -17,15 +18,17 @@ public class ArmStowPosition extends CommandBase {
   Boolean topArmHold;
   Boolean bottomArmHold;
   Double bottomArmError;
-  public ArmStowPosition() {
+  public ArmStowPosition(BottomArm bottomArm, TopArm topArm) {
     // Use addRequirements() here to declare subsystem dependencies.
+    this.topArm = topArm;
+    this.bottomArm = bottomArm;
     addRequirements(topArm, bottomArm);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    bottomArm.setMotorPosition(45.0);
+    bottomArm.setMotorPosition(75.0);
     topArmHold = true;
     bottomArmHold = true;
   }
@@ -35,10 +38,13 @@ public class ArmStowPosition extends CommandBase {
   public void execute() {
     bottomArmError = BottomArmConstants.kStowPosition - bottomArm.encoderPositionAngle();
 
-    if (Math.abs(bottomArmError) < 1) {
+    SmartDashboard.putBoolean("Top Arm Hold", topArmHold);
+    SmartDashboard.putBoolean("Bottom Arm Hold", bottomArmHold);
+
+    if (bottomArm.encoderPositionAngle() < 90) {
       topArmHold = false;
     }
-    if (topArm.encoderPositionAngle() < 30) {
+    if (topArm.encoderPositionAngle() > 45) {
       bottomArmHold = false;
     }
 
