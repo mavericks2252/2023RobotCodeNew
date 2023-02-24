@@ -58,22 +58,22 @@ public final class Constants {
         public static final boolean kFrontLeftDriveMotorInverted = false;
         public static final boolean kFrontLeftTurningMotorInverted = true;
         public static final double kFrontLeftAbsoluteEncoderOffsetRad = Units.degreesToRadians(19.160);
-        public static final boolean kFrontLeftAbsoluteEncoderReversed = false;// Changed to False from True 2/16/23 ... Motor Not following direction it should
+        public static final boolean kFrontLeftAbsoluteEncoderReversed = false;
 
-        public static final boolean kFrontRightDriveMotorInverted = false;
+        public static final boolean kFrontRightDriveMotorInverted = true;
         public static final boolean kFrontRightTurningMotorInverted = true;
         public static final double kFrontRightAbsoluteEncoderOffsetRad = Units.degreesToRadians(132.367);
-        public static final boolean kFrontRightAbsoluteEncoderReversed = true;
+        public static final boolean kFrontRightAbsoluteEncoderReversed = false;
 
         public static final boolean kbackLeftDriveMotorInverted = false;
         public static final boolean kbackLeftTurningMotorInverted = true;
-        public static final double kbackLeftAbsoluteEncoderOffsetRad = Units.degreesToRadians(339.970);
-        public static final boolean kbackLeftAbsoluteEncoderReversed = true;
+        public static final double kbackLeftAbsoluteEncoderOffsetRad = Units.degreesToRadians(40.25);
+        public static final boolean kbackLeftAbsoluteEncoderReversed = false;
 
         public static final boolean kbackRightDriveMotorInverted = true;
         public static final boolean kbackRightTurningMotorInverted = true;
         public static final double kbackRightAbsoluteEncoderOffsetRad = Units.degreesToRadians(235.107);
-        public static final boolean kbackRightAbsoluteEncoderReversed = true;
+        public static final boolean kbackRightAbsoluteEncoderReversed = false;
 
             //Practice Robot
         /*public static final boolean kFrontLeftDriveMotorInverted = false;
@@ -115,10 +115,10 @@ public final class Constants {
 
     public static final class TopArmConstants {
 
-        public static final double kP = 0.2;
-        public static final double kI = 0;
-        public static final double kD = 0;
-        public static final double kIntegralZone = 0;
+        public static final double kP = .02;
+        public static final double kI = .00005;
+        public static final double kD = 0.5;
+        public static final double kIntegralZone = 1.5;
         public static final double kFeedForward = 0;
         public static final double kMinOutput = -1;
         public static final double kMaxOutput = 1;
@@ -141,11 +141,11 @@ public final class Constants {
         
         public static final double kP = 0.05;
         public static final double kI = 0.001;
-        public static final double kD = 0.1;
+        public static final double kD = 0.5;
         public static final double kIntegralZone = 0.5;
         public static final double kFeedForward = 0;
-        public static final double kMinOutput = -1;
-        public static final double kMaxOutput = 1;
+        public static final double kMinOutput = -.5;
+        public static final double kMaxOutput = .5;
         public static final int smartMotionSlot = 0;
         public static final double allowedError = 0;
         public static final double maxAcceleration = 500;

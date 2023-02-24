@@ -64,7 +64,7 @@ public class RobotContainer {
 
   SendableChooser<Command> autoChooser;
 
-  PowerDistribution pdh = new PowerDistribution(1, ModuleType.kRev);
+  public PowerDistribution pdh = new PowerDistribution(1, ModuleType.kRev);
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
@@ -90,23 +90,16 @@ public class RobotContainer {
    * edu.wpi.first.wpilibj.Joystick} or {@link XboxController}), and then passing it to a {@link
    * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
-  private void configureButtonBindings() {
+  private void configureButtonBindings() { 
       //Driver Controller
         //Drive Commands
-          new JoystickButton(driverJoystick, OIConstants.bButton).onTrue(new InstantCommand(() -> swerveSubsystem.zeroHeading()));
-          new JoystickButton(driverJoystick, OIConstants.aButton).whileTrue(aprilTagAutoAlign);
+          //new JoystickButton(driverJoystick, OIConstants.bButton).onTrue(new InstantCommand(() -> swerveSubsystem.zeroHeading()));
+         // new JoystickButton(driverJoystick, OIConstants.aButton).whileTrue(aprilTagAutoAlign);
         
         //Arm Commands
-         /*  new JoystickButton(driverJoystick, OIConstants.xButton).onTrue(
-            new ParallelCommandGroup(
-             new InstantCommand(() -> bottomArm.setMotorPosition(90.)),
-             new InstantCommand(() -> topArm.setMotorPosition(10.0))));
-
-          new JoystickButton(driverJoystick, OIConstants.yButton).onTrue(
-            new ParallelCommandGroup(
-             new InstantCommand(() -> bottomArm.setMotorPosition(130.0)),
-             new InstantCommand(() -> topArm.setMotorPosition(10.0))));*/
-          new JoystickButton(driverJoystick, OIConstants.xButton).onTrue(new ArmScorePostition(110.0, 30.0, bottomArm, topArm));
+            //new JoystickButton(driverJoystick, OIConstants.xButton).onTrue(new InstantCommand(() -> topArm.setMotorPosition(0.0)));
+           // new JoystickButton(driverJoystick, OIConstants.yButton).onTrue(new InstantCommand(() -> topArm.setMotorPosition(90.0)));
+          new JoystickButton(driverJoystick, OIConstants.xButton).onTrue(new ArmScorePostition(110.0, 0.0, bottomArm, topArm));
           new JoystickButton(driverJoystick, OIConstants.yButton).onTrue(new ArmStowPosition(bottomArm, topArm));
 
         /*Gripper Commands
@@ -116,7 +109,7 @@ public class RobotContainer {
 
       //Operator Controller
         //Drive Commands
-          new JoystickButton(operatorJoystick, OIConstants.rbButton).toggleOnTrue(new AutoBalanceCommand(swerveSubsystem));
+         // new JoystickButton(operatorJoystick, OIConstants.rbButton).toggleOnTrue(new AutoBalanceCommand(swerveSubsystem));
       
 
           
