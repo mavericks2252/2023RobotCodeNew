@@ -25,8 +25,7 @@ public class Intake extends SubsystemBase {
 
     intakeMotor = new WPI_TalonFX(PortConstants.kIntakeMotorPort);
     intakeSolenoid = new DoubleSolenoid(PneumaticsModuleType.REVPH, PortConstants.kIntakeSolenoidForwardChannel, PortConstants.kIntakeSolenoidReverseChannel);
-    //topIntakeMotor.configStatorCurrentLimit(currentLimit);
-    //bottomIntakeMotor.configStatorCurrentLimit(currentLimit);
+    
   }
 
   @Override

@@ -110,7 +110,7 @@ public final class Constants {
 
     public static final class IntakeConstants {
 
-        public static final double kIntakeMotorSpeed = -.6;
+        public static final double kIntakeMotorSpeed = .6;
     }
 
     public static final class TopArmConstants {
@@ -241,12 +241,10 @@ public final class Constants {
 
         public static final int kIntakeMotorPort = 14;
 
-        public static final int kIndexerMotorPort = 15;
-
-
+        
         public static final int kPigeonPort = 13;
-        public static final int kIntakeTopMotorPort = 16;
-        public static final int kIntakeBottomMotorPort = 17;
+        
+      
         
        
         public static final int kBottomArmMasterMotorPort = 20;
