@@ -18,8 +18,6 @@ import edu.wpi.first.wpilibj.PowerDistribution;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.PowerDistribution.ModuleType;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.InstantCommand;
-import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.Constants.OIConstants;
 import frc.robot.commands.AprilTagAutoAlign;
@@ -53,7 +51,7 @@ public class RobotContainer {
   private final RunIntake runIntake = new RunIntake(intake);
   public final BottomArm bottomArm = new BottomArm();
   public final TopArm topArm = new TopArm();
-  //public final Gripper gripper = new Gripper();
+  public final Gripper gripper = new Gripper();
   public final AutoPaths autoPaths = new AutoPaths();
   public final AutoBalanceCommand autoBalanceCommand = new AutoBalanceCommand(swerveSubsystem);
   
@@ -102,10 +100,11 @@ public class RobotContainer {
           new JoystickButton(driverJoystick, OIConstants.xButton).onTrue(new ArmScorePostition(110.0, 0.0, bottomArm, topArm));
           new JoystickButton(driverJoystick, OIConstants.yButton).onTrue(new ArmStowPosition(bottomArm, topArm));
 
-        /*Gripper Commands
+        //Gripper Commands
           new JoystickButton(driverJoystick, OIConstants.rbButton).toggleOnTrue(new RunGripper(gripper));
-          new JoystickButton(driverJoystick, OIConstants.lbButton).whileTrue(new InstantCommand(() -> gripper.reverseGripper()));
-          new JoystickButton(driverJoystick, OIConstants.lbButton).whileFalse(new InstantCommand(() -> gripper.stopGripper()));*/
+          new JoystickButton(driverJoystick, OIConstants.lbButton).toggleOnTrue(new RunIntake(intake));
+          
+          
 
       //Operator Controller
         //Drive Commands
@@ -113,10 +112,6 @@ public class RobotContainer {
       
 
           
-      //Unussed Archieved Buttons
-         //new JoystickButton(driverJoystick, OIConstants.rbButton).whileTrue(runIntake); //Need to change Button or Controller
-            /*new JoystickButton(driverJoystick, OIConstants.lbButton).whileTrue(new InstantCommand(() -> intake.reverseIntake()));
-            new JoystickButton(driverJoystick, OIConstants.lbButton).whileFalse(new InstantCommand(() -> intake.stopIntake()));*/
   }
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.
