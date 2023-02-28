@@ -18,6 +18,7 @@ import edu.wpi.first.wpilibj.PowerDistribution;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.PowerDistribution.ModuleType;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.Constants.OIConstants;
 import frc.robot.commands.AprilTagAutoAlign;
@@ -91,7 +92,8 @@ public class RobotContainer {
   private void configureButtonBindings() { 
       //Driver Controller
         //Drive Commands
-          //new JoystickButton(driverJoystick, OIConstants.bButton).onTrue(new InstantCommand(() -> swerveSubsystem.zeroHeading()));
+          new JoystickButton(driverJoystick, OIConstants.bButton).onTrue(new InstantCommand(() -> swerveSubsystem.zeroHeading()));
+          new JoystickButton(driverJoystick, OIConstants.aButton).toggleOnTrue(new AutoBalanceCommand(swerveSubsystem));
          // new JoystickButton(driverJoystick, OIConstants.aButton).whileTrue(aprilTagAutoAlign);
         
         //Arm Commands
@@ -133,7 +135,7 @@ public class RobotContainer {
       eventMap.put("Marker 1", new WaitCommand(3));
       eventMap.put("Place Cube", new WaitCommand(1));
       eventMap.put("Place Cone", new WaitCommand(1));
-      eventMap.put("Get Cube", new WaitCommand(1));
+      eventMap.put("Get Cube", new RunIntake(intake).withTimeout(5));
       eventMap.put("Auto Balance", new AutoBalanceCommand(swerveSubsystem).withTimeout(10));
 
 

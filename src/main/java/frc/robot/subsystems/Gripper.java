@@ -29,7 +29,7 @@ public class Gripper extends SubsystemBase {
 
     gripperMotor = new CANSparkMax(PortConstants.kGripperMotorPort, MotorType.kBrushless);
     gripperMotor.setIdleMode(IdleMode.kBrake);
-    rangeSensor = new AnalogInput(1);
+    rangeSensor = new AnalogInput(0);
     gripperSolenoid = new DoubleSolenoid(PneumaticsModuleType.REVPH, PortConstants.kGripperSolenoidForwardChannel, PortConstants.kGripperSolenoidReverseChannel);
     
     
@@ -47,6 +47,7 @@ public class Gripper extends SubsystemBase {
   public void runGripper() {
 
     gripperMotor.set(GripperConstants.gripperMotorSpeed);
+    openGripper();
   }
 
 

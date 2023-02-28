@@ -67,7 +67,7 @@ public final class Constants {
 
         public static final boolean kbackLeftDriveMotorInverted = false;
         public static final boolean kbackLeftTurningMotorInverted = true;
-        public static final double kbackLeftAbsoluteEncoderOffsetRad = Units.degreesToRadians(40.25);
+        public static final double kbackLeftAbsoluteEncoderOffsetRad = Units.degreesToRadians(38.2);
         public static final boolean kbackLeftAbsoluteEncoderReversed = false;
 
         public static final boolean kbackRightDriveMotorInverted = true;
@@ -122,16 +122,12 @@ public final class Constants {
         public static final double kFeedForward = 0;
         public static final double kMinOutput = -1;
         public static final double kMaxOutput = 1;
-        public static final int kSmartMotionSlot = 0;
-        public static final double kAllowedError = 5;
-        public static final double kMaxAcceleration = 5;
-        public static final double kMinVelocity = 0;
-        public static final double kMaxVelocity = 5;
+        
 
         public static final double kGearRatio = 150.65;
         public static final double kStowPosition = 90;
 
-        public static final double kAbsEncoderOffset = 127.4;
+        public static final double kAbsEncoderOffset = -39;
         public static final boolean kAbsEncoderReversed = false;
 
 
@@ -146,16 +142,11 @@ public final class Constants {
         public static final double kFeedForward = 0;
         public static final double kMinOutput = -.5;
         public static final double kMaxOutput = .5;
-        public static final int smartMotionSlot = 0;
-        public static final double allowedError = 0;
-        public static final double maxAcceleration = 500;
-        public static final double minVelocity = 0;
-        public static final double maxVelocity = 60;
-        
+                
         public static final double kGearRatio = 227.5555556;
         public static final double kStowPosition = 90;
         
-        public static final double kAbsEncoderOffset = 179.3;
+        public static final double kAbsEncoderOffset = 180.45;
         public static final boolean kAbsEncoderReversed = false;
         public static final double kClosedLoopRampRate = 0;
 
@@ -204,7 +195,7 @@ public final class Constants {
         public static final double kPAlignmentTheta = 0.115;
         public static final double kPAlignmentY = 0.05;
         public static final double kPAlignmentX = 0.8;
-        public static final double kAutoBalanceSpeed = .75;
+        public static final double kAutoBalanceSpeed = .5;
 
         
         /*public static final ProfiledPIDController kThetaController = new ProfiledPIDController(
@@ -253,8 +244,8 @@ public final class Constants {
         public static final int kGripperMotorPort = 21;
 
         // Solenoids
-        public static final int kIntakeSolenoidForwardChannel = 0;
-        public static final int kIntakeSolenoidReverseChannel = 1;
+        public static final int kIntakeSolenoidForwardChannel = 1;
+        public static final int kIntakeSolenoidReverseChannel = 0;
        
         public static final int kGripperSolenoidForwardChannel = 2;
         public static final int kGripperSolenoidReverseChannel = 3;

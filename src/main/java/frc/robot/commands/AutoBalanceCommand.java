@@ -56,7 +56,7 @@ public class AutoBalanceCommand extends CommandBase {
     xSpeedLimiter.calculate(xSpeed);
 
     chassisSpeeds = ChassisSpeeds.fromFieldRelativeSpeeds(
-      xSpeed, 0, 0, swerveSubsystem.getRotation2d());
+      -xSpeed, 0, 0, swerveSubsystem.getRotation2d());
     SwerveModuleState[] moduleStates = DriveConstants.kDriveKinematics.toSwerveModuleStates(chassisSpeeds);
     swerveSubsystem.setModuleStates(moduleStates);
     

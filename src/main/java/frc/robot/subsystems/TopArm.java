@@ -24,7 +24,7 @@ public class TopArm extends SubsystemBase {
   SparkMaxPIDController armPIDController;
   DutyCycleEncoder absDutyCycleEncoder;
   RelativeEncoder relativeEncoder;
-  Double armGoalPos;
+  double armGoalPos;
   
  
   public TopArm() {
@@ -105,7 +105,7 @@ public class TopArm extends SubsystemBase {
     relativeEncoder.setPosition(encoderPositionAngle());
   }
 
-  public void setMotorPosition(Double angle) {
+  public void setMotorPosition(double angle) {
     
     armPIDController.setReference(angle, CANSparkMax.ControlType.kPosition);
   }

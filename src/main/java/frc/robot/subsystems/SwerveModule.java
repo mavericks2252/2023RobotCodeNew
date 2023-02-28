@@ -58,7 +58,14 @@ public class SwerveModule {
         drivingMotor.setNeutralMode(NeutralMode.Brake);
         turningMotor.setNeutralMode(NeutralMode.Brake);
 
-        resetEncoders();
+        new Thread(() -> {
+            try {
+              Thread.sleep(1000);
+              resetEncoders();
+            } catch (Exception e) {
+            }
+            }).start();
+        
 
     }
 

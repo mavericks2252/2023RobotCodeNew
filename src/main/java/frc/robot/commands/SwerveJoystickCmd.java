@@ -50,19 +50,7 @@ public class SwerveJoystickCmd extends CommandBase {
     double ySpeed = ySpdFunction.get();
     double turningSpeed = turningSpdFunction.get();
 
-    // Apply deadband
-    /*    xSpeed = Math.abs(xSpeed) > OIConstants.kDeadBand ? xSpeed : 0.0;
-          ySpeed = Math.abs(ySpeed) > OIConstants.kDeadBand ? ySpeed : 0.0;
-          turningSpeed = Math.abs(turningSpeed) > OIConstants.kDeadBand ? turningSpeed : 0.0;
         
-           if (Math.abs(xSpeed) < Math.abs(OIConstants.kDeadBand)) return 0.0;
-          return OIConstants.kDeadBand * Math.signum(xSpeed) + ((xSpeed - OIConstants.kDeadBand) / (1.0 - OIConstants.kDeadBand));
-          if (Math.abs(ySpeed) < Math.abs(OIConstants.kDeadBand)) return 0.0;
-          return OIConstants.kDeadBand * Math.signum(ySpeed) + ((ySpeed - OIConstants.kDeadBand) / (1.0 - OIConstants.kDeadBand));
-
-          if (Math.abs(turningSpeed) < Math.abs(OIConstants.kDeadBand)) return 0.0;
-          return OIConstants.kDeadBand * Math.signum(turningSpeed) + ((turningSpeed - OIConstants.kDeadBand) / (1.0 - OIConstants.kDeadBand));
-    */      
 
     // Make driving smoother
     xSpeed = xLimiter.calculate(joystickDeadband(xSpeed)) * DriveConstants.kTeleDriveMaxSpeedMetersPerSecond;
@@ -110,3 +98,18 @@ public class SwerveJoystickCmd extends CommandBase {
     return false;
   }
 }
+
+
+// Old code to apply deadband
+    /*    xSpeed = Math.abs(xSpeed) > OIConstants.kDeadBand ? xSpeed : 0.0;
+          ySpeed = Math.abs(ySpeed) > OIConstants.kDeadBand ? ySpeed : 0.0;
+          turningSpeed = Math.abs(turningSpeed) > OIConstants.kDeadBand ? turningSpeed : 0.0;
+        
+           if (Math.abs(xSpeed) < Math.abs(OIConstants.kDeadBand)) return 0.0;
+          return OIConstants.kDeadBand * Math.signum(xSpeed) + ((xSpeed - OIConstants.kDeadBand) / (1.0 - OIConstants.kDeadBand));
+          if (Math.abs(ySpeed) < Math.abs(OIConstants.kDeadBand)) return 0.0;
+          return OIConstants.kDeadBand * Math.signum(ySpeed) + ((ySpeed - OIConstants.kDeadBand) / (1.0 - OIConstants.kDeadBand));
+
+          if (Math.abs(turningSpeed) < Math.abs(OIConstants.kDeadBand)) return 0.0;
+          return OIConstants.kDeadBand * Math.signum(turningSpeed) + ((turningSpeed - OIConstants.kDeadBand) / (1.0 - OIConstants.kDeadBand));
+    */  

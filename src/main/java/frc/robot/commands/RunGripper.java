@@ -27,7 +27,7 @@ public class RunGripper extends CommandBase {
   public void execute() {
 
     gripper.runGripper();
-    gripper.openGripper();
+    //gripper.openGripper();
     
   }
 
@@ -42,6 +42,6 @@ public class RunGripper extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return (gripper.rangsensorGetVoltage() > 2.0) ? true : false;
+    return (gripper.rangsensorGetVoltage() > 2.5) ? true : false;
   }
 }

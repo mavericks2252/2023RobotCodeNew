@@ -43,9 +43,7 @@
       "isLocked": false,
       "isStopPoint": true,
       "stopEvent": {
-        "names": [
-          "Get Cube"
-        ],
+        "names": [],
         "executionBehavior": "parallel",
         "waitBehavior": "none",
         "waitTime": 0
@@ -147,9 +145,7 @@
       "isLocked": false,
       "isStopPoint": true,
       "stopEvent": {
-        "names": [
-          "Get Cube"
-        ],
+        "names": [],
         "executionBehavior": "parallel",
         "waitBehavior": "none",
         "waitTime": 0
@@ -205,5 +201,18 @@
       }
     }
   ],
-  "markers": []
+  "markers": [
+    {
+      "position": 0.7,
+      "names": [
+        "Get Cube"
+      ]
+    },
+    {
+      "position": 4.15,
+      "names": [
+        "Get Cube"
+      ]
+    }
+  ]
 }

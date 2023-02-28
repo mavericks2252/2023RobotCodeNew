@@ -28,7 +28,6 @@ public class RunIntake extends CommandBase {
   public void execute() {
 
     intake.runIntake();
-    intake.extendIntake();
     SmartDashboard.putBoolean("Intake Running", true);
   }
 

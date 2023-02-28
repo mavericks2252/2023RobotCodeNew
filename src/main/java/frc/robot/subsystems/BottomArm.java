@@ -116,7 +116,7 @@ public class BottomArm extends SubsystemBase {
     relativeEncoder.setPosition(encoderPositionAngle());
   }
 
-  public void setMotorPosition(Double angle) {
+  public void setMotorPosition(double angle) {
     
     armPidController.setReference(angle, CANSparkMax.ControlType.kPosition);
   }
