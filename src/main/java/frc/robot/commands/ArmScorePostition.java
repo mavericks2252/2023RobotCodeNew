@@ -4,7 +4,9 @@
 
 package frc.robot.commands;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.Constants.ArmConstants;
 import frc.robot.subsystems.BottomArm;
 import frc.robot.subsystems.TopArm;
 
@@ -12,14 +14,14 @@ public class ArmScorePostition extends CommandBase {
   /** Creates a new ArmScorePostition. */
   TopArm topArm;
   BottomArm bottomArm;
-  Double bottomGoalPostition;
-  Double topGoalPosition;
+  double bottomGoalPostition;
+  double topGoalPosition;
   Double bottomArmError;
   Boolean topArmHold;
   Boolean bottomArmHold;
   
 
-  public ArmScorePostition(Double bottomGoalPosition, Double topGoalPosition, BottomArm bottomArm, TopArm topArm) {
+  public ArmScorePostition(double bottomGoalPosition, double topGoalPosition, BottomArm bottomArm, TopArm topArm) {
     this.bottomGoalPostition = bottomGoalPosition;
     this.topGoalPosition = topGoalPosition;
     this.topArm = topArm;
@@ -33,7 +35,9 @@ public class ArmScorePostition extends CommandBase {
   @Override
   public void initialize() {
 
-    bottomArm.setMotorPosition(75.0); // Set the lower arm angle back
+    topArm.setMotorPosition(56);
+    bottomArm.setMotorPosition(ArmConstants.kBottomReversePosition); // Set the lower arm angle back
+    
 
     topArmHold = true;
     bottomArmHold = true;
@@ -44,16 +48,16 @@ public class ArmScorePostition extends CommandBase {
   @Override
   public void execute() {
 
-    bottomArmError = 75 - bottomArm.encoderPositionAngle();
+    bottomArmError = ArmConstants.kBottomReversePosition - bottomArm.getMotorEncoderPosition();
 
-    /*SmartDashboard.putBoolean("Top Arm Hold", topArmHold);
+    SmartDashboard.putBoolean("Top Arm Hold", topArmHold);
     SmartDashboard.putBoolean("Bottom Arm hold", bottomArmHold);
-    SmartDashboard.putNumber("Bottom Arm Error", Math.abs(bottomArmError));*/
+    //SmartDashboard.putNumber("Bottom Arm Error", Math.abs(bottomArmError));*/
 
     if (Math.abs(bottomArmError) < 1) {
       topArmHold = false;
     }
-    if (topArm.encoderPositionAngle() < 50) {
+    if (topArm.getMotorEncoderPosition() < 15) {
       bottomArmHold = false;
     }
 

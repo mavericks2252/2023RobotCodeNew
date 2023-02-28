@@ -22,6 +22,7 @@ public class TopArm extends SubsystemBase {
   /** Creates a new TopArm. */
   CANSparkMax topArmMotor;
   SparkMaxPIDController armPIDController;
+  SparkMaxPIDController armDownPIDController;
   DutyCycleEncoder absDutyCycleEncoder;
   RelativeEncoder relativeEncoder;
   double armGoalPos;
@@ -36,9 +37,9 @@ public class TopArm extends SubsystemBase {
     topArmMotor.enableSoftLimit(SoftLimitDirection.kReverse, true);
     topArmMotor.setSoftLimit( SoftLimitDirection.kReverse, -20);
     topArmMotor.setSoftLimit(SoftLimitDirection.kForward, 200);
-    topArmMotor.setIdleMode(IdleMode.kBrake);
-    topArmMotor.setClosedLoopRampRate(.5);
-    armPIDController = topArmMotor.getPIDController();
+    topArmMotor.setIdleMode(IdleMode.kCoast);
+    topArmMotor.setClosedLoopRampRate(TopArmConstants.kClosedLoopRampRate);
+    //armPIDController = topArmMotor.getPIDController();
 
     absDutyCycleEncoder = new DutyCycleEncoder(1);
     
@@ -46,22 +47,23 @@ public class TopArm extends SubsystemBase {
     relativeEncoder = topArmMotor.getEncoder();
     relativeEncoder.setPositionConversionFactor(360 / TopArmConstants.kGearRatio);
     
-
+    armPIDController = topArmMotor.getPIDController();
     armPIDController.setP(TopArmConstants.kP);
     armPIDController.setI(TopArmConstants.kI);
     armPIDController.setD(TopArmConstants.kD);
     armPIDController.setIZone(TopArmConstants.kIntegralZone);
     armPIDController.setFF(TopArmConstants.kFeedForward);
     armPIDController.setOutputRange(TopArmConstants.kMinOutput, TopArmConstants.kMaxOutput);
-    
+
+   
 
 
-    SmartDashboard.putNumber("Arm Goal Position", 0);
+    /*SmartDashboard.putNumber("Arm Goal Position", 0);
 
     SmartDashboard.putNumber("Top Arm kP", armPIDController.getP());
     SmartDashboard.putNumber("Top Arm kI", armPIDController.getI());
     SmartDashboard.putNumber("Top Arm kD", armPIDController.getD());
-    SmartDashboard.putNumber("Top Arm IZone", armPIDController.getIZone());
+    SmartDashboard.putNumber("Top Arm IZone", armPIDController.getIZone());*/
     
 
     new Thread(() -> {
@@ -82,12 +84,12 @@ public class TopArm extends SubsystemBase {
     SmartDashboard.putNumber("Top Absolute Position", absDutyCycleEncoder.getAbsolutePosition() * 360);
     armGoalPos = SmartDashboard.getNumber("Arm Goal Position", 0);
 
-    armPIDController.setP(SmartDashboard.getNumber("Top Arm kP", 0));
+    /*armPIDController.setP(SmartDashboard.getNumber("Top Arm kP", 0));
     armPIDController.setI(SmartDashboard.getNumber("Top Arm kI", 0));
     armPIDController.setD(SmartDashboard.getNumber("Top Arm kD", 0));
     armPIDController.setIZone(SmartDashboard.getNumber("Top Arm IZone", 0));
 
-    SmartDashboard.putNumber("Acutal Top Arm kP", armPIDController.getP());
+    SmartDashboard.putNumber("Acutal Top Arm kP", armPIDController.getP());*/
 
     
 
@@ -106,8 +108,26 @@ public class TopArm extends SubsystemBase {
   }
 
   public void setMotorPosition(double angle) {
+    armPIDController = topArmMotor.getPIDController();
     
     armPIDController.setReference(angle, CANSparkMax.ControlType.kPosition);
+  }
+
+  public void setMotorDownPosition(double angle) {
+    armDownPIDController = topArmMotor.getPIDController();
+    armDownPIDController.setP(0.013);
+    armDownPIDController.setI(0.00008);
+    armDownPIDController.setD(0.0);
+    armDownPIDController.setIZone(1.5);
+    armDownPIDController.setFF(0);
+    armDownPIDController.setOutputRange(-0.5, 0.5);
+    
+
+    armDownPIDController.setReference(angle, CANSparkMax.ControlType.kPosition);
+  }
+
+  public double getMotorEncoderPosition() {
+    return relativeEncoder.getPosition();
   }
 
   public void stopMotors() {

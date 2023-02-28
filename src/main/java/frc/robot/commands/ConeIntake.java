@@ -5,8 +5,7 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.Constants.BottomArmConstants;
-import frc.robot.Constants.TopArmConstants;
+import frc.robot.Constants.ArmConstants;
 import frc.robot.subsystems.BottomArm;
 import frc.robot.subsystems.Gripper;
 import frc.robot.subsystems.Intake;
@@ -47,10 +46,10 @@ public class ConeIntake extends CommandBase {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    topArm.setMotorPosition(TopArmConstants.kStowPosition);
-    bottomArm.setMotorPosition(BottomArmConstants.kStowPosition);
-    topArmError = TopArmConstants.kStowPosition - topArm.encoderPositionAngle();
-    bottomArmError = BottomArmConstants.kStowPosition - bottomArm.encoderPositionAngle();
+    topArm.setMotorPosition(ArmConstants.kStowPosition);
+    bottomArm.setMotorPosition(ArmConstants.kStowPosition);
+    topArmError = ArmConstants.kStowPosition - topArm.encoderPositionAngle();
+    bottomArmError = ArmConstants.kStowPosition - bottomArm.encoderPositionAngle();
 
     intake.stopIntake();
     gripper.stopGripper();

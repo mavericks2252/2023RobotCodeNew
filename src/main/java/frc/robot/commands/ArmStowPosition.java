@@ -6,7 +6,7 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.Constants.BottomArmConstants;
+import frc.robot.Constants.ArmConstants;
 import frc.robot.Constants.TopArmConstants;
 import frc.robot.subsystems.BottomArm;
 import frc.robot.subsystems.TopArm;
@@ -28,7 +28,7 @@ public class ArmStowPosition extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    bottomArm.setMotorPosition(75.0);
+    bottomArm.setMotorPosition(ArmConstants.kBottomReversePosition);
     topArmHold = true;
     bottomArmHold = true;
   }
@@ -36,7 +36,7 @@ public class ArmStowPosition extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    bottomArmError = BottomArmConstants.kStowPosition - bottomArm.encoderPositionAngle();
+    bottomArmError = ArmConstants.kBottomReversePosition - bottomArm.encoderPositionAngle();
 
     SmartDashboard.putBoolean("Top Arm Hold", topArmHold);
     SmartDashboard.putBoolean("Bottom Arm Hold", bottomArmHold);
@@ -44,15 +44,15 @@ public class ArmStowPosition extends CommandBase {
     if (bottomArm.encoderPositionAngle() < 90) {
       topArmHold = false;
     }
-    if (topArm.encoderPositionAngle() > 45) {
+    if (topArm.getMotorEncoderPosition() > 15) {
       bottomArmHold = false;
     }
 
     if (!topArmHold) {
-      topArm.setMotorPosition(TopArmConstants.kStowPosition);
+      topArm.setMotorDownPosition(TopArmConstants.kStowPosition);
     }
     if (!bottomArmHold) {
-      bottomArm.setMotorPosition(BottomArmConstants.kStowPosition);
+      bottomArm.setMotorPosition(ArmConstants.kStowPosition);
     }
   }
 

@@ -40,9 +40,9 @@ public class BottomArm extends SubsystemBase {
   bottomArmSlaveMotor.restoreFactoryDefaults();
   
   bottomArmSlaveMotor.follow(bottomArmMasterMotor);
-  bottomArmMasterMotor.setIdleMode(IdleMode.kBrake);
-  bottomArmSlaveMotor.setIdleMode(IdleMode.kBrake);
-  //bottomArmMasterMotor.setClosedLoopRampRate(BottomArmConstants.kClosedLoopRampRate);
+  bottomArmMasterMotor.setIdleMode(IdleMode.kCoast);
+  bottomArmSlaveMotor.setIdleMode(IdleMode.kCoast);
+  bottomArmMasterMotor.setClosedLoopRampRate(BottomArmConstants.kClosedLoopRampRate);
   bottomArmMasterMotor.enableSoftLimit(SoftLimitDirection.kForward, true);
   bottomArmMasterMotor.enableSoftLimit(SoftLimitDirection.kReverse, true);
   bottomArmMasterMotor.setSoftLimit(SoftLimitDirection.kForward, 160);
@@ -119,6 +119,10 @@ public class BottomArm extends SubsystemBase {
   public void setMotorPosition(double angle) {
     
     armPidController.setReference(angle, CANSparkMax.ControlType.kPosition);
+  }
+
+  public double getMotorEncoderPosition() {
+    return relativeEncoder.getPosition();
   }
 
   public void stopMotors() {
