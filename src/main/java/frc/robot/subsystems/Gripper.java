@@ -51,9 +51,9 @@ public class Gripper extends SubsystemBase {
   }
 
 
-  public void reverseGripper() {
+  public void reverseGripper(double percentOutput) {
 
-    gripperMotor.set(-GripperConstants.gripperMotorSpeed);
+    gripperMotor.set(-percentOutput);
   }
 
   public void openGripper() {

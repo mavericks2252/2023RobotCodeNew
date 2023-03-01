@@ -35,9 +35,9 @@ public class TopArm extends SubsystemBase {
     topArmMotor.setInverted(true);
     topArmMotor.enableSoftLimit(SoftLimitDirection.kForward, true);
     topArmMotor.enableSoftLimit(SoftLimitDirection.kReverse, true);
-    topArmMotor.setSoftLimit( SoftLimitDirection.kReverse, -20);
+    topArmMotor.setSoftLimit( SoftLimitDirection.kReverse, -35);
     topArmMotor.setSoftLimit(SoftLimitDirection.kForward, 200);
-    topArmMotor.setIdleMode(IdleMode.kCoast);
+    topArmMotor.setIdleMode(IdleMode.kBrake);
     topArmMotor.setClosedLoopRampRate(TopArmConstants.kClosedLoopRampRate);
     //armPIDController = topArmMotor.getPIDController();
 

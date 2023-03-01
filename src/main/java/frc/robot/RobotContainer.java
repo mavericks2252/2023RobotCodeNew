@@ -26,6 +26,7 @@ import frc.robot.commands.ArmScorePostition;
 import frc.robot.commands.ArmStowPosition;
 import frc.robot.commands.AutoBalanceCommand;
 import frc.robot.commands.ConeRelease;
+import frc.robot.commands.CubeRelease;
 import frc.robot.commands.RunGripper;
 import frc.robot.commands.RunIntake;
 import frc.robot.commands.SwerveJoystickCmd;
@@ -115,13 +116,15 @@ public class RobotContainer {
 
          //Arm Commands
           //new JoystickButton(operatorJoystick, OIConstants.yButton).onTrue(new ArmScorePostition(110, 0, bottomArm, topArm));// Cube Top
-          new JoystickButton(operatorJoystick, OIConstants.bButton).onTrue(new ArmScorePostition(95, 0, bottomArm, topArm));// Cube Middle
+          new JoystickButton(operatorJoystick, OIConstants.bButton).onTrue(new ArmScorePostition(75, 20, bottomArm, topArm));// Cube Middle
 
-          //new JoystickButton(operatorJoystick, OIConstants.xButton).onTrue(new ArmScorePostition(135, -25, bottomArm, topArm));// Cone Top 
+          new JoystickButton(operatorJoystick, OIConstants.xButton).onTrue(new ArmScorePostition(130, -40, bottomArm, topArm));// Cone Top 
           new JoystickButton(operatorJoystick, OIConstants.aButton).onTrue(new ArmScorePostition(95, -10, bottomArm, topArm));// Cone Middle
 
           //Gripper Commands
           new JoystickButton(operatorJoystick, OIConstants.rbButton).toggleOnTrue(new ConeRelease(gripper));
+          new JoystickButton(operatorJoystick, OIConstants.lbButton).toggleOnTrue(new CubeRelease(gripper));
+
 
       
 

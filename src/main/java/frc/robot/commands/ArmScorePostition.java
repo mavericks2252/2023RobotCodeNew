@@ -57,7 +57,7 @@ public class ArmScorePostition extends CommandBase {
     if (Math.abs(bottomArmError) < 1) {
       topArmHold = false;
     }
-    if (topArm.getMotorEncoderPosition() < 15) {
+    if (topArm.getMotorEncoderPosition() < (bottomGoalPostition * .4)) {//
       bottomArmHold = false;
     }
 

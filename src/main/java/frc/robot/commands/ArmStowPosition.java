@@ -38,13 +38,13 @@ public class ArmStowPosition extends CommandBase {
   public void execute() {
     bottomArmError = ArmConstants.kBottomReversePosition - bottomArm.encoderPositionAngle();
 
-    SmartDashboard.putBoolean("Top Arm Hold", topArmHold);
-    SmartDashboard.putBoolean("Bottom Arm Hold", bottomArmHold);
+    SmartDashboard.putBoolean("Stow Top Arm Hold", topArmHold);
+    SmartDashboard.putBoolean("Stow Bottom Arm Hold", bottomArmHold);
 
-    if (bottomArm.encoderPositionAngle() < 90) {
+    if (bottomArm.getMotorEncoderPosition() < 100) {
       topArmHold = false;
     }
-    if (topArm.getMotorEncoderPosition() > 15) {
+    if (topArm.getMotorEncoderPosition() > 25) {
       bottomArmHold = false;
     }
 

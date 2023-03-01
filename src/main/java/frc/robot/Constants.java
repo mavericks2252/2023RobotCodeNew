@@ -156,7 +156,7 @@ public final class Constants {
     public static final class ArmConstants {
 
         public static final double kStowPosition = 90;
-        public static final double kBottomReversePosition = 60;
+        public static final double kBottomReversePosition = 55;
     }
 
     public static final class GripperConstants {

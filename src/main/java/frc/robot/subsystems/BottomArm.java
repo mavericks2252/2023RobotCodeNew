@@ -40,13 +40,13 @@ public class BottomArm extends SubsystemBase {
   bottomArmSlaveMotor.restoreFactoryDefaults();
   
   bottomArmSlaveMotor.follow(bottomArmMasterMotor);
-  bottomArmMasterMotor.setIdleMode(IdleMode.kCoast);
-  bottomArmSlaveMotor.setIdleMode(IdleMode.kCoast);
+  bottomArmMasterMotor.setIdleMode(IdleMode.kBrake);
+  bottomArmSlaveMotor.setIdleMode(IdleMode.kBrake);
   bottomArmMasterMotor.setClosedLoopRampRate(BottomArmConstants.kClosedLoopRampRate);
   bottomArmMasterMotor.enableSoftLimit(SoftLimitDirection.kForward, true);
   bottomArmMasterMotor.enableSoftLimit(SoftLimitDirection.kReverse, true);
   bottomArmMasterMotor.setSoftLimit(SoftLimitDirection.kForward, 160);
-  bottomArmMasterMotor.setSoftLimit(SoftLimitDirection.kReverse, 60);
+  bottomArmMasterMotor.setSoftLimit(SoftLimitDirection.kReverse, 55);
 
 
 
