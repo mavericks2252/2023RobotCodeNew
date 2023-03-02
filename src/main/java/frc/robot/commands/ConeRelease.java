@@ -9,6 +9,7 @@ import frc.robot.subsystems.Gripper;
 
 public class ConeRelease extends CommandBase {
   Gripper gripper;
+  ArmStowPosition armStowPosition;
   /** Creates a new ConeRelease. */
   public ConeRelease(Gripper gripper) {
     this.gripper = gripper;
@@ -37,6 +38,6 @@ public class ConeRelease extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    return (gripper.rangsensorGetVoltage() < 2.5) ? true : false;
   }
 }

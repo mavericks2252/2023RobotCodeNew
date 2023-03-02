@@ -182,6 +182,7 @@ public final class Constants {
         public static final int yButton = 4;
         public static final int rbButton = 6;
         public static final int lbButton = 5;
+        public static final int menuButton = 8;
     }         
 
     public static final class AutoConstants {

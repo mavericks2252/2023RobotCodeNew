@@ -9,6 +9,7 @@ import frc.robot.subsystems.Gripper;
 
 public class CubeRelease extends CommandBase {
   Gripper gripper;
+  ArmStowPosition armStowPosition;
   /** Creates a new CubeRelease. */
   public CubeRelease(Gripper gripper) {
     this.gripper = gripper;
@@ -24,6 +25,7 @@ public class CubeRelease extends CommandBase {
   public void execute() {
     //gripper.openGripper();
     gripper.reverseGripper(1);
+
   }
 
   // Called once the command ends or is interrupted.
@@ -36,6 +38,6 @@ public class CubeRelease extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    return (gripper.rangsensorGetVoltage() < 2.5) ? true : false;
   }
 }

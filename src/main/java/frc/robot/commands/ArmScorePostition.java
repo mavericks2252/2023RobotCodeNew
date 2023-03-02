@@ -8,6 +8,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants.ArmConstants;
 import frc.robot.subsystems.BottomArm;
+import frc.robot.subsystems.Gripper;
 import frc.robot.subsystems.TopArm;
 
 public class ArmScorePostition extends CommandBase {
@@ -19,6 +20,9 @@ public class ArmScorePostition extends CommandBase {
   Double bottomArmError;
   Boolean topArmHold;
   Boolean bottomArmHold;
+  Gripper gripper;
+  ConeRelease coneRelease;
+  CubeRelease cubeRelease;
   
 
   public ArmScorePostition(double bottomGoalPosition, double topGoalPosition, BottomArm bottomArm, TopArm topArm) {
@@ -74,13 +78,18 @@ public class ArmScorePostition extends CommandBase {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
+    
     topArm.stopMotors();
     bottomArm.stopMotors();
   }
 
+  
+
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+
+      return false;
+    
   }
 }

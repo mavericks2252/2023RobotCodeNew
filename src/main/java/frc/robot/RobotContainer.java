@@ -99,9 +99,6 @@ public class RobotContainer {
          // new JoystickButton(driverJoystick, OIConstants.aButton).whileTrue(aprilTagAutoAlign);
         
         //Arm Commands
-            //new JoystickButton(driverJoystick, OIConstants.xButton).onTrue(new InstantCommand(() -> topArm.setMotorPosition(0.0)));
-           // new JoystickButton(driverJoystick, OIConstants.yButton).onTrue(new InstantCommand(() -> topArm.setMotorPosition(90.0)));
-          new JoystickButton(driverJoystick, OIConstants.xButton).onTrue(new ArmScorePostition(110, 0, bottomArm, topArm));
           new JoystickButton(driverJoystick, OIConstants.yButton).onTrue(new ArmStowPosition(bottomArm, topArm));
 
         //Gripper Commands
@@ -115,20 +112,23 @@ public class RobotContainer {
          // new JoystickButton(operatorJoystick, OIConstants.rbButton).toggleOnTrue(new AutoBalanceCommand(swerveSubsystem));
 
          //Arm Commands
-          //new JoystickButton(operatorJoystick, OIConstants.yButton).onTrue(new ArmScorePostition(110, 0, bottomArm, topArm));// Cube Top
+          if (topArm.cubeMode()) {
+          new JoystickButton(operatorJoystick, OIConstants.yButton).onTrue(new ArmScorePostition(95, -10, bottomArm, topArm));// Cube Top
           new JoystickButton(operatorJoystick, OIConstants.bButton).onTrue(new ArmScorePostition(75, 20, bottomArm, topArm));// Cube Middle
+          //new JoystickButton(operatorJoystick, OIConstants.aButton).onTrue(new ArmScorePostition(75, 20, bottomArm, topArm));// Cube Low
+          new JoystickButton(operatorJoystick, OIConstants.xButton).toggleOnTrue(new CubeRelease(gripper));
+          }
 
-          new JoystickButton(operatorJoystick, OIConstants.xButton).onTrue(new ArmScorePostition(130, -40, bottomArm, topArm));// Cone Top 
-          new JoystickButton(operatorJoystick, OIConstants.aButton).onTrue(new ArmScorePostition(95, -10, bottomArm, topArm));// Cone Middle
+          else if (topArm.coneMode()) {
+          new JoystickButton(operatorJoystick, OIConstants.yButton).onTrue(new ArmScorePostition(130, -40, bottomArm, topArm));// Cone Top 
+          new JoystickButton(operatorJoystick, OIConstants.bButton).onTrue(new ArmScorePostition(95, -10, bottomArm, topArm));// Cone Middle
+          //new JoystickButton(operatorJoystick, OIConstants.aButton).onTrue(new ArmScorePostition(75, 20, bottomArm, topArm));// Cone Low
+          new JoystickButton(operatorJoystick, OIConstants.xButton).toggleOnTrue(new ConeRelease(gripper));
+          }
 
-          //Gripper Commands
-          new JoystickButton(operatorJoystick, OIConstants.rbButton).toggleOnTrue(new ConeRelease(gripper));
-          new JoystickButton(operatorJoystick, OIConstants.lbButton).toggleOnTrue(new CubeRelease(gripper));
+          new JoystickButton(operatorJoystick, OIConstants.lbButton).onTrue(new InstantCommand(() -> topArm.cubeMode()));
+          new JoystickButton(operatorJoystick, OIConstants.rbButton).onTrue(new InstantCommand(() -> topArm.coneMode()));       
 
-
-      
-
-          
   }
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.

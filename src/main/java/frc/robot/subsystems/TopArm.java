@@ -26,6 +26,9 @@ public class TopArm extends SubsystemBase {
   DutyCycleEncoder absDutyCycleEncoder;
   RelativeEncoder relativeEncoder;
   double armGoalPos;
+  Boolean cubeMode;
+  Boolean coneMode;
+  
   
  
   public TopArm() {
@@ -91,7 +94,7 @@ public class TopArm extends SubsystemBase {
 
     SmartDashboard.putNumber("Acutal Top Arm kP", armPIDController.getP());*/
 
-    
+  
 
 
   }
@@ -128,6 +131,22 @@ public class TopArm extends SubsystemBase {
 
   public double getMotorEncoderPosition() {
     return relativeEncoder.getPosition();
+  }
+
+  public boolean cubeMode() {
+    coneMode = false;
+    cubeMode = true;
+    SmartDashboard.putBoolean("Cube Mode", cubeMode);   
+    SmartDashboard.putBoolean("Cone Mode", coneMode);
+    return cubeMode;
+  }
+
+  public boolean coneMode() {
+    cubeMode = false;
+    coneMode = true;
+    SmartDashboard.putBoolean("Cube Mode", cubeMode);   
+    SmartDashboard.putBoolean("Cone Mode", coneMode);
+    return coneMode;
   }
 
   public void stopMotors() {
