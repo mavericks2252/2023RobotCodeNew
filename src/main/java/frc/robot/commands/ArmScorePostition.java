@@ -9,25 +9,30 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants.ArmConstants;
 import frc.robot.subsystems.BottomArm;
 import frc.robot.subsystems.Gripper;
+import frc.robot.subsystems.LEDModeSubsystem;
 import frc.robot.subsystems.TopArm;
 
 public class ArmScorePostition extends CommandBase {
   /** Creates a new ArmScorePostition. */
   TopArm topArm;
   BottomArm bottomArm;
-  double bottomGoalPostition;
+  LEDModeSubsystem ledModeSubsystem;
+  double bottomGoalPosition;
   double topGoalPosition;
-  Double bottomArmError;
+  double bottomArmError;
   Boolean topArmHold;
   Boolean bottomArmHold;
   Gripper gripper;
-  ConeRelease coneRelease;
-  CubeRelease cubeRelease;
+  GamePieceRelease coneRelease;
+  int node;
+  int low = 1;
+  int mid = 2;
+  int high = 3;
   
 
-  public ArmScorePostition(double bottomGoalPosition, double topGoalPosition, BottomArm bottomArm, TopArm topArm) {
-    this.bottomGoalPostition = bottomGoalPosition;
-    this.topGoalPosition = topGoalPosition;
+  public ArmScorePostition( int node, LEDModeSubsystem ledModeSubsystem, BottomArm bottomArm, TopArm topArm) {
+    this.ledModeSubsystem = ledModeSubsystem;
+    this.node = node;
     this.topArm = topArm;
     this.bottomArm = bottomArm;
 
@@ -46,22 +51,55 @@ public class ArmScorePostition extends CommandBase {
     topArmHold = true;
     bottomArmHold = true;
 
+
+    if(node == high) {
+      if (ledModeSubsystem.getRobotMode()) {// Cube mode
+        topGoalPosition = -10;
+        bottomGoalPosition = 95;
+      }
+
+      else {// Cone mode
+        topGoalPosition = -40;
+        bottomGoalPosition = 130;
+      }
+    }
+
+    else if(node == mid) {
+
+      if (ledModeSubsystem.getRobotMode()) {// Cube mode
+        topGoalPosition = 20;
+        bottomGoalPosition = 75;
+      }
+
+      else {// Cone mode
+        topGoalPosition = -10;
+        bottomGoalPosition = 95;
+      }
+    }
+
+    else{  // VALUES NEED SET
+      topGoalPosition = 90;
+      bottomGoalPosition = 90;
+    }
+
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-
-    bottomArmError = ArmConstants.kBottomReversePosition - bottomArm.getMotorEncoderPosition();
-
+    
     SmartDashboard.putBoolean("Top Arm Hold", topArmHold);
     SmartDashboard.putBoolean("Bottom Arm hold", bottomArmHold);
     //SmartDashboard.putNumber("Bottom Arm Error", Math.abs(bottomArmError));*/
 
+    bottomArmError = ArmConstants.kBottomReversePosition - bottomArm.getMotorEncoderPosition();
+
+    
+
     if (Math.abs(bottomArmError) < 1) {
       topArmHold = false;
     }
-    if (topArm.getMotorEncoderPosition() < (bottomGoalPostition * .4)) {//
+    if (topArm.getMotorEncoderPosition() < (bottomGoalPosition * .4)) {//
       bottomArmHold = false;
     }
 
@@ -69,7 +107,7 @@ public class ArmScorePostition extends CommandBase {
       topArm.setMotorPosition(topGoalPosition);
     }
     if (!bottomArmHold) {
-      bottomArm.setMotorPosition(bottomGoalPostition);
+      bottomArm.setMotorPosition(bottomGoalPosition);
     }
     
     

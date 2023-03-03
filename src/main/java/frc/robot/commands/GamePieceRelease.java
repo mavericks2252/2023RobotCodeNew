@@ -6,25 +6,34 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Gripper;
+import frc.robot.subsystems.LEDModeSubsystem;
 
-public class CubeRelease extends CommandBase {
+public class GamePieceRelease extends CommandBase {
   Gripper gripper;
   ArmStowPosition armStowPosition;
-  /** Creates a new CubeRelease. */
-  public CubeRelease(Gripper gripper) {
+  LEDModeSubsystem ledModeSubsystem;
+  /** Creates a new ConeRelease. */
+  public GamePieceRelease(Gripper gripper, LEDModeSubsystem ledModeSubsystem) {
     this.gripper = gripper;
+    this.ledModeSubsystem = ledModeSubsystem;
     // Use addRequirements() here to declare subsystem dependencies.
   }
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {}
+  public void initialize() {
+    
+  }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    //gripper.openGripper();
-    gripper.reverseGripper(1);
+    if (ledModeSubsystem.getRobotMode()){// Cube mode
+      gripper.reverseGripper(1);
+    }
+    else {// Cone mode
+      gripper.openGripper();
+    }
 
   }
 
@@ -32,12 +41,11 @@ public class CubeRelease extends CommandBase {
   @Override
   public void end(boolean interrupted) {
     gripper.stopGripper();
-    //gripper.closeGripper();
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return (gripper.rangsensorGetVoltage() < 2.5) ? true : false;
+    return false;//(gripper.rangsensorGetVoltage() < 2.5) ? true : false;
   }
 }

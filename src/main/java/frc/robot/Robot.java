@@ -59,6 +59,7 @@ public class Robot extends TimedRobot {
     SmartDashboard.putNumber("Bottom Arm Current", m_robotContainer.pdh.getCurrent(15));
     SmartDashboard.putNumber("Top Arm Current", m_robotContainer.pdh.getCurrent(13));
 
+
   }
 
   /** This function is called once each time the robot enters Disabled mode. */
@@ -66,6 +67,7 @@ public class Robot extends TimedRobot {
   public void disabledInit() {
     m_robotContainer.bottomArm.stopMotors();
     m_robotContainer.topArm.stopMotors();
+    m_robotContainer.intake.stopIntake();
    
   }
 

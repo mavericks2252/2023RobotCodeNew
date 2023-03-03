@@ -110,7 +110,7 @@ public final class Constants {
 
     public static final class IntakeConstants {
 
-        public static final double kIntakeMotorSpeed = .6;
+        public static final double kIntakeMotorSpeed = .4;
     }
 
     public static final class TopArmConstants {
@@ -183,6 +183,10 @@ public final class Constants {
         public static final int rbButton = 6;
         public static final int lbButton = 5;
         public static final int menuButton = 8;
+
+        public static final int lowNode = 1;
+        public static final int midNode = 2;
+        public static final int highNode = 3;
     }         
 
     public static final class AutoConstants {
@@ -249,6 +253,7 @@ public final class Constants {
         public static final int kBottomArmSlaveMotorPort = 19;
         public static final int kTopArmMotorPort = 18;
         public static final int kGripperMotorPort = 21;
+        public static final int kFloorMotorPort = 25;
 
         // Solenoids
         public static final int kIntakeSolenoidForwardChannel = 1;

@@ -133,22 +133,6 @@ public class TopArm extends SubsystemBase {
     return relativeEncoder.getPosition();
   }
 
-  public boolean cubeMode() {
-    coneMode = false;
-    cubeMode = true;
-    SmartDashboard.putBoolean("Cube Mode", cubeMode);   
-    SmartDashboard.putBoolean("Cone Mode", coneMode);
-    return cubeMode;
-  }
-
-  public boolean coneMode() {
-    cubeMode = false;
-    coneMode = true;
-    SmartDashboard.putBoolean("Cube Mode", cubeMode);   
-    SmartDashboard.putBoolean("Cone Mode", coneMode);
-    return coneMode;
-  }
-
   public void stopMotors() {
     topArmMotor.stopMotor();
   }

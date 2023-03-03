@@ -42,6 +42,8 @@ public class Gripper extends SubsystemBase {
     // This method will be called once per scheduler run
 
     SmartDashboard.putNumber("Range Sensor Value", rangsensorGetVoltage());
+    SmartDashboard.putNumber("Gripper Motor Curent", gripperMotor.getOutputCurrent());
+
   }
 
   public void runGripper() {
@@ -58,16 +60,21 @@ public class Gripper extends SubsystemBase {
 
   public void openGripper() {
 
-    gripperSolenoid.set(Value.kForward);
+    gripperSolenoid.set(Value.kReverse);
   }
 
   public void closeGripper() {
 
-    gripperSolenoid.set(Value.kReverse);
+    gripperSolenoid.set(Value.kForward);
   }
 
   public void stopGripper() {
     gripperMotor.stopMotor();
+    closeGripper();
+  }
+
+  public double getGripperCurrent() {
+    return gripperMotor.getOutputCurrent();
   }
 
   public double rangsensorGetVoltage() {

@@ -25,15 +25,17 @@ import frc.robot.commands.AprilTagAutoAlign;
 import frc.robot.commands.ArmScorePostition;
 import frc.robot.commands.ArmStowPosition;
 import frc.robot.commands.AutoBalanceCommand;
-import frc.robot.commands.ConeRelease;
-import frc.robot.commands.CubeRelease;
+import frc.robot.commands.GamePieceRelease;
+import frc.robot.commands.IntakeGamePiece;
 import frc.robot.commands.RunGripper;
 import frc.robot.commands.RunIntake;
 import frc.robot.commands.SwerveJoystickCmd;
 import frc.robot.subsystems.AutoPaths;
 import frc.robot.subsystems.BottomArm;
+import frc.robot.subsystems.Floor;
 import frc.robot.subsystems.Gripper;
 import frc.robot.subsystems.Intake;
+import frc.robot.subsystems.LEDModeSubsystem;
 import frc.robot.subsystems.SwerveSubsystem;
 import frc.robot.subsystems.TopArm;
 import frc.robot.subsystems.Vision;
@@ -50,13 +52,15 @@ public class RobotContainer {
   private final SwerveSubsystem swerveSubsystem = new SwerveSubsystem();
   private final Vision vision = new Vision();
   private final AprilTagAutoAlign aprilTagAutoAlign = new AprilTagAutoAlign(swerveSubsystem, vision);
-  private final Intake intake = new Intake();
+  public final Intake intake = new Intake();
   private final RunIntake runIntake = new RunIntake(intake);
   public final BottomArm bottomArm = new BottomArm();
   public final TopArm topArm = new TopArm();
   public final Gripper gripper = new Gripper();
   public final AutoPaths autoPaths = new AutoPaths();
   public final AutoBalanceCommand autoBalanceCommand = new AutoBalanceCommand(swerveSubsystem);
+  public final LEDModeSubsystem ledModeSubsystem = new LEDModeSubsystem();
+  public final Floor floor = new Floor();
   
  
 
@@ -66,6 +70,8 @@ public class RobotContainer {
   SendableChooser<Command> autoChooser;
 
   public PowerDistribution pdh = new PowerDistribution(1, ModuleType.kRev);
+
+  
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
@@ -92,6 +98,7 @@ public class RobotContainer {
    * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() { 
+    
       //Driver Controller
         //Drive Commands
           new JoystickButton(driverJoystick, OIConstants.bButton).onTrue(new InstantCommand(() -> swerveSubsystem.zeroHeading()));
@@ -102,8 +109,14 @@ public class RobotContainer {
           new JoystickButton(driverJoystick, OIConstants.yButton).onTrue(new ArmStowPosition(bottomArm, topArm));
 
         //Gripper Commands
-          new JoystickButton(driverJoystick, OIConstants.rbButton).toggleOnTrue(new RunGripper(gripper));
-          new JoystickButton(driverJoystick, OIConstants.lbButton).toggleOnTrue(new RunIntake(intake));
+          //new JoystickButton(driverJoystick, OIConstants.rbButton).toggleOnTrue(new RunGripper(gripper));
+          //new JoystickButton(driverJoystick, OIConstants.lbButton).toggleOnTrue(new RunIntake(intake));
+          new JoystickButton(driverJoystick, OIConstants.lbButton).onTrue(new IntakeGamePiece(intake, gripper, topArm, bottomArm, ledModeSubsystem));
+
+
+          /*new JoystickButton(driverJoystick, OIConstants.xButton).onTrue(new InstantCommand(() -> floor.runFloorMotor()));
+          new JoystickButton(driverJoystick, OIConstants.xButton).onFalse(new InstantCommand(() -> floor.stopFloorMotor()));*/
+
           
           
 
@@ -112,22 +125,15 @@ public class RobotContainer {
          // new JoystickButton(operatorJoystick, OIConstants.rbButton).toggleOnTrue(new AutoBalanceCommand(swerveSubsystem));
 
          //Arm Commands
-          if (topArm.cubeMode()) {
-          new JoystickButton(operatorJoystick, OIConstants.yButton).onTrue(new ArmScorePostition(95, -10, bottomArm, topArm));// Cube Top
-          new JoystickButton(operatorJoystick, OIConstants.bButton).onTrue(new ArmScorePostition(75, 20, bottomArm, topArm));// Cube Middle
-          //new JoystickButton(operatorJoystick, OIConstants.aButton).onTrue(new ArmScorePostition(75, 20, bottomArm, topArm));// Cube Low
-          new JoystickButton(operatorJoystick, OIConstants.xButton).toggleOnTrue(new CubeRelease(gripper));
-          }
+          new JoystickButton(operatorJoystick, OIConstants.yButton).onTrue(new ArmScorePostition(OIConstants.highNode, ledModeSubsystem, bottomArm, topArm));// High node
+          new JoystickButton(operatorJoystick, OIConstants.bButton).onTrue(new ArmScorePostition(OIConstants.midNode, ledModeSubsystem, bottomArm, topArm));// Middle node
+          new JoystickButton(operatorJoystick, OIConstants.aButton).onTrue(new ArmScorePostition(OIConstants.lowNode, ledModeSubsystem, bottomArm, topArm));// Low node
 
-          else if (topArm.coneMode()) {
-          new JoystickButton(operatorJoystick, OIConstants.yButton).onTrue(new ArmScorePostition(130, -40, bottomArm, topArm));// Cone Top 
-          new JoystickButton(operatorJoystick, OIConstants.bButton).onTrue(new ArmScorePostition(95, -10, bottomArm, topArm));// Cone Middle
-          //new JoystickButton(operatorJoystick, OIConstants.aButton).onTrue(new ArmScorePostition(75, 20, bottomArm, topArm));// Cone Low
-          new JoystickButton(operatorJoystick, OIConstants.xButton).toggleOnTrue(new ConeRelease(gripper));
-          }
+          new JoystickButton(operatorJoystick, OIConstants.xButton).onTrue(new GamePieceRelease(gripper, ledModeSubsystem).withTimeout(1));
+    
 
-          new JoystickButton(operatorJoystick, OIConstants.lbButton).onTrue(new InstantCommand(() -> topArm.cubeMode()));
-          new JoystickButton(operatorJoystick, OIConstants.rbButton).onTrue(new InstantCommand(() -> topArm.coneMode()));       
+          new JoystickButton(operatorJoystick, OIConstants.lbButton).onTrue(new InstantCommand(() -> ledModeSubsystem.cubeMode()));
+          new JoystickButton(operatorJoystick, OIConstants.rbButton).onTrue(new InstantCommand(() -> ledModeSubsystem.coneMode()));       
 
   }
   /**
