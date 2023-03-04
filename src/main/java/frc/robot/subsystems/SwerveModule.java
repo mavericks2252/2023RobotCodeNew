@@ -39,8 +39,8 @@ public class SwerveModule {
         drivingMotor = new WPI_TalonFX(drivingMotorId, "Drive System");
         turningMotor = new WPI_TalonFX(turningMotorId, "Drive System");
 
-        /* //Practice Robot
-        absoluteEncoder = new WPI_CANCoder(absoluteEncoderId);
+         //Practice Robot
+        /*absoluteEncoder = new WPI_CANCoder(absoluteEncoderId);
         drivingMotor = new WPI_TalonFX(drivingMotorId);
         turningMotor = new WPI_TalonFX(turningMotorId);*/
 

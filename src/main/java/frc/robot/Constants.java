@@ -10,6 +10,7 @@ import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.math.util.Units;
+import edu.wpi.first.wpilibj.DutyCycle;
 
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide numerical or boolean
@@ -187,6 +188,7 @@ public final class Constants {
         public static final int lowNode = 1;
         public static final int midNode = 2;
         public static final int highNode = 3;
+        public static final int kLEDStripLength = 40;
     }         
 
     public static final class AutoConstants {
@@ -261,6 +263,9 @@ public final class Constants {
        
         public static final int kGripperSolenoidForwardChannel = 2;
         public static final int kGripperSolenoidReverseChannel = 3;
+        
+        public static final int kTopArmEncoderPort = 1;
+        public static final int kLEDStripPort = 4;
 
     
     

@@ -44,7 +44,7 @@ public class TopArm extends SubsystemBase {
     topArmMotor.setClosedLoopRampRate(TopArmConstants.kClosedLoopRampRate);
     //armPIDController = topArmMotor.getPIDController();
 
-    absDutyCycleEncoder = new DutyCycleEncoder(1);
+    absDutyCycleEncoder = new DutyCycleEncoder(PortConstants.kTopArmEncoderPort);
     
     
     relativeEncoder = topArmMotor.getEncoder();

@@ -67,6 +67,6 @@ public class ConeIntake extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return (gripper.rangsensorGetVoltage() > 2.0) ? true : false;
+    return gripper.getBeamBreakSensor();
   }
 }

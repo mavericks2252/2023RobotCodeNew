@@ -77,7 +77,6 @@ public class IntakeGamePiece extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    //return (gripper.rangsensorGetVoltage() > 2.0) ? true : false;// Shorthand for an if else statement to return true when the sensor is tripped
     if(gripper.getGripperCurrent() > 7 & endTimer.get() > 1){
       return true;
     }

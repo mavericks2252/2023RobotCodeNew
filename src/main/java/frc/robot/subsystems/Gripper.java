@@ -10,7 +10,7 @@ import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import frc.robot.Constants.GripperConstants;
 import frc.robot.Constants.PortConstants;
-import edu.wpi.first.wpilibj.AnalogInput;
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
@@ -20,7 +20,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 public class Gripper extends SubsystemBase {
 
   CANSparkMax gripperMotor;
-  AnalogInput rangeSensor;
+  DigitalInput beamBreakSensor;
   DoubleSolenoid gripperSolenoid;
 
 
@@ -29,19 +29,16 @@ public class Gripper extends SubsystemBase {
 
     gripperMotor = new CANSparkMax(PortConstants.kGripperMotorPort, MotorType.kBrushless);
     gripperMotor.setIdleMode(IdleMode.kBrake);
-    rangeSensor = new AnalogInput(0);
+    beamBreakSensor = new DigitalInput(2);
     gripperSolenoid = new DoubleSolenoid(PneumaticsModuleType.REVPH, PortConstants.kGripperSolenoidForwardChannel, PortConstants.kGripperSolenoidReverseChannel);
-    
-    
-
-
+        
   }
 
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
 
-    SmartDashboard.putNumber("Range Sensor Value", rangsensorGetVoltage());
+    SmartDashboard.putBoolean("Beam Break Sensor Value", getBeamBreakSensor());
     SmartDashboard.putNumber("Gripper Motor Curent", gripperMotor.getOutputCurrent());
 
   }
@@ -77,7 +74,7 @@ public class Gripper extends SubsystemBase {
     return gripperMotor.getOutputCurrent();
   }
 
-  public double rangsensorGetVoltage() {
-    return rangeSensor.getVoltage();
+  public boolean getBeamBreakSensor() {
+    return beamBreakSensor.get();
   }
 }

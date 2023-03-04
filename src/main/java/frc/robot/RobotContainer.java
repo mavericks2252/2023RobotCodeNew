@@ -59,7 +59,7 @@ public class RobotContainer {
   public final Gripper gripper = new Gripper();
   public final AutoPaths autoPaths = new AutoPaths();
   public final AutoBalanceCommand autoBalanceCommand = new AutoBalanceCommand(swerveSubsystem);
-  public final LEDModeSubsystem ledModeSubsystem = new LEDModeSubsystem();
+  public final LEDModeSubsystem ledModeSubsystem = new LEDModeSubsystem(gripper);
   public final Floor floor = new Floor();
   
  
@@ -117,7 +117,6 @@ public class RobotContainer {
           /*new JoystickButton(driverJoystick, OIConstants.xButton).onTrue(new InstantCommand(() -> floor.runFloorMotor()));
           new JoystickButton(driverJoystick, OIConstants.xButton).onFalse(new InstantCommand(() -> floor.stopFloorMotor()));*/
 
-          
           
 
       //Operator Controller
