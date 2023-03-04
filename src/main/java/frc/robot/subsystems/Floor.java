@@ -16,6 +16,7 @@ public class Floor extends SubsystemBase {
   /** Creates a new Floor. */
   public Floor() {
     floorMotor = new CANSparkMax(PortConstants.kFloorMotorPort, MotorType.kBrushless);
+    floorMotor.setInverted(true);
   }
 
   @Override
@@ -24,7 +25,7 @@ public class Floor extends SubsystemBase {
   }
 
   public void runFloorMotor() {
-    floorMotor.set(.4);
+    floorMotor.set(.75);
   }
 
   public void stopFloorMotor() {

@@ -54,7 +54,7 @@ public class ArmScorePostition extends CommandBase {
 
     if(node == high) {
       if (ledModeSubsystem.getRobotMode()) {// Cube mode
-        topGoalPosition = -10;
+        topGoalPosition = -20;
         bottomGoalPosition = 95;
       }
 

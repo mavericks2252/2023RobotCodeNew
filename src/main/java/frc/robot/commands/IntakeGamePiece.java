@@ -8,6 +8,7 @@ import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants.ArmConstants;
 import frc.robot.subsystems.BottomArm;
+import frc.robot.subsystems.Floor;
 import frc.robot.subsystems.Gripper;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.LEDModeSubsystem;
@@ -16,6 +17,7 @@ import frc.robot.subsystems.TopArm;
 public class IntakeGamePiece extends CommandBase {
   Intake intake;
   Gripper gripper;
+  Floor floor;
   TopArm topArm;
   BottomArm bottomArm;
   LEDModeSubsystem ledModeSubsystem;
@@ -23,9 +25,10 @@ public class IntakeGamePiece extends CommandBase {
   double bottomArmError;
   Timer endTimer;
   /** Creates a new CubeIntake. */
-  public IntakeGamePiece(Intake intake, Gripper gripper, TopArm topArm, BottomArm bottomArm, LEDModeSubsystem ledModeSubsystem) {
+  public IntakeGamePiece(Intake intake, Gripper gripper, Floor floor, TopArm topArm, BottomArm bottomArm, LEDModeSubsystem ledModeSubsystem) {
     this.intake = intake;
     this.gripper = gripper;
+    this.floor = floor;
     this.topArm = topArm;
     this.bottomArm = bottomArm;
     this.ledModeSubsystem = ledModeSubsystem;
@@ -45,18 +48,20 @@ public class IntakeGamePiece extends CommandBase {
   @Override
   public void execute() {
     intake.runIntake();
-  
+    
     // Cube mode
     if (ledModeSubsystem.getRobotMode()){
     gripper.runGripper();
-    topArm.setMotorPosition(130);
-    bottomArm.setMotorPosition(85);
+    //topArm.setMotorPosition(130);
+    //bottomArm.setMotorPosition(85);
     }
 
     // Cone mode
     else {
-      topArm.setMotorPosition(90);// Placeholder value
-      bottomArm.setMotorPosition(90);// Placeholder value
+      //topArm.setMotorPosition(94);// Placeholder value
+      //bottomArm.setMotorPosition(75);// Placeholder value
+      gripper.reverseGripper(.5);
+      floor.runFloorMotor();
     }
   }
 
@@ -65,10 +70,11 @@ public class IntakeGamePiece extends CommandBase {
   public void end(boolean interrupted) {
 
     //send arm to stow position
-    topArm.setMotorPosition(ArmConstants.kStowPosition);
-    bottomArm.setMotorPosition(ArmConstants.kStowPosition);
+    //topArm.setMotorPosition(ArmConstants.kStowPosition);
+   // bottomArm.setMotorPosition(ArmConstants.kStowPosition);
     intake.stopIntake();
     gripper.stopGripper();
+    floor.stopFloorMotor();
 
     // Starting a new thread and waiting a period of time to retract the intake
     new Thread(() -> {
@@ -82,12 +88,18 @@ public class IntakeGamePiece extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-
+    
     //end command if gripper motor exceeds current limit
-    if(gripper.getGripperCurrent() > 7 & endTimer.get() > 1){
+    if(gripper.getGripperCurrent() > 10 ){
+      if(endTimer.get() > .5){
       return true;
+      }
+      else{
+        return false;
+      }
     }
     else {
+      endTimer.reset();
       return false;
     }
   }

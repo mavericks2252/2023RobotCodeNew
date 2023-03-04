@@ -40,6 +40,7 @@ public class Gripper extends SubsystemBase {
 
     SmartDashboard.putBoolean("Beam Break Sensor Value", getBeamBreakSensor());
     SmartDashboard.putNumber("Gripper Motor Curent", gripperMotor.getOutputCurrent());
+    SmartDashboard.putNumber("gripper motor output", gripperMotor.get());
 
   }
 
