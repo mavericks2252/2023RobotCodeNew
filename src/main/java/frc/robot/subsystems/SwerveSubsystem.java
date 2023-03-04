@@ -65,6 +65,8 @@ public class SwerveSubsystem extends SubsystemBase {
     backLeft.getModulePosition(),
     backRight.getModulePosition()
   }
+
+
   );
 
   /** Creates a new SwerveSubsystem. */
@@ -154,6 +156,15 @@ public class SwerveSubsystem extends SubsystemBase {
     frontRight.setDesiredState(desiredStates[1]);
     backLeft.setDesiredState(desiredStates[2]);
     backRight.setDesiredState(desiredStates[3]);
+    SmartDashboard.putBoolean("xStanceMode", false);
+  }
+
+  public void setXStanceMode (){
+    frontLeft.setXstanceAngle(new SwerveModuleState(0, new Rotation2d(Math.toRadians(45))));
+    frontRight.setXstanceAngle(new SwerveModuleState(0, new Rotation2d(Math.toRadians(135))));
+    backLeft.setXstanceAngle(new SwerveModuleState(0, new Rotation2d(Math.toRadians(135))));
+    backRight.setXstanceAngle(new SwerveModuleState(0, new Rotation2d(Math.toRadians(45))));
+    SmartDashboard.putBoolean("xStanceMode", true);
   }
 
 }

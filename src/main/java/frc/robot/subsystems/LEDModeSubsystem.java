@@ -18,19 +18,21 @@ public class LEDModeSubsystem extends SubsystemBase {
   AddressableLEDBuffer ledBuffer;
   AddressableLEDBuffer ledBufferOff;
   Gripper gripper;
-
   AddressableLEDBuffer yellowLedBuffer;
   AddressableLEDBuffer purpleLedBuffer;
   Timer ledTimerOff;
   Timer ledTimerOn;
-  boolean blink = false;
+  boolean blink = false; // sets robot to cone mode by default
+  
   /** Creates a new LEDModeSubsystem. */
   public LEDModeSubsystem(Gripper gripper) {
     this.gripper = gripper;
     
+    //create led blink timers
     ledTimerOff = new Timer();
     ledTimerOn = new Timer();
     
+    // initialize LED's LED's
     led = new AddressableLED(PortConstants.kLEDStripPort);
     ledBuffer = new AddressableLEDBuffer(OIConstants.kLEDStripLength);
     ledBufferOff = new AddressableLEDBuffer(OIConstants.kLEDStripLength);
@@ -38,6 +40,8 @@ public class LEDModeSubsystem extends SubsystemBase {
     yellowLedBuffer = new AddressableLEDBuffer(OIConstants.kLEDStripLength);
     led.setLength(ledBuffer.getLength());
     led.start();
+    
+    // create buffers for each color
     for (var i = 0; i < purpleLedBuffer.getLength(); i++){
       purpleLedBuffer.setRGB(i, 255, 0, 255);
     }
@@ -47,10 +51,11 @@ public class LEDModeSubsystem extends SubsystemBase {
     for (var i = 0; i < ledBufferOff.getLength(); i++){
       ledBufferOff.setRGB(i, 0, 0, 0);// off
     }
-    for (var i = 0; i < ledBuffer.getLength(); i++){
-      ledBuffer.setRGB(i, 255, 0, 0);
-    }
+    
+    // defualt robot to Cone Mode
     led.setData(yellowLedBuffer);
+    
+    //led blinking timers
     ledTimerOn.start();
     ledTimerOff.reset();
     ledTimerOn.reset();
@@ -63,13 +68,17 @@ public class LEDModeSubsystem extends SubsystemBase {
     SmartDashboard.putNumber("Led On Timer", ledTimerOn.get());
     SmartDashboard.putNumber("Led Off Timer", ledTimerOff.get());
     
-      /*if (!gripper.getBeamBreakSensor()){ //if beam break broken set to blink mode
+    
+      //if beam break broken set to blink mode
+      /*if (!gripper.getBeamBreakSensor()){ 
         blink = true;
       }
       else{
         blink = false;
       }*/
-      if (blink){
+      
+      //blink mode - Blink LED's for given time
+      if (blink){ 
         if (ledTimerOn.get() >= .25){
           ledTimerOn.reset();
           ledTimerOn.stop();      
@@ -84,30 +93,36 @@ public class LEDModeSubsystem extends SubsystemBase {
           ledOff();
         }
       }
-      else {
+      
+      // No game piece set led color based on mode
+      else { 
         setLEDColor();
       }
                 
   }
 
 
+  //set robot to cubme mode
   public void cubeMode() {
     cubeMode = true;
     
     led.setData(purpleLedBuffer);
   }
 
+  // set robot to cone mode
   public void coneMode() {
     cubeMode = false;
     
     led.setData(yellowLedBuffer);
   }
 
+  // Get robot Mode true = cube false = cone
   public boolean getRobotMode() {
     return cubeMode;
   }
 
-  public void setLEDColor() {
+  // Set LED Color based on mode
+  public void setLEDColor() { 
     if(cubeMode) {
       led.setData(purpleLedBuffer);
     }
@@ -116,6 +131,7 @@ public class LEDModeSubsystem extends SubsystemBase {
     }
   }
 
+  // turn LED's off
   public void ledOff(){
     led.setData(ledBufferOff);
   }

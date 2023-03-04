@@ -141,6 +141,13 @@ public class SwerveModule {
         SmartDashboard.putString("Swerve[" + absoluteEncoder.getDeviceID() + "] state" , state.toString());
     }
 
+    public void setXstanceAngle(SwerveModuleState state){
+        state = SwerveModuleState.optimize(state, getState().angle);
+        drivingMotor.set(state.speedMetersPerSecond / DriveConstants.kPhysicalMaxSpeedMetersPerSecond);
+        turningMotor.set(turningPIDController.calculate(getTurningPosition(), state.angle.getRadians()));
+        SmartDashboard.putString("Swerve[" + absoluteEncoder.getDeviceID() + "] state" , state.toString());
+    }
+
     public void stop() {
         drivingMotor.set(0);
         turningMotor.set(0);

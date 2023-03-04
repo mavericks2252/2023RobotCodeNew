@@ -10,7 +10,7 @@ import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.math.util.Units;
-import edu.wpi.first.wpilibj.DutyCycle;
+
 
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide numerical or boolean
@@ -184,6 +184,7 @@ public final class Constants {
         public static final int rbButton = 6;
         public static final int lbButton = 5;
         public static final int menuButton = 8;
+        public static final int viewButton = 7;
 
         public static final int lowNode = 1;
         public static final int midNode = 2;

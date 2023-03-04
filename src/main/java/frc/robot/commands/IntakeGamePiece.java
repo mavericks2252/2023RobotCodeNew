@@ -45,13 +45,16 @@ public class IntakeGamePiece extends CommandBase {
   @Override
   public void execute() {
     intake.runIntake();
-
-    if (ledModeSubsystem.getRobotMode()){// Cube mode
+  
+    // Cube mode
+    if (ledModeSubsystem.getRobotMode()){
     gripper.runGripper();
     topArm.setMotorPosition(130);
     bottomArm.setMotorPosition(85);
     }
-    else {// Cone mode
+
+    // Cone mode
+    else {
       topArm.setMotorPosition(90);// Placeholder value
       bottomArm.setMotorPosition(90);// Placeholder value
     }
@@ -60,6 +63,8 @@ public class IntakeGamePiece extends CommandBase {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
+
+    //send arm to stow position
     topArm.setMotorPosition(ArmConstants.kStowPosition);
     bottomArm.setMotorPosition(ArmConstants.kStowPosition);
     intake.stopIntake();
@@ -77,6 +82,8 @@ public class IntakeGamePiece extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
+
+    //end command if gripper motor exceeds current limit
     if(gripper.getGripperCurrent() > 7 & endTimer.get() > 1){
       return true;
     }

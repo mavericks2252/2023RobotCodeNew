@@ -81,7 +81,8 @@ public class RobotContainer {
           () -> -driverJoystick.getRawAxis(OIConstants.kDriverXAxis),
           () -> -driverJoystick.getRawAxis(OIConstants.kDriverRotAxis), 
           //Change the button to yButton and delete the constant that is used here for consistancy
-          () -> !driverJoystick.getRawButton(OIConstants.kDriverFieldOrientedButtonIdx)));
+          () -> !driverJoystick.getRawButton(OIConstants.kDriverFieldOrientedButtonIdx),
+          () -> driverJoystick.getRawButton(OIConstants.viewButton)));
 
         
         SmartDashboard.putData(autoChooser); 

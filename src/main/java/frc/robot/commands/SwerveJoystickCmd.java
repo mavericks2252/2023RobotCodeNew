@@ -18,18 +18,24 @@ import frc.robot.subsystems.SwerveSubsystem;
 public class SwerveJoystickCmd extends CommandBase {
   SwerveSubsystem swerveSubsystem;
   Supplier<Double> xSpdFunction, ySpdFunction, turningSpdFunction;
-  Supplier<Boolean> fieldOrientedFunction;
+  Supplier<Boolean> fieldOrientedFunction,  xStanceFunction;
   SlewRateLimiter xLimiter, yLimiter, turningLimiter;
+
   /** Creates a new SwerveJoystickCmd. */
-  public SwerveJoystickCmd(SwerveSubsystem swerveSubsystem, 
-      Supplier<Double> xSpdFunction, Supplier<Double> ySpdFunction, Supplier<Double> turningSpdFunction, 
-      Supplier<Boolean> fieldOrientedFunction) {
+  public SwerveJoystickCmd(
+      SwerveSubsystem swerveSubsystem, // required subsystem
+      Supplier<Double> xSpdFunction, //supplier for the x speed from joycestick
+      Supplier<Double> ySpdFunction, //supplier for y speed from joycestick
+      Supplier<Double> turningSpdFunction, //supplier for turning from joycestick
+      Supplier<Boolean> fieldOrientedFunction, // button supplier to take robot out of field releative mode
+      Supplier<Boolean> xStanceFunction) { // supplier for xstance to put the robot in xstance mode
 
       this.swerveSubsystem = swerveSubsystem;
       this.xSpdFunction = xSpdFunction;
       this.ySpdFunction = ySpdFunction;
       this.turningSpdFunction = turningSpdFunction;
       this.fieldOrientedFunction = fieldOrientedFunction;
+      this.xStanceFunction = xStanceFunction;
       this.xLimiter = new SlewRateLimiter(DriveConstants.kTeleDriveMaxAccelerationUnitsPerSecond);
       this.yLimiter = new SlewRateLimiter(DriveConstants.kTeleDriveMaxAccelerationUnitsPerSecond);
       this.turningLimiter = new SlewRateLimiter(DriveConstants.kTeleDriveMaxAngularAccelerationUnitsPerSecond);
@@ -76,10 +82,15 @@ public class SwerveJoystickCmd extends CommandBase {
     // Convert chassis speeds to individual module states
     SwerveModuleState[] moduleStates = DriveConstants.kDriveKinematics.toSwerveModuleStates(chassisSpeeds);
     
+    if (xStanceFunction.get()){
+    swerveSubsystem.setXStanceMode();
+    
+    }
 
+    else {
     // Output each module states to wheels
     swerveSubsystem.setModuleStates(moduleStates);
-
+    }
   }
 
   public double joystickDeadband(Double speed) {
