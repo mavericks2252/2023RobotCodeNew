@@ -49,10 +49,10 @@ public class ArmStowPosition extends CommandBase {
     }
 
     if (!topArmHold) {
-      topArm.setMotorDownPosition(TopArmConstants.kStowPosition);
+      topArm.setMotorDownPosition(ArmConstants.kTopStowPosition);
     }
     if (!bottomArmHold) {
-      bottomArm.setMotorPosition(ArmConstants.kStowPosition);
+      bottomArm.setMotorPosition(ArmConstants.kBottomStowPosition);
     }
   }
 

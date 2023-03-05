@@ -46,10 +46,10 @@ public class ConeIntake extends CommandBase {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    topArm.setMotorPosition(ArmConstants.kStowPosition);
-    bottomArm.setMotorPosition(ArmConstants.kStowPosition);
-    topArmError = ArmConstants.kStowPosition - topArm.encoderPositionAngle();
-    bottomArmError = ArmConstants.kStowPosition - bottomArm.encoderPositionAngle();
+    topArm.setMotorPosition(ArmConstants.kTopStowPosition);
+    bottomArm.setMotorPosition(ArmConstants.kTopStowPosition);
+    topArmError = ArmConstants.kTopStowPosition - topArm.encoderPositionAngle();
+    bottomArmError = ArmConstants.kTopStowPosition - bottomArm.encoderPositionAngle();
 
     intake.stopIntake();
     gripper.stopGripper();

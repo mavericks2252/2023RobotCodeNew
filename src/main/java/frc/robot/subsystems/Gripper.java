@@ -76,6 +76,14 @@ public class Gripper extends SubsystemBase {
   }
 
   public boolean getBeamBreakSensor() {
-    return beamBreakSensor.get();
+    return !beamBreakSensor.get();
+  }
+
+  public void gripperHoldCone(){
+    gripperMotor.set(-.075);
+  }
+
+  public void gripperHoldCube(){
+    gripperMotor.set(.075);
   }
 }

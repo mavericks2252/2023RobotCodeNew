@@ -48,20 +48,21 @@ public class IntakeGamePiece extends CommandBase {
   @Override
   public void execute() {
     intake.runIntake();
+    floor.runFloorMotor();
     
     // Cube mode
     if (ledModeSubsystem.getRobotMode()){
-    gripper.runGripper();
-    //topArm.setMotorPosition(130);
-    //bottomArm.setMotorPosition(85);
+      gripper.runGripper();
+      topArm.setMotorPosition(95);
+      bottomArm.setMotorPosition(65);
     }
 
     // Cone mode
     else {
-      //topArm.setMotorPosition(94);// Placeholder value
-      //bottomArm.setMotorPosition(75);// Placeholder value
+      topArm.setMotorPosition(119);// Placeholder value
+      bottomArm.setMotorPosition(80);// Placeholder value
       gripper.reverseGripper(.5);
-      floor.runFloorMotor();
+      
     }
   }
 
@@ -70,17 +71,25 @@ public class IntakeGamePiece extends CommandBase {
   public void end(boolean interrupted) {
 
     //send arm to stow position
-    //topArm.setMotorPosition(ArmConstants.kStowPosition);
-   // bottomArm.setMotorPosition(ArmConstants.kStowPosition);
+    
+    bottomArm.setMotorPosition(ArmConstants.kBottomStowPosition);
     intake.stopIntake();
-    gripper.stopGripper();
-    floor.stopFloorMotor();
+        
+    if (ledModeSubsystem.getRobotMode()){
+      gripper.gripperHoldCube();
+    }
+    else{
+      gripper.gripperHoldCone();
+    }
+   
 
     // Starting a new thread and waiting a period of time to retract the intake
     new Thread(() -> {
       try{
         Thread.sleep(500);
-        intake.retractIntake(); 
+        intake.retractIntake();
+        floor.stopFloorMotor();
+        topArm.setMotorPosition(ArmConstants.kTopStowPosition);
     } catch(Exception e){}
     }).start();
   }
@@ -89,18 +98,46 @@ public class IntakeGamePiece extends CommandBase {
   @Override
   public boolean isFinished() {
     
-    //end command if gripper motor exceeds current limit
-    if(gripper.getGripperCurrent() > 10 ){
-      if(endTimer.get() > .5){
-      return true;
-      }
-      else{
+   //Cube Mode
+   if(ledModeSubsystem.getRobotMode()){
+
+    // if beamBreak sensor broken end
+    if(gripper.getBeamBreakSensor() && gripper.getGripperCurrent() > 7 ){
+            
+          return true;
+
+      }    
+
+      //not broken keep running
+      else {
+        
         return false;
       }
+
     }
-    else {
-      endTimer.reset();
-      return false;
-    }
+    
+    // cone mode
+    else{
+      
+      // Only look at current
+      if(gripper.getGripperCurrent() > 10){
+        //wait .5 seconds after current threshold to end    
+        if(endTimer.get() > .5){
+            return true;
+        }
+        //timer not expired return false
+        else{
+          return false;
+        }
+          }
+      //keep reseting timer if current limit isnt hit
+      else {
+        endTimer.reset();
+        return false;
+        }
+   }
   }
+    
+   
+  
 }

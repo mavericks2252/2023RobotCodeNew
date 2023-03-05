@@ -25,7 +25,7 @@ public class Floor extends SubsystemBase {
   }
 
   public void runFloorMotor() {
-    floorMotor.set(.75);
+    floorMotor.set(.5);
   }
 
   public void stopFloorMotor() {
