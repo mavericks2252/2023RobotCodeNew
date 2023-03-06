@@ -102,15 +102,14 @@ public class RobotContainer {
     
       //Driver Controller
         //Drive Commands
-          new JoystickButton(driverJoystick, OIConstants.bButton).onTrue(new InstantCommand(() -> swerveSubsystem.zeroHeading()));
+          /*new JoystickButton(driverJoystick, OIConstants.bButton).onTrue(new InstantCommand(() -> swerveSubsystem.zeroHeading()));
           new JoystickButton(driverJoystick, OIConstants.aButton).toggleOnTrue(new AutoBalanceCommand(swerveSubsystem));
-         // new JoystickButton(driverJoystick, OIConstants.aButton).whileTrue(aprilTagAutoAlign);
+          new JoystickButton(driverJoystick, OIConstants.aButton).whileTrue(aprilTagAutoAlign);*/
         
         //Arm Commands
           new JoystickButton(driverJoystick, OIConstants.yButton).onTrue(new ArmStowPosition(bottomArm, topArm));
 
         //Gripper Commands
-          new JoystickButton(driverJoystick, OIConstants.lbButton).toggleOnTrue(new RunGripper(gripper));
           //new JoystickButton(driverJoystick, OIConstants.lbButton).toggleOnTrue(new RunIntake(intake));
           new JoystickButton(driverJoystick, OIConstants.rbButton).toggleOnTrue(new IntakeGamePiece(intake, gripper, floor, topArm, bottomArm, ledModeSubsystem));
           //new JoystickButton(driverJoystick, OIConstants.rbButton).toggleOnTrue(new IntakeSequence(intake, gripper, floor, topArm, bottomArm, ledModeSubsystem));
@@ -129,6 +128,8 @@ public class RobotContainer {
           new JoystickButton(operatorJoystick, OIConstants.yButton).onTrue(new ArmScorePostition(OIConstants.highNode, ledModeSubsystem, bottomArm, topArm));// High node
           new JoystickButton(operatorJoystick, OIConstants.bButton).onTrue(new ArmScorePostition(OIConstants.midNode, ledModeSubsystem, bottomArm, topArm));// Middle node
           new JoystickButton(operatorJoystick, OIConstants.aButton).onTrue(new ArmScorePostition(OIConstants.lowNode, ledModeSubsystem, bottomArm, topArm));// Low node
+
+          new JoystickButton(operatorJoystick, OIConstants.menuButton).onTrue(new ArmStowPosition(bottomArm, topArm));
 
           new JoystickButton(operatorJoystick, OIConstants.xButton).onTrue(new GamePieceRelease(gripper, ledModeSubsystem).withTimeout(1));
     

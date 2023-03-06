@@ -100,8 +100,8 @@ public final class Constants {
         
 
         public static final double kPhysicalMaxSpeedMetersPerSecond = Units.feetToMeters(16.3);
-        public static final double kTeleDriveMaxAccelerationUnitsPerSecond = 3;
-        public static final double kTeleDriveMaxAngularAccelerationUnitsPerSecond = 15;
+        public static final double kTeleDriveMaxAccelerationUnitsPerSecond = 2;
+        public static final double kTeleDriveMaxAngularAccelerationUnitsPerSecond = 10;
         public static final double kTeleDriveMaxSpeedMetersPerSecond = 4;//10
         public static final double kTeleDriveMaxAngularSpeedRadiansPerSecond = 5;//15
 

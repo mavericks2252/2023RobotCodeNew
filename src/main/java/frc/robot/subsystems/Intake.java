@@ -33,9 +33,9 @@ public class Intake extends SubsystemBase {
     // This method will be called once per scheduler run
   }
 
-  public void runIntake() {
+  public void runIntake(double speed) {
 
-    intakeMotor.set(ControlMode.PercentOutput, IntakeConstants.kIntakeMotorSpeed);
+    intakeMotor.set(ControlMode.PercentOutput, speed);
     extendIntake();
   }
 

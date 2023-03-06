@@ -54,6 +54,13 @@ public class AutoPaths extends SubsystemBase {
             AutoConstants.kMaxSpeedMetersPerSecond, 
             AutoConstants.kMaxAccelerationMetersPerSecondSquared));
 
+      List<PathPlannerTrajectory> mirrorTest = 
+        PathPlanner.loadPathGroup(
+          "Mirror Test", 
+          new PathConstraints(
+            AutoConstants.kMaxSpeedMetersPerSecond, 
+            AutoConstants.kMaxAccelerationMetersPerSecondSquared));
+
 
 
 
@@ -63,6 +70,7 @@ public class AutoPaths extends SubsystemBase {
       autoChooser.addOption("Path 2", threePieceRightSide);
       autoChooser.addOption("Path 3", twoPieceLeftSide);
       autoChooser.addOption("Path 4", twoPiecePlusLeftSide);
+      autoChooser.addOption("Mirror Test", mirrorTest);
 
       SmartDashboard.putData(autoChooser);
 
