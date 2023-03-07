@@ -59,8 +59,8 @@ public class ArmScorePostition extends CommandBase {
       }
 
       else {// Cone mode
-        topGoalPosition = -15;
-        bottomGoalPosition = 125;
+        topGoalPosition = -25;
+        bottomGoalPosition = 130;
       }
     }
 
@@ -117,8 +117,7 @@ public class ArmScorePostition extends CommandBase {
   @Override
   public void end(boolean interrupted) {
     
-    topArm.stopMotors();
-    bottomArm.stopMotors();
+  
   }
 
   
@@ -127,7 +126,12 @@ public class ArmScorePostition extends CommandBase {
   @Override
   public boolean isFinished() {
 
-      return false;
+      if (Math.abs(bottomArm.getMotorEncoderPosition() - bottomGoalPosition) < .25 & Math.abs(topArm.getMotorEncoderPosition() - topGoalPosition) < .25){
+        return true;
+      }
+      else {
+        return false;
+      }
     
   }
 }

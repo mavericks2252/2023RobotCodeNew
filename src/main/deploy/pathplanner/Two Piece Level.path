@@ -17,9 +17,10 @@
       "isStopPoint": false,
       "stopEvent": {
         "names": [
+          "Cone Mode",
           "Place Cone"
         ],
-        "executionBehavior": "parallel",
+        "executionBehavior": "sequential",
         "waitBehavior": "none",
         "waitTime": 0
       }
@@ -105,16 +106,16 @@
     },
     {
       "anchorPoint": {
-        "x": 2.647933015164276,
-        "y": 3.3008034437121516
-      },
-      "prevControl": {
-        "x": 2.0584958713777075,
+        "x": 2.883707872678903,
         "y": 3.2826669162110265
       },
+      "prevControl": {
+        "x": 1.9406084426203942,
+        "y": 3.273598652460463
+      },
       "nextControl": {
-        "x": 3.4365508542962315,
-        "y": 3.325068607993135
+        "x": 3.6726624629144724,
+        "y": 3.290253018040215
       },
       "holonomicAngle": 0,
       "isReversal": false,
@@ -132,11 +133,11 @@
     },
     {
       "anchorPoint": {
-        "x": 4.1,
+        "x": 4.9,
         "y": 3.3
       },
       "prevControl": {
-        "x": 3.1376746176788313,
+        "x": 3.937674617678832,
         "y": 3.28884512250368
       },
       "nextControl": null,
@@ -155,5 +156,18 @@
       }
     }
   ],
-  "markers": []
+  "markers": [
+    {
+      "position": 0.3636363636363637,
+      "names": [
+        "Cube Mode"
+      ]
+    },
+    {
+      "position": 0.6363636363636365,
+      "names": [
+        "Get Cube"
+      ]
+    }
+  ]
 }

@@ -112,22 +112,23 @@ public class TopArm extends SubsystemBase {
 
   public void setMotorPosition(double angle) {
     armPIDController = topArmMotor.getPIDController();
-    
     armPIDController.setReference(angle, CANSparkMax.ControlType.kPosition);
   }
 
   public void setMotorDownPosition(double angle) {
     armDownPIDController = topArmMotor.getPIDController();
-    armDownPIDController.setP(0.013);
-    armDownPIDController.setI(0.00008);
-    armDownPIDController.setD(0.0);
-    armDownPIDController.setIZone(1.5);
-    armDownPIDController.setFF(0);
-    armDownPIDController.setOutputRange(-0.5, 0.5);
+    armDownPIDController.setP(TopArmConstants.kP);
+    armDownPIDController.setI(TopArmConstants.kI);
+    armDownPIDController.setD(TopArmConstants.kD);
+    armDownPIDController.setIZone(TopArmConstants.kIntegralZone);
+    armDownPIDController.setFF(TopArmConstants.kFeedForward);
+    armDownPIDController.setOutputRange(TopArmConstants.kMinOutput, TopArmConstants.kMaxOutput);
     
 
     armDownPIDController.setReference(angle, CANSparkMax.ControlType.kPosition);
   }
+
+  public void setArmPosition() {}
 
   public double getMotorEncoderPosition() {
     return relativeEncoder.getPosition();

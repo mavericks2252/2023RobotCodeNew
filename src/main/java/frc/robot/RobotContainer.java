@@ -113,8 +113,9 @@ public class RobotContainer {
           //new JoystickButton(driverJoystick, OIConstants.lbButton).toggleOnTrue(new RunIntake(intake));
           new JoystickButton(driverJoystick, OIConstants.rbButton).toggleOnTrue(new IntakeGamePiece(intake, gripper, floor, topArm, bottomArm, ledModeSubsystem));
           //new JoystickButton(driverJoystick, OIConstants.rbButton).toggleOnTrue(new IntakeSequence(intake, gripper, floor, topArm, bottomArm, ledModeSubsystem));
-          new JoystickButton(driverJoystick, OIConstants.aButton).onTrue(new InstantCommand(() -> gripper.runGripper()));
-          new JoystickButton(driverJoystick, OIConstants.aButton).onFalse(new InstantCommand(() -> gripper.stopGripper()));
+          /*new JoystickButton(driverJoystick, OIConstants.aButton).onTrue(new InstantCommand(() -> gripper.runGripper()));
+          new JoystickButton(driverJoystick, OIConstants.aButton).onFalse(new InstantCommand(() -> gripper.stopGripper()));*/
+          new JoystickButton(driverJoystick, OIConstants.aButton).onTrue(new InstantCommand(() -> topArm.setMotorPosition(-5)));
 
 
           /*new JoystickButton(driverJoystick, OIConstants.xButton).onTrue(new InstantCommand(() -> floor.runFloorMotor()));
