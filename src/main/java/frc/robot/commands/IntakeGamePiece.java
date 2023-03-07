@@ -55,22 +55,24 @@ public class IntakeGamePiece extends CommandBase {
 
     //cone mode
     else{
-      intake.runIntake(.5);
+    
     }
     
     floor.runFloorMotor();
     
     // Cube mode
     if (ledModeSubsystem.getRobotMode()){
-      /*gripper.runGripper();
-      topArm.setMotorPosition(95);*/
+      gripper.runGripper();
+      topArm.setMotorPosition(95);//95
       bottomArm.setMotorPosition(65);
     }
 
+  
     // Cone mode
     else {
-      /*topArm.setMotorPosition(119);
-      bottomArm.setMotorPosition(78);*/
+      intake.runIntake(.6);
+      topArm.setMotorPosition(115);//119
+      bottomArm.setMotorPosition(78);
       gripper.reverseGripper(.5);
       
     }
