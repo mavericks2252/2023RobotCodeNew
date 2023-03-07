@@ -7,6 +7,7 @@ package frc.robot.commands;
 import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants.AutoConstants;
 import frc.robot.Constants.DriveConstants;
@@ -39,14 +40,16 @@ public class AutoBalanceCommand extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    double changeInAngle = swerveSubsystem.getBalanceAngle() - lastAngle;
+    SmartDashboard.putNumber("Change in angle", changeInAngle);
 
-    if (lastAngle <= 2 & lastAngle >= -2) {
+    if (Math.abs(changeInAngle) > .25) {//swerveSubsystem.getBalanceAngle() <= 2 & swerveSubsystem.getBalanceAngle() >= -2
       xSpeed = 0;
     }
-    else if(lastAngle > 2){
+    else if(swerveSubsystem.getBalanceAngle() > 2){
       xSpeed = -AutoConstants.kAutoBalanceSpeed; // drive backward
     }
-    else if(lastAngle < -2) {
+    else if(swerveSubsystem.getBalanceAngle() < -2) {
       xSpeed = AutoConstants.kAutoBalanceSpeed; // drive forward
     }
     else {
@@ -62,6 +65,7 @@ public class AutoBalanceCommand extends CommandBase {
     
     
     lastAngle = swerveSubsystem.getBalanceAngle();
+
 
   }
 

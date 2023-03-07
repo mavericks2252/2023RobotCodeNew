@@ -102,9 +102,9 @@ public class RobotContainer {
     
       //Driver Controller
         //Drive Commands
-          /*new JoystickButton(driverJoystick, OIConstants.bButton).onTrue(new InstantCommand(() -> swerveSubsystem.zeroHeading()));
+          new JoystickButton(driverJoystick, OIConstants.bButton).onTrue(new InstantCommand(() -> swerveSubsystem.zeroHeading()));
           new JoystickButton(driverJoystick, OIConstants.aButton).toggleOnTrue(new AutoBalanceCommand(swerveSubsystem));
-          new JoystickButton(driverJoystick, OIConstants.aButton).whileTrue(aprilTagAutoAlign);*/
+          //new JoystickButton(driverJoystick, OIConstants.aButton).whileTrue(aprilTagAutoAlign);
         
         //Arm Commands
           new JoystickButton(driverJoystick, OIConstants.yButton).onTrue(new ArmStowPosition(bottomArm, topArm));
@@ -157,9 +157,11 @@ public class RobotContainer {
       HashMap<String, Command> eventMap = new HashMap<>();
       eventMap.put("Marker 1", new WaitCommand(3));
       eventMap.put("Place Cube", new WaitCommand(1));
-      eventMap.put("Place Cone", new WaitCommand(1));
-      eventMap.put("Get Cube", new RunIntake(intake).withTimeout(5));
-      eventMap.put("Auto Balance", new AutoBalanceCommand(swerveSubsystem).withTimeout(10));
+      eventMap.put("Place Cone", new WaitCommand(2));
+      eventMap.put("Get Cube", new IntakeGamePiece(intake, gripper, floor, topArm, bottomArm, ledModeSubsystem));
+      eventMap.put("Auto Balance", new AutoBalanceCommand(swerveSubsystem).withTimeout(5));
+      eventMap.put("Cube Mode", new InstantCommand(() -> ledModeSubsystem.cubeMode()));
+      eventMap.put("Cone Mode", new InstantCommand(() -> ledModeSubsystem.coneMode()));
 
 
       SwerveAutoBuilder autoBuilder = new SwerveAutoBuilder(

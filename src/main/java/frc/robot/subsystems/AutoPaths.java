@@ -26,30 +26,23 @@ public class AutoPaths extends SubsystemBase {
           "do nothing", 
           new PathConstraints(0, 0));
 
-    List<PathPlannerTrajectory> twoPieceRightSide = 
+    List<PathPlannerTrajectory> onePiecePlus = 
         PathPlanner.loadPathGroup(
-          "Path 1", 
-          new PathConstraints(
-            AutoConstants.kMaxSpeedMetersPerSecond, 
-            AutoConstants.kMaxAccelerationMetersPerSecondSquared));
-
-      List<PathPlannerTrajectory> threePieceRightSide = 
-        PathPlanner.loadPathGroup(
-          "Path 2", 
+          "One Piece Plus", 
           new PathConstraints(
             AutoConstants.kMaxSpeedMetersPerSecond, 
             AutoConstants.kMaxAccelerationMetersPerSecondSquared));
             
-      List<PathPlannerTrajectory> twoPieceLeftSide = 
+      List<PathPlannerTrajectory> twoPieceLevel = 
         PathPlanner.loadPathGroup(
-          "Path 3", 
+          "Two Piece Level", 
           new PathConstraints(
             AutoConstants.kMaxSpeedMetersPerSecond, 
             AutoConstants.kMaxAccelerationMetersPerSecondSquared));
 
-      List<PathPlannerTrajectory> twoPiecePlusLeftSide = 
+      List<PathPlannerTrajectory> twoPiecePlus = 
         PathPlanner.loadPathGroup(
-          "Path 4", 
+          "Two Piece Plus", 
           new PathConstraints(
             AutoConstants.kMaxSpeedMetersPerSecond, 
             AutoConstants.kMaxAccelerationMetersPerSecondSquared));
@@ -66,10 +59,9 @@ public class AutoPaths extends SubsystemBase {
 
       autoChooser = new SendableChooser<>();
       autoChooser.setDefaultOption("Do Nothing", doNothing);
-      autoChooser.addOption("Path 1", twoPieceRightSide);
-      autoChooser.addOption("Path 2", threePieceRightSide);
-      autoChooser.addOption("Path 3", twoPieceLeftSide);
-      autoChooser.addOption("Path 4", twoPiecePlusLeftSide);
+      autoChooser.addOption("One Piece Plus", onePiecePlus);
+      autoChooser.addOption("Two Piece Level", twoPieceLevel);
+      autoChooser.addOption("Two Piece Plus", twoPiecePlus);
       autoChooser.addOption("Mirror Test", mirrorTest);
 
       SmartDashboard.putData(autoChooser);

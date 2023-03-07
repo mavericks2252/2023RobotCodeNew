@@ -209,7 +209,7 @@ public final class Constants {
         public static final double kPAlignmentTheta = 0.115;
         public static final double kPAlignmentY = 0.05;
         public static final double kPAlignmentX = 0.8;
-        public static final double kAutoBalanceSpeed = .5;
+        public static final double kAutoBalanceSpeed = .6;
 
         
         /*public static final ProfiledPIDController kThetaController = new ProfiledPIDController(
