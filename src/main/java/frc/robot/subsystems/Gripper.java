@@ -46,7 +46,7 @@ public class Gripper extends SubsystemBase {
 
   public void runGripper() {
 
-    gripperMotor.set(GripperConstants.gripperMotorSpeed);
+    gripperMotor.set(-GripperConstants.gripperMotorSpeed);
     openGripper();
   }
 

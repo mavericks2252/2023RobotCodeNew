@@ -7,6 +7,7 @@ package frc.robot.commands;
 import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants.AutoConstants;
@@ -20,6 +21,7 @@ public class AutoBalanceCommand extends CommandBase {
   Double balanceAngle;
   Double currentAngle;
   Double lastAngle;
+  Timer endTimer;
   private double xSpeed;
   SlewRateLimiter xSpeedLimiter = new SlewRateLimiter(DriveConstants.kTeleDriveMaxAccelerationUnitsPerSecond);
   private ChassisSpeeds chassisSpeeds;
@@ -29,12 +31,14 @@ public class AutoBalanceCommand extends CommandBase {
     // Use addRequirements() here to declare subsystem dependencies.
     swerveSubsystem = ss;
     addRequirements(swerveSubsystem);
+    endTimer = new Timer();
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
     lastAngle = swerveSubsystem.getBalanceAngle();
+    endTimer.start();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -72,12 +76,27 @@ public class AutoBalanceCommand extends CommandBase {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
+    swerveSubsystem.setXStanceMode();
     swerveSubsystem.stopModules();
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
+    
+    if (swerveSubsystem.getBalanceAngle() < 2 & swerveSubsystem.getBalanceAngle() > -2){
+      if (endTimer.get() > 1){
+        return true;
+      }
+      else {
+        return false;
+      }
+    }
+    
+    else {
+    endTimer.reset();
     return false;
+    
+    }
   }
 }
