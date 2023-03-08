@@ -28,6 +28,8 @@ public class ArmScorePostition extends CommandBase {
   int low = 1;
   int mid = 2;
   int high = 3;
+  int scoringNode;
+  double bottomHoldPosition;
   
 
   public ArmScorePostition( int node, LEDModeSubsystem ledModeSubsystem, BottomArm bottomArm, TopArm topArm) {
@@ -61,7 +63,9 @@ public class ArmScorePostition extends CommandBase {
       else {// Cone mode
         topGoalPosition = -30;
         bottomGoalPosition = 130;
+        bottomHoldPosition = 50;
       }
+      scoringNode = high;
     }
 
     else if(node == mid) {
@@ -72,14 +76,17 @@ public class ArmScorePostition extends CommandBase {
       }
 
       else {// Cone mode
-        topGoalPosition = -10;
-        bottomGoalPosition = 95;
+        topGoalPosition = 0;
+        bottomGoalPosition = 93;
+        bottomHoldPosition = 35;
       }
+      scoringNode = mid;
     }
 
     else{  // VALUES NEED SET
       topGoalPosition = 90;
       bottomGoalPosition = 90;
+      scoringNode = low;
     }
 
   }
@@ -90,6 +97,7 @@ public class ArmScorePostition extends CommandBase {
     
     SmartDashboard.putBoolean("Top Arm Hold", topArmHold);
     SmartDashboard.putBoolean("Bottom Arm hold", bottomArmHold);
+    SmartDashboard.putNumber("Scoring Node", scoringNode);
     //SmartDashboard.putNumber("Bottom Arm Error", Math.abs(bottomArmError));*/
 
     bottomArmError = ArmConstants.kBottomReversePosition - bottomArm.getMotorEncoderPosition();
@@ -99,7 +107,7 @@ public class ArmScorePostition extends CommandBase {
     if (Math.abs(bottomArmError) < 1) {
       topArmHold = false;
     }
-    if (topArm.getMotorEncoderPosition() < (bottomGoalPosition * .4)) {//
+    if (topArm.getMotorEncoderPosition() < bottomHoldPosition) {
       bottomArmHold = false;
     }
 

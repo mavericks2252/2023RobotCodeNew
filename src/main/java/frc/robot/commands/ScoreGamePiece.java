@@ -4,6 +4,7 @@
 
 package frc.robot.commands;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.BottomArm;
 import frc.robot.subsystems.Gripper;
@@ -15,7 +16,7 @@ public class ScoreGamePiece extends CommandBase {
   Gripper gripper;
   TopArm topArm;
   BottomArm bottomArm;
-  int nodePosition;
+  double nodePosition;
   LEDModeSubsystem ledModeSubsystem;
   Double topArmGoal;
   Double topArmError;
@@ -37,6 +38,7 @@ public class ScoreGamePiece extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    nodePosition = SmartDashboard.getNumber("Scoring Node", 0);
     
     //High node
     if (nodePosition == high){
@@ -59,7 +61,7 @@ public class ScoreGamePiece extends CommandBase {
       }
 
       else {// Cone mode
-        topArmGoal = topArm.getMotorEncoderPosition()+15;
+        topArmGoal = topArm.getMotorEncoderPosition()+33;
       }
     }
 
