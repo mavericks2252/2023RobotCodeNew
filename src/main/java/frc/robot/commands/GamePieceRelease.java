@@ -32,7 +32,7 @@ public class GamePieceRelease extends CommandBase {
       gripper.reverseGripper(1);
     }
     else {// Cone mode
-      gripper.openGripper();
+   
     }
 
   }

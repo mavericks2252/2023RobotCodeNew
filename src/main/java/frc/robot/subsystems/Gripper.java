@@ -8,12 +8,11 @@ import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
-import frc.robot.Constants.GripperConstants;
+
 import frc.robot.Constants.PortConstants;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
-import edu.wpi.first.wpilibj.PneumaticsModuleType;
-import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
+
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
@@ -29,8 +28,9 @@ public class Gripper extends SubsystemBase {
 
     gripperMotor = new CANSparkMax(PortConstants.kGripperMotorPort, MotorType.kBrushless);
     gripperMotor.setIdleMode(IdleMode.kBrake);
+    gripperMotor.setInverted(false);
     beamBreakSensor = new DigitalInput(2);
-    gripperSolenoid = new DoubleSolenoid(PneumaticsModuleType.REVPH, PortConstants.kGripperSolenoidForwardChannel, PortConstants.kGripperSolenoidReverseChannel);
+    
         
   }
 
@@ -44,10 +44,10 @@ public class Gripper extends SubsystemBase {
 
   }
 
-  public void runGripper() {
+  public void runGripper(double percentOutput) {
 
-    gripperMotor.set(GripperConstants.gripperMotorSpeed);
-    openGripper();
+    gripperMotor.set(percentOutput);
+   
   }
 
 
@@ -56,19 +56,11 @@ public class Gripper extends SubsystemBase {
     gripperMotor.set(-percentOutput);
   }
 
-  public void openGripper() {
-
-    gripperSolenoid.set(Value.kReverse);
-  }
-
-  public void closeGripper() {
-
-    gripperSolenoid.set(Value.kForward);
-  }
+ 
 
   public void stopGripper() {
     gripperMotor.stopMotor();
-    closeGripper();
+   
   }
 
   public double getGripperCurrent() {
@@ -80,10 +72,10 @@ public class Gripper extends SubsystemBase {
   }
 
   public void gripperHoldCone(){
-    gripperMotor.set(-.075);
+    reverseGripper(.075);;
   }
 
   public void gripperHoldCube(){
-    gripperMotor.set(.075);
+    runGripper(.075);
   }
 }

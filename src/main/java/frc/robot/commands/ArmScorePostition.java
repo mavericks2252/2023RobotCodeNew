@@ -59,7 +59,7 @@ public class ArmScorePostition extends CommandBase {
       }
 
       else {// Cone mode
-        topGoalPosition = -25;
+        topGoalPosition = -30;
         bottomGoalPosition = 130;
       }
     }

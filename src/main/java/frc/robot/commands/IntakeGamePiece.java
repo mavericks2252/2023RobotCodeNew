@@ -7,6 +7,7 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants.ArmConstants;
+import frc.robot.Constants.GripperConstants;
 import frc.robot.Constants.IntakeConstants;
 import frc.robot.subsystems.BottomArm;
 import frc.robot.subsystems.Floor;
@@ -48,23 +49,16 @@ public class IntakeGamePiece extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    //cube Mode
-    if(ledModeSubsystem.getRobotMode()){
-      intake.runIntake(IntakeConstants.kIntakeMotorSpeed);
-    }
-
-    //cone mode
-    else{
-    
-    }
+   
     
     floor.runFloorMotor();
     
     // Cube mode
     if (ledModeSubsystem.getRobotMode()){
-      gripper.runGripper();
+      gripper.runGripper(GripperConstants.gripperMotorSpeed);
       topArm.setMotorPosition(95);//95
       bottomArm.setMotorPosition(65);
+      intake.runIntake(IntakeConstants.kIntakeMotorSpeed);
     }
 
   
@@ -83,8 +77,8 @@ public class IntakeGamePiece extends CommandBase {
   public void end(boolean interrupted) {
 
     //send arm to stow position
-    /*topArm.setMotorPosition(ArmConstants.kTopStowPosition);
-    bottomArm.setMotorPosition(ArmConstants.kBottomStowPosition);*/
+    topArm.setMotorPosition(ArmConstants.kTopStowPosition);
+    bottomArm.setMotorPosition(ArmConstants.kBottomStowPosition);
     intake.stopIntake();
         
     if (ledModeSubsystem.getRobotMode()){

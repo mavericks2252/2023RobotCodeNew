@@ -19,6 +19,7 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.PowerDistribution.ModuleType;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.Constants.OIConstants;
 import frc.robot.commands.AprilTagAutoAlign;
@@ -29,6 +30,8 @@ import frc.robot.commands.GamePieceRelease;
 import frc.robot.commands.IntakeGamePiece;
 import frc.robot.commands.RunGripper;
 import frc.robot.commands.RunIntake;
+import frc.robot.commands.ScoreGamePiece;
+import frc.robot.commands.SingleStationIntake;
 import frc.robot.commands.SwerveJoystickCmd;
 import frc.robot.subsystems.AutoPaths;
 import frc.robot.subsystems.BottomArm;
@@ -115,7 +118,13 @@ public class RobotContainer {
           //new JoystickButton(driverJoystick, OIConstants.rbButton).toggleOnTrue(new IntakeSequence(intake, gripper, floor, topArm, bottomArm, ledModeSubsystem));
           /*new JoystickButton(driverJoystick, OIConstants.aButton).onTrue(new InstantCommand(() -> gripper.runGripper()));
           new JoystickButton(driverJoystick, OIConstants.aButton).onFalse(new InstantCommand(() -> gripper.stopGripper()));*/
-          new JoystickButton(driverJoystick, OIConstants.aButton).onTrue(new InstantCommand(() -> topArm.setMotorPosition(-5)));
+          //new JoystickButton(driverJoystick, OIConstants.aButton).onTrue(new InstantCommand(() -> topArm.setMotorPosition(-5)));
+          new JoystickButton(driverJoystick, OIConstants.aButton).onTrue(new ScoreGamePiece(gripper, topArm, bottomArm, ledModeSubsystem, OIConstants.highNode));
+          new JoystickButton(driverJoystick, OIConstants.aButton).onTrue(new SequentialCommandGroup(
+                              new ScoreGamePiece(gripper, topArm, bottomArm, ledModeSubsystem, OIConstants.highNode), 
+                              new ArmStowPosition(bottomArm, topArm)));
+
+          new JoystickButton(driverJoystick, OIConstants.lbButton).onTrue(new SingleStationIntake(ledModeSubsystem, topArm, bottomArm, gripper));
 
 
           /*new JoystickButton(driverJoystick, OIConstants.xButton).onTrue(new InstantCommand(() -> floor.runFloorMotor()));
@@ -160,8 +169,10 @@ public class RobotContainer {
       HashMap<String, Command> eventMap = new HashMap<>();
       eventMap.put("Marker 1", new WaitCommand(3));
       eventMap.put("Place Cube", new WaitCommand(1));
-      eventMap.put("Place Cone", new WaitCommand(2));
-      eventMap.put("Get Cube", new IntakeGamePiece(intake, gripper, floor, topArm, bottomArm, ledModeSubsystem));
+      eventMap.put("Place Cone", new SequentialCommandGroup(
+        new ScoreGamePiece(gripper, topArm, bottomArm, ledModeSubsystem, OIConstants.highNode), 
+        new ArmStowPosition(bottomArm, topArm)));
+      eventMap.put("Get Cube", new IntakeGamePiece(intake, gripper, floor, topArm, bottomArm, ledModeSubsystem).withTimeout(4));
       eventMap.put("Auto Balance", new AutoBalanceCommand(swerveSubsystem).withTimeout(5));
       eventMap.put("Cube Mode", new InstantCommand(() -> ledModeSubsystem.cubeMode()));
       eventMap.put("Cone Mode", new InstantCommand(() -> ledModeSubsystem.coneMode()));

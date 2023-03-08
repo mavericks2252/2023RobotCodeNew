@@ -32,7 +32,7 @@ public class RunGripper extends CommandBase {
   @Override
   public void execute() {
 
-    gripper.runGripper();
+    gripper.runGripper(1);
     //gripper.openGripper();
     
   }

@@ -29,6 +29,7 @@ public class ArmStowPosition extends CommandBase {
   @Override
   public void initialize() {
     bottomArm.setMotorPosition(ArmConstants.kBottomReversePosition);
+    topArm.setMotorPosition(topArm.getMotorEncoderPosition()-10);
     topArmHold = true;
     bottomArmHold = true;
   }

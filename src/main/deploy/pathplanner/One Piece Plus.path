@@ -17,9 +17,10 @@
       "isStopPoint": false,
       "stopEvent": {
         "names": [
+          "Cone Mode",
           "Place Cone"
         ],
-        "executionBehavior": "parallel",
+        "executionBehavior": "sequential",
         "waitBehavior": "none",
         "waitTime": 0
       }
