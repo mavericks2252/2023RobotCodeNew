@@ -84,9 +84,10 @@ public class ArmScorePostition extends CommandBase {
     }
 
     else{  // VALUES NEED SET
-      topGoalPosition = 90;
-      bottomGoalPosition = 90;
+      topGoalPosition = 75;
+      bottomGoalPosition = 100;
       scoringNode = low;
+      bottomHoldPosition = 75;
     }
 
   }

@@ -4,6 +4,7 @@
 
 package frc.robot.commands;
 
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.BottomArm;
@@ -18,11 +19,12 @@ public class ScoreGamePiece extends CommandBase {
   BottomArm bottomArm;
   double nodePosition;
   LEDModeSubsystem ledModeSubsystem;
-  Double topArmGoal;
-  Double topArmError;
+  double topArmGoal;
+  double topArmError;
   int low = 1;
   int mid = 2;
   int high = 3;
+  Timer endTimer;
 
   /** Creates a new ScoreGamePiece. */
   public ScoreGamePiece(Gripper gripper, TopArm topArm, BottomArm bottomArm,LEDModeSubsystem ledModeSubsystem, int nodePosition) {
@@ -33,11 +35,14 @@ public class ScoreGamePiece extends CommandBase {
     this.ledModeSubsystem = ledModeSubsystem;
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(gripper, topArm, bottomArm);
+    endTimer = new Timer();
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    endTimer.reset();
+    endTimer.start();
     nodePosition = SmartDashboard.getNumber("Scoring Node", 0);
     
     //High node
@@ -69,11 +74,12 @@ public class ScoreGamePiece extends CommandBase {
       if (nodePosition == low) {
     
         if (ledModeSubsystem.getRobotMode()){// Cube mode
-
+          //gripper.runGripper(1);
         }
 
         else {// Cone mode
-          
+          gripper.runGripper(1);
+          topArmGoal = 75;
         }
       }
   }
@@ -81,14 +87,19 @@ public class ScoreGamePiece extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    topArmError = topArmGoal - topArm.getMotorEncoderPosition();
-    topArm.setMotorPosition(topArmGoal);
-    if (Math.abs(topArmError) < 1){
-    gripper.runGripper(.2);
-    }
-    if (Math.abs(topArmError) < .5){
+    
+    
+    if (!ledModeSubsystem.getRobotMode() & nodePosition != low){ // Cone mode
+      topArmError = topArmGoal - topArm.getMotorEncoderPosition();
+      topArm.setMotorPosition(topArmGoal);
       
-      bottomArm.setMotorPosition(118);
+      if (Math.abs(topArmError) < 1){
+      gripper.runGripper(.2);
+      }
+      if (Math.abs(topArmError) < .5){
+        
+        bottomArm.setMotorPosition(118);
+      }
     }
   }
 
@@ -101,11 +112,24 @@ public class ScoreGamePiece extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    if (Math.abs(topArmError) < .25){
-      return true;
+  // Cube mode
+    if (ledModeSubsystem.getRobotMode() | nodePosition == low & endTimer.get() > .25){
+      if(!gripper.getBeamBreakSensor()){
+        return true;
+      }
+      else {
+        return false;
+      }
     }
-    else{
-    return false;
+
+  // Cone mode
+    else {
+      if (Math.abs(topArmError) < .25 & nodePosition != low){
+        return true;
+      }
+      else{
+      return false;
+      }
     }
   }
 }
