@@ -34,11 +34,21 @@ public class SingleStationIntake extends CommandBase {
   @Override
   public void initialize() {
 
-    topArm.setMotorPosition(5);
-    bottomArm.setMotorPosition(54);
-    gripper.runGripper(-GripperConstants.gripperMotorSpeed);
-    endTimer.reset();
-    endTimer.start();
+    if (ledModeSubsystem.getRobotMode()) {
+      topArm.setMotorPosition(0);
+      bottomArm.setMotorPosition(50);
+      gripper.runGripper(GripperConstants.gripperMotorSpeed);
+      endTimer.reset();
+      endTimer.start();
+    }
+
+    else {
+      topArm.setMotorPosition(5);
+      bottomArm.setMotorPosition(54);
+      gripper.runGripper(-GripperConstants.gripperMotorSpeed);
+      endTimer.reset();
+      endTimer.start();
+    }
     
   }
 
@@ -49,26 +59,42 @@ public class SingleStationIntake extends CommandBase {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
+
+    if (ledModeSubsystem.getRobotMode()) {
+      gripper.gripperHoldCube();
+    }
+
+    else {
     gripper.gripperHoldCone();
+    }
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
+    // cube Mode
     if (ledModeSubsystem.getRobotMode()){
-      return true;
-    }
-    else if (gripper.getGripperCurrent() > 10){
-      if(endTimer.get() > .5){
-      return true;
+      if (gripper.getBeamBreakSensor() & gripper.getGripperCurrent() > 7){
+        return true;
       }
       else {
         return false;
       }
     }
+    //cone mode
     else {
-      endTimer.reset();
-      return false;
+      if (gripper.getGripperCurrent() > 10){
+        if(endTimer.get() > .5){
+        return true;
+        }
+        else {
+          return false;
+        }
+      }
+      else {
+        endTimer.reset();
+        return false;
+      }
     }
 }
 }
