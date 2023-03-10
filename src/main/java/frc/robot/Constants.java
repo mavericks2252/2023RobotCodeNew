@@ -116,7 +116,7 @@ public final class Constants {
 
     public static final class TopArmConstants {
 
-        public static final double kP = .02;
+        public static final double kP = .03;
         public static final double kI = .00005;
         public static final double kD = 0.5;
         public static final double kIntegralZone = 1.5;
@@ -266,7 +266,10 @@ public final class Constants {
         public static final int kGripperSolenoidReverseChannel = 3;
         
         public static final int kTopArmEncoderPort = 1;
-        public static final int kLEDStripPort = 4;
+        
+        
+        
+        public static final int kLEDStripPort = 3;
 
     
     

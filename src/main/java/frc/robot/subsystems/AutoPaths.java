@@ -58,13 +58,13 @@ public class AutoPaths extends SubsystemBase {
 
 
       autoChooser = new SendableChooser<>();
-      autoChooser.setDefaultOption("Do Nothing", doNothing);
+      autoChooser.addOption("Do Nothing", doNothing);
       autoChooser.addOption("One Piece Plus", onePiecePlus);
       autoChooser.addOption("Two Piece Level", twoPieceLevel);
       autoChooser.addOption("Two Piece Plus", twoPiecePlus);
-      autoChooser.addOption("Mirror Test", mirrorTest);
+      autoChooser.setDefaultOption("Do Nothing", doNothing);
 
-      SmartDashboard.putData(autoChooser);
+      SmartDashboard.putData("Selected Auto", autoChooser);
 
   }
 

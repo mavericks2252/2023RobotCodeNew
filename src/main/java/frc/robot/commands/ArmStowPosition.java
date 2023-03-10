@@ -7,7 +7,6 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants.ArmConstants;
-import frc.robot.Constants.TopArmConstants;
 import frc.robot.subsystems.BottomArm;
 import frc.robot.subsystems.TopArm;
 
@@ -42,7 +41,7 @@ public class ArmStowPosition extends CommandBase {
     SmartDashboard.putBoolean("Stow Top Arm Hold", topArmHold);
     SmartDashboard.putBoolean("Stow Bottom Arm Hold", bottomArmHold);
 
-    if (bottomArm.getMotorEncoderPosition() < 100) {
+    if (bottomArm.getMotorEncoderPosition() < 90) {
       topArmHold = false;
     }
     if (topArm.getMotorEncoderPosition() > 25) {
@@ -60,13 +59,18 @@ public class ArmStowPosition extends CommandBase {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    topArm.stopMotors();
-    bottomArm.stopMotors();
+
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
+    if (!topArmHold && !bottomArmHold){
+      return true;
+    }
+    
+    else {
     return false;
+    }
   }
 }

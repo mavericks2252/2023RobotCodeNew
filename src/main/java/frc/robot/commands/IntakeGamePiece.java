@@ -103,6 +103,8 @@ public class IntakeGamePiece extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
+
+    ledModeSubsystem.startBlinking();
     
    //Cube Mode
    if(ledModeSubsystem.getRobotMode()){

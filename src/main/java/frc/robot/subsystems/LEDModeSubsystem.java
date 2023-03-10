@@ -15,7 +15,6 @@ import frc.robot.Constants.PortConstants;
 public class LEDModeSubsystem extends SubsystemBase {
   boolean cubeMode = false;
   AddressableLED led;
-  AddressableLEDBuffer ledBuffer;
   AddressableLEDBuffer ledBufferOff;
   Gripper gripper;
   AddressableLEDBuffer yellowLedBuffer;
@@ -34,11 +33,10 @@ public class LEDModeSubsystem extends SubsystemBase {
     
     // initialize LED's LED's
     led = new AddressableLED(PortConstants.kLEDStripPort);
-    ledBuffer = new AddressableLEDBuffer(OIConstants.kLEDStripLength);
     ledBufferOff = new AddressableLEDBuffer(OIConstants.kLEDStripLength);
     purpleLedBuffer = new AddressableLEDBuffer(OIConstants.kLEDStripLength);
     yellowLedBuffer = new AddressableLEDBuffer(OIConstants.kLEDStripLength);
-    led.setLength(ledBuffer.getLength());
+    led.setLength(yellowLedBuffer.getLength());
     led.start();
     
     // create buffers for each color
@@ -134,5 +132,13 @@ public class LEDModeSubsystem extends SubsystemBase {
   // turn LED's off
   public void ledOff(){
     led.setData(ledBufferOff);
+  }
+
+  public void startBlinking() {// To be called elsewhere to blink the lights
+    blink = true;
+  }
+
+  public void stopBlinking() {// To be called elsewhere to return the lights to a solid color
+    blink = false;
   }
 }

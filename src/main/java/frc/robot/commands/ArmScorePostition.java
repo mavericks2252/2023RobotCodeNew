@@ -57,7 +57,8 @@ public class ArmScorePostition extends CommandBase {
     if(node == high) {
       if (ledModeSubsystem.getRobotMode()) {// Cube mode
         topGoalPosition = -5;
-        bottomGoalPosition = 125;
+        bottomGoalPosition = 105;
+        bottomHoldPosition = 15;
       }
 
       else {// Cone mode
@@ -71,8 +72,9 @@ public class ArmScorePostition extends CommandBase {
     else if(node == mid) {
 
       if (ledModeSubsystem.getRobotMode()) {// Cube mode
-        topGoalPosition = 20;
+        topGoalPosition = 5;
         bottomGoalPosition = 75;
+        bottomHoldPosition = 35;
       }
 
       else {// Cone mode
@@ -83,9 +85,9 @@ public class ArmScorePostition extends CommandBase {
       scoringNode = mid;
     }
 
-    else{  // VALUES NEED SET
+    else{ 
       topGoalPosition = 75;
-      bottomGoalPosition = 100;
+      bottomGoalPosition = 98;
       scoringNode = low;
       bottomHoldPosition = 75;
     }
@@ -118,15 +120,18 @@ public class ArmScorePostition extends CommandBase {
     if (!bottomArmHold) {
       bottomArm.setMotorPosition(bottomGoalPosition);
     }
+    SmartDashboard.putBoolean("Score Command Running", true);
     
-    
+    SmartDashboard.putNumber("Top Arm Error", (Math.abs(topArm.getMotorEncoderPosition()) - Math.abs(topGoalPosition)));
+    SmartDashboard.putNumber("Bottom Arm Error", (Math.abs(bottomArm.getMotorEncoderPosition()) - Math.abs(bottomGoalPosition)));
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
     
-  
+    SmartDashboard.putBoolean("Score Command Running", false);
+    topArm.setNodePosition(node);
   }
 
   
@@ -134,8 +139,10 @@ public class ArmScorePostition extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
+    ledModeSubsystem.stopBlinking();
 
-      if (Math.abs(bottomArm.getMotorEncoderPosition() - bottomGoalPosition) < .25 & Math.abs(topArm.getMotorEncoderPosition() - topGoalPosition) < .25){
+
+      if (Math.abs(bottomArm.getMotorEncoderPosition() - bottomGoalPosition) < 1 && Math.abs(topArm.getMotorEncoderPosition() - topGoalPosition) < 1){
         return true;
       }
       else {

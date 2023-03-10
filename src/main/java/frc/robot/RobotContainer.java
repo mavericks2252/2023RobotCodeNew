@@ -31,6 +31,7 @@ import frc.robot.commands.IntakeGamePiece;
 import frc.robot.commands.RunGripper;
 import frc.robot.commands.RunIntake;
 import frc.robot.commands.ScoreGamePiece;
+import frc.robot.commands.ScoreGamePieceCommand;
 import frc.robot.commands.SingleStationIntake;
 import frc.robot.commands.SwerveJoystickCmd;
 import frc.robot.subsystems.AutoPaths;
@@ -119,11 +120,11 @@ public class RobotContainer {
           /*new JoystickButton(driverJoystick, OIConstants.aButton).onTrue(new InstantCommand(() -> gripper.runGripper()));
           new JoystickButton(driverJoystick, OIConstants.aButton).onFalse(new InstantCommand(() -> gripper.stopGripper()));*/
           //new JoystickButton(driverJoystick, OIConstants.aButton).onTrue(new InstantCommand(() -> topArm.setMotorPosition(-5)));
-          new JoystickButton(driverJoystick, OIConstants.aButton).onTrue(new ScoreGamePiece(gripper, topArm, bottomArm, ledModeSubsystem, OIConstants.highNode));
-          new JoystickButton(driverJoystick, OIConstants.aButton).onTrue(new SequentialCommandGroup(
-                              new ScoreGamePiece(gripper, topArm, bottomArm, ledModeSubsystem, OIConstants.highNode), 
-                              new ArmStowPosition(bottomArm, topArm)));
+          //new JoystickButton(driverJoystick, OIConstants.aButton).onTrue(new ScoreGamePiece(gripper, topArm, bottomArm, ledModeSubsystem, OIConstants.highNode));
+          new JoystickButton(driverJoystick, OIConstants.aButton).onTrue(new SequentialCommandGroup(new ArmScorePostition(OIConstants.highNode, ledModeSubsystem, bottomArm, topArm), new ScoreGamePieceCommand(gripper, topArm, bottomArm, ledModeSubsystem)));
 
+          //new JoystickButton(driverJoystick, OIConstants.aButton).onTrue(new ScoreGamePiece(gripper, topArm, bottomArm, ledModeSubsystem, OIConstants.highNode));
+          //new JoystickButton(driverJoystick, OIConstants.xButton).onTrue(new ArmStowPosition(bottomArm, topArm));
           new JoystickButton(driverJoystick, OIConstants.lbButton).onTrue(new SingleStationIntake(ledModeSubsystem, topArm, bottomArm, gripper));
 
 
@@ -168,11 +169,15 @@ public class RobotContainer {
       //Creating the eventmap for markers in auto program
       HashMap<String, Command> eventMap = new HashMap<>();
       eventMap.put("Marker 1", new WaitCommand(3));
-      eventMap.put("Place Cube", new WaitCommand(1));
+      eventMap.put("Place Cube", new SequentialCommandGroup(
+        new ArmScorePostition(OIConstants.highNode, ledModeSubsystem, bottomArm, topArm),
+        new ScoreGamePieceCommand(gripper, topArm, bottomArm, ledModeSubsystem)));
+      eventMap.put("Set Arm Position", new ArmScorePostition(OIConstants.highNode, ledModeSubsystem, bottomArm, topArm));
       eventMap.put("Place Cone", new SequentialCommandGroup(
-        new ScoreGamePiece(gripper, topArm, bottomArm, ledModeSubsystem, OIConstants.highNode), 
-        new ArmStowPosition(bottomArm, topArm)));
-      eventMap.put("Get Cube", new IntakeGamePiece(intake, gripper, floor, topArm, bottomArm, ledModeSubsystem).withTimeout(4));
+        new ArmScorePostition(OIConstants.highNode, ledModeSubsystem, bottomArm, topArm),
+        new ScoreGamePieceCommand(gripper, topArm, bottomArm, ledModeSubsystem)));
+      //eventMap.put("Stow Arm", new ArmStowPosition(bottomArm, topArm));
+      //eventMap.put("Get Cube", new IntakeGamePiece(intake, gripper, floor, topArm, bottomArm, ledModeSubsystem).withTimeout(4));
       eventMap.put("Auto Balance", new AutoBalanceCommand(swerveSubsystem).withTimeout(5));
       eventMap.put("Cube Mode", new InstantCommand(() -> ledModeSubsystem.cubeMode()));
       eventMap.put("Cone Mode", new InstantCommand(() -> ledModeSubsystem.coneMode()));

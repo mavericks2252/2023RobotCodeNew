@@ -28,6 +28,7 @@ public class TopArm extends SubsystemBase {
   double armGoalPos;
   Boolean cubeMode;
   Boolean coneMode;
+  int nodePosition;
   
   
  
@@ -132,6 +133,14 @@ public class TopArm extends SubsystemBase {
 
   public double getMotorEncoderPosition() {
     return relativeEncoder.getPosition();
+  }
+
+  public void setNodePosition(int node) {
+    nodePosition = node;
+  }
+
+  public int getNodePosition() {
+    return nodePosition;
   }
 
   public void stopMotors() {
