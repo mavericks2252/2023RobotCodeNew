@@ -79,11 +79,11 @@
     },
     {
       "anchorPoint": {
-        "x": 2.75,
+        "x": 3.0,
         "y": 3.19
       },
       "prevControl": {
-        "x": 4.332092001930742,
+        "x": 4.582092001930742,
         "y": 3.1166161947380386
       },
       "nextControl": null,
@@ -113,6 +113,12 @@
       "position": 0.4,
       "names": [
         "Get Cube"
+      ]
+    },
+    {
+      "position": 0.03,
+      "names": [
+        "Stow Arm"
       ]
     }
   ]

@@ -4,10 +4,13 @@
 
 package frc.robot.subsystems;
 
+import edu.wpi.first.hal.simulation.RoboRioDataJNI;
 import edu.wpi.first.wpilibj.AddressableLED;
 import edu.wpi.first.wpilibj.AddressableLEDBuffer;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.OIConstants;
 import frc.robot.Constants.PortConstants;
@@ -19,6 +22,7 @@ public class LEDModeSubsystem extends SubsystemBase {
   Gripper gripper;
   AddressableLEDBuffer yellowLedBuffer;
   AddressableLEDBuffer purpleLedBuffer;
+  AddressableLEDBuffer redLEDBuffer;
   Timer ledTimerOff;
   Timer ledTimerOn;
   boolean blink = false; // sets robot to cone mode by default
@@ -36,6 +40,7 @@ public class LEDModeSubsystem extends SubsystemBase {
     ledBufferOff = new AddressableLEDBuffer(OIConstants.kLEDStripLength);
     purpleLedBuffer = new AddressableLEDBuffer(OIConstants.kLEDStripLength);
     yellowLedBuffer = new AddressableLEDBuffer(OIConstants.kLEDStripLength);
+    redLEDBuffer = new AddressableLEDBuffer(OIConstants.kLEDStripLength);
     led.setLength(yellowLedBuffer.getLength());
     led.start();
     
@@ -44,11 +49,16 @@ public class LEDModeSubsystem extends SubsystemBase {
       purpleLedBuffer.setRGB(i, 255, 0, 255);
     }
     for (var i = 0; i < yellowLedBuffer.getLength(); i++){
-      yellowLedBuffer.setRGB(i, 255, 255, 0);
+      //yellowLedBuffer.setRGB(i, 255, 255, 0);
+      yellowLedBuffer.setLED(i, Color.kYellow);
     }
     for (var i = 0; i < ledBufferOff.getLength(); i++){
       ledBufferOff.setRGB(i, 0, 0, 0);// off
     }
+    for (var i = 0; i < redLEDBuffer.getLength(); i++){
+      redLEDBuffer.setRGB(i, 255, 0, 0);// red
+    }
+
     
     // defualt robot to Cone Mode
     led.setData(yellowLedBuffer);
@@ -66,15 +76,7 @@ public class LEDModeSubsystem extends SubsystemBase {
     SmartDashboard.putNumber("Led On Timer", ledTimerOn.get());
     SmartDashboard.putNumber("Led Off Timer", ledTimerOff.get());
     
-    
-      //if beam break broken set to blink mode
-      /*if (!gripper.getBeamBreakSensor()){ 
-        blink = true;
-      }
-      else{
-        blink = false;
-      }*/
-      
+     
       //blink mode - Blink LED's for given time
       if (blink){ 
         if (ledTimerOn.get() >= .25){
@@ -121,17 +123,29 @@ public class LEDModeSubsystem extends SubsystemBase {
 
   // Set LED Color based on mode
   public void setLEDColor() { 
-    if(cubeMode) {
+    
+    if (DriverStation.isDisabled()){
+      led.setData(redLEDBuffer);
+    }
+    
+    else if(cubeMode) {
       led.setData(purpleLedBuffer);
     }
+    
     else{
       led.setData(yellowLedBuffer);
     }
+    
+    
   }
 
   // turn LED's off
   public void ledOff(){
     led.setData(ledBufferOff);
+  }
+
+  public void setRedLEDs () {
+    led.setData(redLEDBuffer);
   }
 
   public void startBlinking() {// To be called elsewhere to blink the lights

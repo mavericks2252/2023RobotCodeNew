@@ -69,6 +69,8 @@ public class Robot extends TimedRobot {
     m_robotContainer.bottomArm.stopMotors();
     m_robotContainer.topArm.stopMotors();
     m_robotContainer.intake.stopIntake();
+    m_robotContainer.ledModeSubsystem.stopBlinking();
+   
    
   }
 

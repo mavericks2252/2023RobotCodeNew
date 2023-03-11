@@ -115,7 +115,7 @@ public class ScoreGamePiece extends CommandBase {
     
     new Thread(() -> {
       try {
-        Thread.sleep(1000);
+        Thread.sleep(500);
         gripper.stopGripper();
       } catch (Exception e) {
       }
