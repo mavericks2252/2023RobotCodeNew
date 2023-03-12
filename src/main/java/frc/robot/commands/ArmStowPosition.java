@@ -8,6 +8,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants.ArmConstants;
 import frc.robot.subsystems.BottomArm;
+import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.TopArm;
 
 public class ArmStowPosition extends CommandBase {
@@ -17,10 +18,12 @@ public class ArmStowPosition extends CommandBase {
   Boolean topArmHold;
   Boolean bottomArmHold;
   Double bottomArmError;
-  public ArmStowPosition(BottomArm bottomArm, TopArm topArm) {
+  Intake intake;
+  public ArmStowPosition(BottomArm bottomArm, TopArm topArm, Intake intake) {
     // Use addRequirements() here to declare subsystem dependencies.
     this.topArm = topArm;
     this.bottomArm = bottomArm;
+    this.intake = intake;
     addRequirements(topArm, bottomArm);
   }
 
@@ -66,6 +69,8 @@ public class ArmStowPosition extends CommandBase {
   @Override
   public boolean isFinished() {
     if (!topArmHold && !bottomArmHold){
+      
+      topArm.setRegularScoring();
       return true;
     }
     

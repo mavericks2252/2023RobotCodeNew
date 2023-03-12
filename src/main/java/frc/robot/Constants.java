@@ -124,6 +124,8 @@ public final class Constants {
         public static final double kMinOutput = -.7;
         public static final double kMaxOutput = 1;
         
+        public static final double kPDown = .02;
+        
         
 
         public static final double kGearRatio = 150.65;
@@ -175,6 +177,8 @@ public final class Constants {
         public static final int kDriverYAxis = 1;
         public static final int kDriverRotAxis = 4;
         public static final int kDriverFieldOrientedButtonIdx = 4;
+        public static final int kRTrigger = 3;
+        public static final int kLTrigger = 2;
 
         // Controller Buttons
         public static final int xButton = 3;

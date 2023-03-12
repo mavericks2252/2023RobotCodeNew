@@ -9,17 +9,22 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants.ArmConstants;
 import frc.robot.subsystems.BottomArm;
 import frc.robot.subsystems.Gripper;
+import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.LEDModeSubsystem;
+import frc.robot.subsystems.SwerveSubsystem;
 import frc.robot.subsystems.TopArm;
 
-public class ArmScorePostition extends CommandBase {
+public class SmartArmScorePostition extends CommandBase {
   /** Creates a new ArmScorePostition. */
   TopArm topArm;
   BottomArm bottomArm;
   LEDModeSubsystem ledModeSubsystem;
+  SwerveSubsystem swerveSubsystem;
+  Intake intake;
   double bottomGoalPosition;
   double topGoalPosition;
   double bottomArmError;
+  double reversePosition;
   Boolean topArmHold;
   Boolean bottomArmHold;
   Gripper gripper;
@@ -32,10 +37,12 @@ public class ArmScorePostition extends CommandBase {
   double bottomHoldPosition;
   
 
-  public ArmScorePostition( int node, LEDModeSubsystem ledModeSubsystem, BottomArm bottomArm, TopArm topArm) {
+  public SmartArmScorePostition( int node, LEDModeSubsystem ledModeSubsystem, BottomArm bottomArm, TopArm topArm, SwerveSubsystem swerveSubsystem, Intake intake) {
     this.ledModeSubsystem = ledModeSubsystem;
     this.topArm = topArm;
     this.bottomArm = bottomArm;
+    this.swerveSubsystem = swerveSubsystem;
+    this.intake = intake;
     this.node = node;
     addRequirements(bottomArm, topArm);
     // Use addRequirements() here to declare subsystem dependencies.
@@ -44,10 +51,21 @@ public class ArmScorePostition extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    if (swerveSubsystem.getHeading() < -90 || swerveSubsystem.getHeading() > 90) {
+      topArm.setReverseScoring();
+      intake.extendIntake();
+    }
 
+    // Sets reverse position depending on robot orientation 
     topArm.setMotorPosition(56);
-    bottomArm.setMotorPosition(ArmConstants.kBottomReversePosition); // Set the lower arm angle back
-    
+    if (topArm.getScoringPosition()) {
+      reversePosition = 100;
+    }
+    else{
+     reversePosition = ArmConstants.kBottomReversePosition;
+    }
+
+    bottomArm.setMotorPosition(reversePosition);// Set the lower arm angle back
 
     topArmHold = true;
     bottomArmHold = true;
@@ -80,9 +98,17 @@ public class ArmScorePostition extends CommandBase {
       }
 
       else {// Cone mode
+        // Sets position depending on robot orientation
+        if (topArm.getScoringPosition()){
+          topGoalPosition = 210;
+          bottomGoalPosition = 58;  
+          bottomHoldPosition = 160;
+        }
+        else {
         topGoalPosition = 0;
         bottomGoalPosition = 93;
         bottomHoldPosition = 35;
+        }
       }
       scoringNode = mid;
     }
@@ -92,8 +118,6 @@ public class ArmScorePostition extends CommandBase {
       bottomGoalPosition = 98;
       scoringNode = low;
       bottomHoldPosition = 75;
-      bottomArmHold = false;
-      topArmHold = false;
     }
 
   }
@@ -114,8 +138,15 @@ public class ArmScorePostition extends CommandBase {
     if (Math.abs(bottomArmError) < 1) {
       topArmHold = false;
     }
-    if (topArm.getMotorEncoderPosition() < bottomHoldPosition) {
-      bottomArmHold = false;
+    if (topArm.getScoringPosition()){
+      if (topArm.getMotorEncoderPosition() > bottomHoldPosition) {
+        bottomArmHold = false;
+      }
+    }
+    else {
+      if (topArm.getMotorEncoderPosition() < bottomHoldPosition) {
+        bottomArmHold = false;
+      }
     }
 
     if (!topArmHold) {

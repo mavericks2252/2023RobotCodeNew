@@ -17,9 +17,10 @@ import frc.robot.subsystems.SwerveSubsystem;
 
 public class SwerveJoystickCmd extends CommandBase {
   SwerveSubsystem swerveSubsystem;
-  Supplier<Double> xSpdFunction, ySpdFunction, turningSpdFunction;
+  Supplier<Double> xSpdFunction, ySpdFunction, turningSpdFunction, slowDriveFunction;
   Supplier<Boolean> fieldOrientedFunction,  xStanceFunction;
   SlewRateLimiter xLimiter, yLimiter, turningLimiter;
+  double maxDriveSpeed, maxTurnSpeed;
 
   /** Creates a new SwerveJoystickCmd. */
   public SwerveJoystickCmd(
@@ -28,7 +29,8 @@ public class SwerveJoystickCmd extends CommandBase {
       Supplier<Double> ySpdFunction, //supplier for y speed from joycestick
       Supplier<Double> turningSpdFunction, //supplier for turning from joycestick
       Supplier<Boolean> fieldOrientedFunction, // button supplier to take robot out of field releative mode
-      Supplier<Boolean> xStanceFunction) { // supplier for xstance to put the robot in xstance mode
+      Supplier<Boolean> xStanceFunction,
+      Supplier<Double> slowDriveFunction) { // supplier for xstance to put the robot in xstance mode
 
       this.swerveSubsystem = swerveSubsystem;
       this.xSpdFunction = xSpdFunction;
@@ -36,6 +38,7 @@ public class SwerveJoystickCmd extends CommandBase {
       this.turningSpdFunction = turningSpdFunction;
       this.fieldOrientedFunction = fieldOrientedFunction;
       this.xStanceFunction = xStanceFunction;
+      this.slowDriveFunction = slowDriveFunction;
       this.xLimiter = new SlewRateLimiter(DriveConstants.kTeleDriveMaxAccelerationUnitsPerSecond);
       this.yLimiter = new SlewRateLimiter(DriveConstants.kTeleDriveMaxAccelerationUnitsPerSecond);
       this.turningLimiter = new SlewRateLimiter(DriveConstants.kTeleDriveMaxAngularAccelerationUnitsPerSecond);
@@ -52,17 +55,28 @@ public class SwerveJoystickCmd extends CommandBase {
   @Override
   public void execute() {
     // Get real-time joystick inputs
-    double xSpeed = xSpdFunction.get();
-    double ySpeed = ySpdFunction.get();
+    double xSpeed = Math.copySign(Math.pow(xSpdFunction.get(), 2), xSpdFunction.get()) ;
+    double ySpeed = Math.copySign(Math.pow(ySpdFunction.get(), 2), ySpdFunction.get());
     double turningSpeed = turningSpdFunction.get();
+    double slowDrive = slowDriveFunction.get();
 
         
 
     // Make driving smoother
-    xSpeed = xLimiter.calculate(joystickDeadband(xSpeed)) * DriveConstants.kTeleDriveMaxSpeedMetersPerSecond;
-    ySpeed = yLimiter.calculate(joystickDeadband(ySpeed)) * DriveConstants.kTeleDriveMaxSpeedMetersPerSecond;
+
+    if (slowDrive > .4 ){
+      maxDriveSpeed = DriveConstants.kTeleDriveMaxSpeedMetersPerSecond / 2;
+      maxTurnSpeed = DriveConstants.kTeleDriveMaxAngularSpeedRadiansPerSecond / 2;
+    } 
+    else {
+      maxDriveSpeed = DriveConstants.kTeleDriveMaxSpeedMetersPerSecond;
+      maxTurnSpeed = DriveConstants.kTeleDriveMaxAngularSpeedRadiansPerSecond;
+    }
+
+    xSpeed = xLimiter.calculate(joystickDeadband(xSpeed)) * maxDriveSpeed;
+    ySpeed = yLimiter.calculate(joystickDeadband(ySpeed)) * maxDriveSpeed;
     turningSpeed = turningLimiter.calculate(joystickDeadband(turningSpeed))
-            * DriveConstants.kTeleDriveMaxAngularSpeedRadiansPerSecond;
+            * maxTurnSpeed;
     
     SmartDashboard.putNumber("TurningSpeedValue", turningSpeed);
 

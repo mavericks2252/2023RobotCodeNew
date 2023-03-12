@@ -7,6 +7,7 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.subsystems.BottomArm;
 import frc.robot.subsystems.Gripper;
+import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.LEDModeSubsystem;
 import frc.robot.subsystems.TopArm;
 
@@ -15,12 +16,12 @@ import frc.robot.subsystems.TopArm;
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
 public class ScoreGamePieceCommand extends SequentialCommandGroup {
   /** Creates a new ScoreGamePieceCommand. */
-  public ScoreGamePieceCommand(Gripper gripper, TopArm topArm, BottomArm bottomArm, LEDModeSubsystem ledModeSubsystem) {
+  public ScoreGamePieceCommand(Gripper gripper, TopArm topArm, BottomArm bottomArm, LEDModeSubsystem ledModeSubsystem, Intake intake) {
      
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
       new ScoreGamePiece(gripper, topArm, bottomArm, ledModeSubsystem), 
-      new ArmStowPosition(bottomArm, topArm));
+      new ArmStowPosition(bottomArm, topArm, intake));
   }
 }

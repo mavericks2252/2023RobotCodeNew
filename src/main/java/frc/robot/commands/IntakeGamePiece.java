@@ -104,14 +104,14 @@ public class IntakeGamePiece extends CommandBase {
   @Override
   public boolean isFinished() {
 
-    ledModeSubsystem.startBlinking();
+    
     
    //Cube Mode
    if(ledModeSubsystem.getRobotMode()){
 
     // if beamBreak sensor broken end
     if(gripper.getBeamBreakSensor() && gripper.getGripperCurrent() > 7 ){
-            
+          ledModeSubsystem.startBlinking();
           return true;
 
       }    
@@ -128,10 +128,12 @@ public class IntakeGamePiece extends CommandBase {
     else{
       
       // Only look at current
-      if(gripper.getGripperCurrent() > 10){
+      if(gripper.getGripperCurrent() > 15){
         //wait .5 seconds after current threshold to end    
         if(endTimer.get() > .5){
+            ledModeSubsystem.startBlinking();
             return true;
+            
         }
         //timer not expired return false
         else{

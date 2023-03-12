@@ -47,12 +47,7 @@ public class AutoPaths extends SubsystemBase {
             AutoConstants.kMaxSpeedMetersPerSecond, 
             AutoConstants.kMaxAccelerationMetersPerSecondSquared));
 
-      List<PathPlannerTrajectory> mirrorTest = 
-        PathPlanner.loadPathGroup(
-          "Mirror Test", 
-          new PathConstraints(
-            AutoConstants.kMaxSpeedMetersPerSecond, 
-            AutoConstants.kMaxAccelerationMetersPerSecondSquared));
+      
 
 
 

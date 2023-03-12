@@ -26,8 +26,9 @@ public class TopArm extends SubsystemBase {
   DutyCycleEncoder absDutyCycleEncoder;
   RelativeEncoder relativeEncoder;
   double armGoalPos;
-  Boolean cubeMode;
-  Boolean coneMode;
+  boolean cubeMode;
+  boolean coneMode;
+  boolean reverseScore;
   int nodePosition;
   
   
@@ -40,7 +41,7 @@ public class TopArm extends SubsystemBase {
     topArmMotor.enableSoftLimit(SoftLimitDirection.kForward, true);
     topArmMotor.enableSoftLimit(SoftLimitDirection.kReverse, true);
     topArmMotor.setSoftLimit( SoftLimitDirection.kReverse, -35);
-    topArmMotor.setSoftLimit(SoftLimitDirection.kForward, 200);
+    topArmMotor.setSoftLimit(SoftLimitDirection.kForward, 215);
     topArmMotor.setIdleMode(IdleMode.kBrake);
     topArmMotor.setClosedLoopRampRate(TopArmConstants.kClosedLoopRampRate);
     //armPIDController = topArmMotor.getPIDController();
@@ -86,7 +87,9 @@ public class TopArm extends SubsystemBase {
     SmartDashboard.putNumber("Top Motor Encoder Position", relativeEncoder.getPosition());
     SmartDashboard.putNumber("Top Absolute Encoder Position", encoderPositionAngle());
     SmartDashboard.putNumber("Top Absolute Position", absDutyCycleEncoder.getAbsolutePosition() * 360);
+    SmartDashboard.putBoolean("Reverse Scoring", reverseScore);
     armGoalPos = SmartDashboard.getNumber("Arm Goal Position", 0);
+
 
     /*armPIDController.setP(SmartDashboard.getNumber("Top Arm kP", 0));
     armPIDController.setI(SmartDashboard.getNumber("Top Arm kI", 0));
@@ -118,7 +121,7 @@ public class TopArm extends SubsystemBase {
 
   public void setMotorDownPosition(double angle) {
     armDownPIDController = topArmMotor.getPIDController();
-    armDownPIDController.setP(TopArmConstants.kP);
+    armDownPIDController.setP(TopArmConstants.kPDown);
     armDownPIDController.setI(TopArmConstants.kI);
     armDownPIDController.setD(TopArmConstants.kD);
     armDownPIDController.setIZone(TopArmConstants.kIntegralZone);
@@ -141,6 +144,18 @@ public class TopArm extends SubsystemBase {
 
   public int getNodePosition() {
     return nodePosition;
+  }
+
+  public void setReverseScoring() {
+    reverseScore = true;
+  }
+
+  public void setRegularScoring() {
+    reverseScore = false;
+  }
+
+  public boolean getScoringPosition() {
+    return reverseScore;
   }
 
   public void stopMotors() {

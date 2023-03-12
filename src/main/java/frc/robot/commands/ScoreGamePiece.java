@@ -67,7 +67,12 @@ public class ScoreGamePiece extends CommandBase {
       }
 
       else {// Cone mode
+        if (topArm.getScoringPosition()) {// Reverse scoring
+          topArmGoal = topArm.getMotorEncoderPosition()-30;
+        }
+        else{
         topArmGoal = topArm.getMotorEncoderPosition()+33;
+        }
       }
     }
 
@@ -95,7 +100,6 @@ public class ScoreGamePiece extends CommandBase {
       
     }
 
-    //bottomArmError = 118 
     else if (!ledModeSubsystem.getRobotMode() && nodePosition != low){ // Cone mode
       topArmError = topArmGoal - topArm.getMotorEncoderPosition();
       
@@ -112,6 +116,7 @@ public class ScoreGamePiece extends CommandBase {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
+    ledModeSubsystem.stopBlinking();
     
     new Thread(() -> {
       try {

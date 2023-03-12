@@ -56,7 +56,9 @@ public class Robot extends TimedRobot {
     // block in order for anything in the Command-based framework to work.
     CommandScheduler.getInstance().run();
     SmartDashboard.putData(CommandScheduler.getInstance());
+    m_robotContainer.compressor.disable();
 
+    
     SmartDashboard.putNumber("Bottom Arm Current", m_robotContainer.pdh.getCurrent(15));
     SmartDashboard.putNumber("Top Arm Current", m_robotContainer.pdh.getCurrent(13));
 
