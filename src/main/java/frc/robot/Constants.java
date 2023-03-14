@@ -111,7 +111,7 @@ public final class Constants {
 
     public static final class IntakeConstants {
 
-        public static final double kIntakeMotorSpeed = .4;
+        public static final double kIntakeMotorSpeed = .6;
     }
 
     public static final class TopArmConstants {
@@ -199,8 +199,8 @@ public final class Constants {
     public static final class AutoConstants {
 
         
-        public static final double kMaxSpeedMetersPerSecond = 3;
-        public static final double kMaxAccelerationMetersPerSecondSquared = 3;
+        public static final double kMaxSpeedMetersPerSecond = 2;//3
+        public static final double kMaxAccelerationMetersPerSecondSquared = 2;//3
         
         public static final double kPThetaController = 4;
         public static final TrapezoidProfile.Constraints kThetaControllerConstraints = 

@@ -88,6 +88,7 @@ public class TopArm extends SubsystemBase {
     SmartDashboard.putNumber("Top Absolute Encoder Position", encoderPositionAngle());
     SmartDashboard.putNumber("Top Absolute Position", absDutyCycleEncoder.getAbsolutePosition() * 360);
     SmartDashboard.putBoolean("Reverse Scoring", reverseScore);
+    SmartDashboard.putNumber("Top Arm Output", topArmMotor.getAppliedOutput());
     armGoalPos = SmartDashboard.getNumber("Arm Goal Position", 0);
 
 

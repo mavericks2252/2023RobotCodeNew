@@ -56,7 +56,7 @@ public class ArmScorePostition extends CommandBase {
     if(node == high) {
       if (ledModeSubsystem.getRobotMode()) {// Cube mode
         
-        topGoalPosition = -5;
+        topGoalPosition = -10;
         bottomGoalPosition = 105;
         bottomHoldPosition = 15;
       }
@@ -65,7 +65,7 @@ public class ArmScorePostition extends CommandBase {
 
       else {// Cone mode
         topGoalPosition = -30;
-        bottomGoalPosition = 130;
+        bottomGoalPosition = 131;
         bottomHoldPosition = 50;
       }
       scoringNode = high;
@@ -105,6 +105,7 @@ public class ArmScorePostition extends CommandBase {
     SmartDashboard.putBoolean("Top Arm Hold", topArmHold);
     SmartDashboard.putBoolean("Bottom Arm hold", bottomArmHold);
     SmartDashboard.putNumber("Scoring Node", scoringNode);
+    SmartDashboard.putNumber("Top Arm Goal", topGoalPosition);
     //SmartDashboard.putNumber("Bottom Arm Error", Math.abs(bottomArmError));*/
 
     bottomArmError = ArmConstants.kBottomReversePosition - bottomArm.getMotorEncoderPosition();
@@ -144,7 +145,7 @@ public class ArmScorePostition extends CommandBase {
   @Override
   public boolean isFinished() {
 
-      if (Math.abs(bottomArm.getMotorEncoderPosition() - bottomGoalPosition) < 1 && Math.abs(topArm.getMotorEncoderPosition() - topGoalPosition) < 1){
+      if (Math.abs(bottomArm.getMotorEncoderPosition() - bottomGoalPosition) < 1 && Math.abs(topArm.getMotorEncoderPosition() - topGoalPosition) < 2.5){
         ledModeSubsystem.stopBlinking();
         return true;
       }

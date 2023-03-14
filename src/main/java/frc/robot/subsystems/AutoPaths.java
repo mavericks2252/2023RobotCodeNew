@@ -46,6 +46,13 @@ public class AutoPaths extends SubsystemBase {
           new PathConstraints(
             AutoConstants.kMaxSpeedMetersPerSecond, 
             AutoConstants.kMaxAccelerationMetersPerSecondSquared));
+      
+      List<PathPlannerTrajectory> threePiece = 
+        PathPlanner.loadPathGroup(
+          "Three Piece", 
+          new PathConstraints(
+            AutoConstants.kMaxSpeedMetersPerSecond, 
+            AutoConstants.kMaxAccelerationMetersPerSecondSquared));
 
       
 
@@ -57,6 +64,7 @@ public class AutoPaths extends SubsystemBase {
       autoChooser.addOption("One Piece Plus", onePiecePlus);
       autoChooser.addOption("Two Piece Level", twoPieceLevel);
       autoChooser.addOption("Two Piece Plus", twoPiecePlus);
+      autoChooser.addOption("Three Piece", threePiece);
       autoChooser.setDefaultOption("Do Nothing", doNothing);
 
       SmartDashboard.putData("Selected Auto", autoChooser);

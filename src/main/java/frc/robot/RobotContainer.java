@@ -157,25 +157,24 @@ public class RobotContainer {
         ***Place auto Commands AFTER this line
         Enabling Continuous Input on Rotational PID Controler to pass through -180 to 180 degrees (in Radians)
       */
-      //AutoConstants.kThetaController.enableContinuousInput(-Math.PI, Math.PI);
+      //AutoConstants.kThetaController.;
       
       
       //Creating the eventmap for markers in auto program
       HashMap<String, Command> eventMap = new HashMap<>();
-      eventMap.put("Marker 1", new WaitCommand(3));
-      eventMap.put("Place Cube", new SequentialCommandGroup(
-        new ArmScorePostition(OIConstants.highNode, ledModeSubsystem, bottomArm, topArm),
-        new ScoreGamePiece(gripper, topArm, bottomArm, ledModeSubsystem),
-        new RaiseTopArm(topArm)
-        ));
+      eventMap.put("Wait", new WaitCommand(.5));
+      eventMap.put("Place Cube", new ScoreGamePiece(gripper, topArm, bottomArm, ledModeSubsystem));
       eventMap.put("Set Arm Position", new ArmScorePostition(OIConstants.highNode, ledModeSubsystem, bottomArm, topArm));
+      eventMap.put("Set Mid Position", new ArmScorePostition(OIConstants.midNode, ledModeSubsystem, bottomArm, topArm));
       eventMap.put("Place Cone", new SequentialCommandGroup(
         new ArmScorePostition(OIConstants.highNode, ledModeSubsystem, bottomArm, topArm),
         new ScoreGamePiece(gripper, topArm, bottomArm, ledModeSubsystem),
         new RaiseTopArm(topArm).withTimeout(.5)
         ));
       eventMap.put("Stow Arm", new ArmStowPosition(bottomArm, topArm, intake));
-      eventMap.put("Get Cube", new IntakeGamePiece(intake, gripper, floor, topArm, bottomArm, ledModeSubsystem).withTimeout(4));
+      eventMap.put("Get Cube", new IntakeGamePiece(intake, gripper, floor, topArm, bottomArm, ledModeSubsystem).withTimeout(1.5));
+      eventMap.put("Deploy Intake", new InstantCommand(() -> intake.extendIntake()));
+      eventMap.put("Run Intake", new IntakeGamePiece(intake, gripper, floor, topArm, bottomArm, ledModeSubsystem));
       eventMap.put("Auto Balance", new AutoBalanceCommand(swerveSubsystem).withTimeout(5));
       eventMap.put("Cube Mode", new InstantCommand(() -> ledModeSubsystem.cubeMode()));
       eventMap.put("Cone Mode", new InstantCommand(() -> ledModeSubsystem.coneMode()));

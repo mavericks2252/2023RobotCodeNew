@@ -50,7 +50,7 @@ public class ScoreGamePiece extends CommandBase {
     
       if (ledModeSubsystem.getRobotMode()){// Cube mode
 
-        topArmGoal = topArm.getMotorEncoderPosition();
+        topArmGoal = -10;
         
       }
 
@@ -62,17 +62,17 @@ public class ScoreGamePiece extends CommandBase {
       // Middle node
       if (nodePosition == mid){
     
-      if (ledModeSubsystem.getRobotMode()){// Cube mode
-
-      }
-
-      else {// Cone mode
-        if (topArm.getScoringPosition()) {// Reverse scoring
-          topArmGoal = topArm.getMotorEncoderPosition()-30;
+        if (ledModeSubsystem.getRobotMode()){// Cube mode
+          topArmGoal = topArm.getMotorEncoderPosition();
         }
-        else{
-        topArmGoal = topArm.getMotorEncoderPosition()+33;
-        }
+
+        else {// Cone mode
+          if (topArm.getScoringPosition()) {// Reverse scoring
+            topArmGoal = topArm.getMotorEncoderPosition()-30;
+          }
+          else{
+          topArmGoal = topArm.getMotorEncoderPosition()+33;
+          }
       }
     }
 
@@ -80,7 +80,7 @@ public class ScoreGamePiece extends CommandBase {
       if (nodePosition == low) {
     
         if (ledModeSubsystem.getRobotMode()){// Cube mode
-          //gripper.runGripper(1);
+          
         }
 
         else {// Cone mode
@@ -103,12 +103,13 @@ public class ScoreGamePiece extends CommandBase {
     else if (!ledModeSubsystem.getRobotMode() && nodePosition != low){ // Cone mode
       topArmError = topArmGoal - topArm.getMotorEncoderPosition();
       
-      if (Math.abs(topArmError) < 1){
+      if (Math.abs(topArmError) < 4){
       gripper.runGripper(.4);
+      bottomArm.setMotorPosition(118);
       }
       if (Math.abs(topArmError) < .5){
         
-        bottomArm.setMotorPosition(118);
+        
       }
     }
   }
@@ -132,7 +133,7 @@ public class ScoreGamePiece extends CommandBase {
   public boolean isFinished() {
   // Cube mode
     if (ledModeSubsystem.getRobotMode() || nodePosition == low ){// If cube mode or in low node position and the end timer is greater than .25 sec
-      if(endTimer.get() > .25){// If the beam break is not tripped return true
+      if(endTimer.get() > .5){// If the beam break is not tripped return true
         return true;
       }
       else {// If the beam break is tripped return false
