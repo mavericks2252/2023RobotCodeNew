@@ -39,8 +39,8 @@ public class Intake extends SubsystemBase {
     extendIntake();
   }
 
-  public void reverseIntake()  {
-    intakeMotor.set(ControlMode.PercentOutput, -IntakeConstants.kIntakeMotorSpeed);
+  public void onlyRunIntake()  {
+    intakeMotor.set(ControlMode.PercentOutput, IntakeConstants.kIntakeMotorSpeed);
   }
 
   public void extendIntake() {

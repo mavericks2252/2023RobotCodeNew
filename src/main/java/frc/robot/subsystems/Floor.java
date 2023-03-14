@@ -28,6 +28,10 @@ public class Floor extends SubsystemBase {
     floorMotor.set(.4);
   }
 
+  public void reverseFloorMotor() {
+    floorMotor.set(-.6);
+  }
+
   public void stopFloorMotor() {
     floorMotor.stopMotor();
   }

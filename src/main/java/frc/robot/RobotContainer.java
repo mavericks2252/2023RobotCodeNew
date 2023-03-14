@@ -25,6 +25,7 @@ import frc.robot.commands.AprilTagAutoAlign;
 import frc.robot.commands.ArmScorePostition;
 import frc.robot.commands.ArmStowPosition;
 import frc.robot.commands.AutoBalanceCommand;
+import frc.robot.commands.ConeFloorReverse;
 import frc.robot.commands.GamePieceRelease;
 import frc.robot.commands.IntakeGamePiece;
 import frc.robot.commands.RaiseTopArm;
@@ -114,10 +115,7 @@ public class RobotContainer {
         //Gripper Commands
           
           new JoystickButton(driverJoystick, OIConstants.rbButton).toggleOnTrue(new IntakeGamePiece(intake, gripper, floor, topArm, bottomArm, ledModeSubsystem));
-          
-          new JoystickButton(driverJoystick, OIConstants.aButton).onTrue(new SequentialCommandGroup(new ArmScorePostition(OIConstants.highNode, ledModeSubsystem, bottomArm, topArm), new ScoreGamePieceCommand(gripper, topArm, bottomArm, ledModeSubsystem, intake)));
-
-          
+          new JoystickButton(driverJoystick, OIConstants.xButton).toggleOnTrue(new ConeFloorReverse(intake, gripper, floor, topArm, bottomArm, ledModeSubsystem));
           new JoystickButton(driverJoystick, OIConstants.lbButton).onTrue(new SingleStationIntake(ledModeSubsystem, topArm, bottomArm, gripper));
 
 
