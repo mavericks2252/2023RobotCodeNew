@@ -38,6 +38,7 @@ public class Robot extends TimedRobot {
     m_robotContainer = new RobotContainer();
     m_robotContainer.bottomArm.stopMotors();
     m_robotContainer.topArm.stopMotors();
+    
     PathPlannerServer.startServer(2252);
   }
 
@@ -105,8 +106,9 @@ public class Robot extends TimedRobot {
     if (m_autonomousCommand != null) {
       m_autonomousCommand.cancel();
     }
+    
     m_robotContainer.bottomArm.stopMotors();
-    m_robotContainer.topArm.stopMotors();
+    m_robotContainer.topArm.setMotorPosition(m_robotContainer.topArm.getMotorEncoderPosition());
 
   }
 

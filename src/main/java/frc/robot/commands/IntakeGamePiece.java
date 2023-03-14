@@ -110,7 +110,7 @@ public class IntakeGamePiece extends CommandBase {
    if(ledModeSubsystem.getRobotMode()){
 
     // if beamBreak sensor broken end
-    if(gripper.getBeamBreakSensor() && gripper.getGripperCurrent() > 12 ){
+    if(gripper.getBeamBreakSensor() && gripper.getGripperCurrent() > 10 ){
           ledModeSubsystem.startBlinking();
           return true;
 

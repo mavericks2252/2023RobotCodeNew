@@ -46,11 +46,11 @@ public class ScoreGamePiece extends CommandBase {
     nodePosition = topArm.getNodePosition();
     
     //High node
-    if (nodePosition == high){
+    if (nodePosition == high || nodePosition == 4){
     
       if (ledModeSubsystem.getRobotMode()){// Cube mode
 
-        topArmGoal = -10;
+        topArmGoal = topArm.getMotorEncoderPosition();
         
       }
 
@@ -88,6 +88,9 @@ public class ScoreGamePiece extends CommandBase {
           topArmGoal = 75;
         }
       }
+
+      
+      
   }
 
   // Called every time the scheduler runs while the command is scheduled.

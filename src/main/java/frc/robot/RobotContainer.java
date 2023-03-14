@@ -162,17 +162,18 @@ public class RobotContainer {
       
       //Creating the eventmap for markers in auto program
       HashMap<String, Command> eventMap = new HashMap<>();
-      eventMap.put("Wait", new WaitCommand(.5));
+      eventMap.put("Wait", new WaitCommand(1));
       eventMap.put("Place Cube", new ScoreGamePiece(gripper, topArm, bottomArm, ledModeSubsystem));
-      eventMap.put("Set Arm Position", new ArmScorePostition(OIConstants.highNode, ledModeSubsystem, bottomArm, topArm));
-      eventMap.put("Set Mid Position", new ArmScorePostition(OIConstants.midNode, ledModeSubsystem, bottomArm, topArm));
+      eventMap.put("Set High Position", new ArmScorePostition(OIConstants.highNode, ledModeSubsystem, bottomArm, topArm));
+      eventMap.put("Set Node 4", new ArmScorePostition(OIConstants.autoHighNode, ledModeSubsystem, bottomArm, topArm));
+      eventMap.put("Set Mid Position", new ArmScorePostition(OIConstants.autoMidNode, ledModeSubsystem, bottomArm, topArm));
       eventMap.put("Place Cone", new SequentialCommandGroup(
         new ArmScorePostition(OIConstants.highNode, ledModeSubsystem, bottomArm, topArm),
         new ScoreGamePiece(gripper, topArm, bottomArm, ledModeSubsystem),
         new RaiseTopArm(topArm).withTimeout(.5)
         ));
       eventMap.put("Stow Arm", new ArmStowPosition(bottomArm, topArm, intake));
-      eventMap.put("Get Cube", new IntakeGamePiece(intake, gripper, floor, topArm, bottomArm, ledModeSubsystem).withTimeout(1.5));
+      eventMap.put("Get Cube", new IntakeGamePiece(intake, gripper, floor, topArm, bottomArm, ledModeSubsystem).withTimeout(.75));
       eventMap.put("Deploy Intake", new InstantCommand(() -> intake.extendIntake()));
       eventMap.put("Run Intake", new IntakeGamePiece(intake, gripper, floor, topArm, bottomArm, ledModeSubsystem));
       eventMap.put("Auto Balance", new AutoBalanceCommand(swerveSubsystem).withTimeout(5));

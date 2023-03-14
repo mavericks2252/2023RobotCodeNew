@@ -87,6 +87,18 @@ public class ArmScorePostition extends CommandBase {
       scoringNode = mid;
     }
 
+    else if(node == 4) {
+      topGoalPosition = -40;
+      bottomGoalPosition = 135;
+      bottomHoldPosition = 50;
+    }
+
+    else if(node == 5) {
+      topGoalPosition = -10;
+      bottomGoalPosition = 135;
+      bottomHoldPosition = 50;
+    }
+
     else{ 
       topGoalPosition = 75;
       bottomGoalPosition = 98;
@@ -95,6 +107,8 @@ public class ArmScorePostition extends CommandBase {
       bottomArmHold = false;
       topArmHold = false;
     }
+
+    
 
   }
 

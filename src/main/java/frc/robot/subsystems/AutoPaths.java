@@ -45,14 +45,14 @@ public class AutoPaths extends SubsystemBase {
           "Two Piece Plus", 
           new PathConstraints(
             AutoConstants.kMaxSpeedMetersPerSecond, 
-            AutoConstants.kMaxAccelerationMetersPerSecondSquared));
+            3.2));
       
       List<PathPlannerTrajectory> threePiece = 
         PathPlanner.loadPathGroup(
-          "Three Piece", 
+          "Two Piece Level Copy", 
           new PathConstraints(
-            AutoConstants.kMaxSpeedMetersPerSecond, 
-            AutoConstants.kMaxAccelerationMetersPerSecondSquared));
+            3.05, 
+            3.5));
 
       
 

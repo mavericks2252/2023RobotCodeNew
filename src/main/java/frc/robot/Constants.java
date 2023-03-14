@@ -193,14 +193,16 @@ public final class Constants {
         public static final int lowNode = 1;
         public static final int midNode = 2;
         public static final int highNode = 3;
+        public static final int autoHighNode = 4;
+        public static final int autoMidNode = 5;
         public static final int kLEDStripLength = 75;
     }         
 
     public static final class AutoConstants {
 
         
-        public static final double kMaxSpeedMetersPerSecond = 2;//3
-        public static final double kMaxAccelerationMetersPerSecondSquared = 2;//3
+        public static final double kMaxSpeedMetersPerSecond = 3;//3
+        public static final double kMaxAccelerationMetersPerSecondSquared = 3;//3
         
         public static final double kPThetaController = 4;
         public static final TrapezoidProfile.Constraints kThetaControllerConstraints = 
