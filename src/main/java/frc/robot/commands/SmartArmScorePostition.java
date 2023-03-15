@@ -167,6 +167,8 @@ public class SmartArmScorePostition extends CommandBase {
     
     SmartDashboard.putBoolean("Score Command Running", false);
     topArm.setNodePosition(node);
+
+    
   }
 
   

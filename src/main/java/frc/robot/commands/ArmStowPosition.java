@@ -63,14 +63,19 @@ public class ArmStowPosition extends CommandBase {
   @Override
   public void end(boolean interrupted) {
 
+     if (topArm.getScoringPosition()) {
+      intake.retractIntake();
+    }
+
+    topArm.setRegularScoring();
+
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
     if (!topArmHold && !bottomArmHold){
-      
-      topArm.setRegularScoring();
+           
       return true;
     }
     

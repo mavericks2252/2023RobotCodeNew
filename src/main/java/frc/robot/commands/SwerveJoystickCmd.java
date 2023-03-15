@@ -55,8 +55,8 @@ public class SwerveJoystickCmd extends CommandBase {
   @Override
   public void execute() {
     // Get real-time joystick inputs
-    double xSpeed = Math.copySign(Math.pow(xSpdFunction.get(), 2), xSpdFunction.get()) ;
-    double ySpeed = Math.copySign(Math.pow(ySpdFunction.get(), 2), ySpdFunction.get());
+    double xSpeed = xSpdFunction.get();
+    double ySpeed = ySpdFunction.get();
     double turningSpeed = turningSpdFunction.get();
     double slowDrive = slowDriveFunction.get();
 

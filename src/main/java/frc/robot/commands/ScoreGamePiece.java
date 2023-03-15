@@ -56,6 +56,7 @@ public class ScoreGamePiece extends CommandBase {
 
       else {// Cone mode
         topArmGoal = topArm.getMotorEncoderPosition()+25;
+        bottomArmGoal = 118;
       }
     }
 
@@ -72,6 +73,7 @@ public class ScoreGamePiece extends CommandBase {
           }
           else{
           topArmGoal = topArm.getMotorEncoderPosition()+33;
+          bottomArmGoal = 90;
           }
       }
     }
@@ -108,7 +110,7 @@ public class ScoreGamePiece extends CommandBase {
       
       if (Math.abs(topArmError) < 4){
       gripper.runGripper(.4);
-      bottomArm.setMotorPosition(118);
+      bottomArm.setMotorPosition(bottomArmGoal);//118
       }
       if (Math.abs(topArmError) < .5){
         
