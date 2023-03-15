@@ -26,9 +26,7 @@ public class TopArm extends SubsystemBase {
   DutyCycleEncoder absDutyCycleEncoder;
   RelativeEncoder relativeEncoder;
   double armGoalPos;
-  boolean cubeMode;
-  boolean coneMode;
-  boolean reverseScore;
+  boolean cubeMode, coneMode, reverseScore, stowPosition;
   int nodePosition;
   
   
@@ -60,7 +58,7 @@ public class TopArm extends SubsystemBase {
     armPIDController.setFF(TopArmConstants.kFeedForward);
     armPIDController.setOutputRange(TopArmConstants.kMinOutput, TopArmConstants.kMaxOutput);
 
-   
+   setTrueStowPosition();
 
 
     /*SmartDashboard.putNumber("Arm Goal Position", 0);
@@ -90,7 +88,7 @@ public class TopArm extends SubsystemBase {
     SmartDashboard.putBoolean("Reverse Scoring", reverseScore);
     SmartDashboard.putNumber("Top Arm Output", topArmMotor.getAppliedOutput());
     armGoalPos = SmartDashboard.getNumber("Arm Goal Position", 0);
-
+    SmartDashboard.putBoolean("Stow Position", getStowPositionState());
 
     /*armPIDController.setP(SmartDashboard.getNumber("Top Arm kP", 0));
     armPIDController.setI(SmartDashboard.getNumber("Top Arm kI", 0));
@@ -163,5 +161,16 @@ public class TopArm extends SubsystemBase {
     topArmMotor.stopMotor();
   }
 
+  public void setTrueStowPosition(){
+    stowPosition = true;
+  }
+
+  public void setFalseStowPositon(){
+    stowPosition = false;
+  }
+
+  public boolean getStowPositionState(){
+    return stowPosition;
+  }
   
 }

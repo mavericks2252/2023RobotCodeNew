@@ -51,74 +51,105 @@ public class SmartArmScorePostition extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    if (swerveSubsystem.getHeading() < -90 || swerveSubsystem.getHeading() > 90) {
-      topArm.setReverseScoring();
-      intake.extendIntake();
-    }
+    
+    if (topArm.getStowPositionState()) {
 
-    // Sets reverse position depending on robot orientation 
-    topArm.setMotorPosition(56);
-    if (topArm.getScoringPosition()) {
-      reversePosition = 100;
-    }
-    else{
-     reversePosition = ArmConstants.kBottomReversePosition;
-    }
-
-    bottomArm.setMotorPosition(reversePosition);// Set the lower arm angle back
-
-    topArmHold = true;
-    bottomArmHold = true;
-
-
-    if(node == high) {
-      if (ledModeSubsystem.getRobotMode()) {// Cube mode
-        
-        topGoalPosition = -5;
-        bottomGoalPosition = 105;
-        bottomHoldPosition = 15;
+      if (swerveSubsystem.getHeading() < -90 || swerveSubsystem.getHeading() > 90) {
+        topArm.setReverseScoring();
+        intake.extendIntake();
       }
-        
+
+      // Sets reverse position depending on robot orientation 
+      topArm.setMotorPosition(56);
+      if (topArm.getScoringPosition()) {
+        reversePosition = 100;
+      }
+
+      else{
+      reversePosition = ArmConstants.kBottomReversePosition;
+      }
+
+      bottomArm.setMotorPosition(reversePosition);// Set the lower arm angle back
+
+      topArmHold = true;
+      bottomArmHold = true;
+
       
 
-      else {// Cone mode
-        topGoalPosition = -30;
-        bottomGoalPosition = 130;
+      if(node == high) {
+        if (ledModeSubsystem.getRobotMode()) {// Cube mode
+          
+          topGoalPosition = -10;
+          bottomGoalPosition = 105;
+          bottomHoldPosition = 15;
+        }
+          
+        
+
+        else {// Cone mode
+          topGoalPosition = -30;
+          bottomGoalPosition = 131;
+          bottomHoldPosition = 50;
+        }
+        scoringNode = high;
+      }
+
+      else if(node == mid) {
+
+        if (ledModeSubsystem.getRobotMode()) {// Cube mode
+          topGoalPosition = 5;
+          bottomGoalPosition = 75;
+          bottomHoldPosition = 35;
+        }
+
+        else {// Cone mode
+          // Sets position depending on robot orientation
+          if (topArm.getScoringPosition()){
+            topGoalPosition = 210;
+            bottomGoalPosition = 58;  
+            bottomHoldPosition = 160;
+          }
+          else {
+          topGoalPosition = 0;
+          bottomGoalPosition = 93;
+          bottomHoldPosition = 35;
+          }
+        }
+        scoringNode = mid;
+      }
+
+      else if(node == 4) {
+        topGoalPosition = -40;
+        bottomGoalPosition = 135;
         bottomHoldPosition = 50;
       }
-      scoringNode = high;
-    }
 
-    else if(node == mid) {
-
-      if (ledModeSubsystem.getRobotMode()) {// Cube mode
-        topGoalPosition = 5;
-        bottomGoalPosition = 75;
-        bottomHoldPosition = 35;
+      else if(node == 5) {
+        topGoalPosition = -10;
+        bottomGoalPosition = 135;
+        bottomHoldPosition = 50;
       }
 
-      else {// Cone mode
-        // Sets position depending on robot orientation
-        if (topArm.getScoringPosition()){
-          topGoalPosition = 210;
-          bottomGoalPosition = 58;  
-          bottomHoldPosition = 160;
-        }
-        else {
-        topGoalPosition = 0;
-        bottomGoalPosition = 93;
-        bottomHoldPosition = 35;
-        }
+      else{ 
+        topGoalPosition = 75;
+        bottomGoalPosition = 98;
+        scoringNode = low;
+        bottomHoldPosition = 75;
+        bottomArmHold = false;
+        topArmHold = false;
       }
-      scoringNode = mid;
+      
+      topArm.setFalseStowPositon();
     }
 
-    else{ 
-      topGoalPosition = 75;
-      bottomGoalPosition = 98;
-      scoringNode = low;
-      bottomHoldPosition = 75;
+    else {
+      topGoalPosition = topArm.getMotorEncoderPosition();
+      bottomGoalPosition = bottomArm.getMotorEncoderPosition();
+      topArmHold = false;
+      bottomArmHold = false;
     }
+
+  
 
   }
 
@@ -168,7 +199,7 @@ public class SmartArmScorePostition extends CommandBase {
     SmartDashboard.putBoolean("Score Command Running", false);
     topArm.setNodePosition(node);
 
-    
+
   }
 
   

@@ -30,6 +30,7 @@ public class ArmStowPosition extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    
     bottomArm.setMotorPosition(ArmConstants.kBottomReversePosition);
     topArm.setMotorPosition(topArm.getMotorEncoderPosition()-10);
     topArmHold = true;
@@ -64,10 +65,17 @@ public class ArmStowPosition extends CommandBase {
   public void end(boolean interrupted) {
 
      if (topArm.getScoringPosition()) {
-      intake.retractIntake();
+      new Thread(() -> {
+        try {
+          Thread.sleep(500);
+          intake.retractIntake();
+        } catch (Exception e) {}
+        }).start();
+      
     }
-
+    topArm.setTrueStowPosition();
     topArm.setRegularScoring();
+    
 
   }
 
@@ -75,7 +83,7 @@ public class ArmStowPosition extends CommandBase {
   @Override
   public boolean isFinished() {
     if (!topArmHold && !bottomArmHold){
-           
+      
       return true;
     }
     

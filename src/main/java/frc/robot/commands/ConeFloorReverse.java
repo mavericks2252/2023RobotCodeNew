@@ -6,7 +6,6 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.Constants.ArmConstants;
 import frc.robot.subsystems.BottomArm;
 import frc.robot.subsystems.Floor;
 import frc.robot.subsystems.Gripper;
@@ -61,8 +60,6 @@ public class ConeFloorReverse extends CommandBase {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    topArm.setMotorPosition(ArmConstants.kTopStowPosition);
-    bottomArm.setMotorPosition(ArmConstants.kBottomStowPosition);
     intake.stopIntake();
     intake.retractIntake();
     floor.stopFloorMotor();

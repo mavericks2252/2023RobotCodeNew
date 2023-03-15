@@ -116,6 +116,15 @@ public class LEDModeSubsystem extends SubsystemBase {
     led.setData(yellowLedBuffer);
   }
 
+  public void toggleRobotMode() {
+    if (cubeMode){
+      cubeMode = false;
+    }
+    else {
+      cubeMode = true;
+    }
+  }
+
   // Get robot Mode true = cube false = cone
   public boolean getRobotMode() {
     return cubeMode;

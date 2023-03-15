@@ -115,7 +115,9 @@ public class RobotContainer {
         //Gripper Commands
           
           new JoystickButton(driverJoystick, OIConstants.rbButton).toggleOnTrue(new IntakeGamePiece(intake, gripper, floor, topArm, bottomArm, ledModeSubsystem));
-          new JoystickButton(driverJoystick, OIConstants.xButton).toggleOnTrue(new ConeFloorReverse(intake, gripper, floor, topArm, bottomArm, ledModeSubsystem));
+          new JoystickButton(driverJoystick, OIConstants.xButton).toggleOnTrue(new SequentialCommandGroup(
+            new ConeFloorReverse(intake, gripper, floor, topArm, bottomArm, ledModeSubsystem), 
+            new ArmStowPosition(bottomArm, topArm, intake)));
           new JoystickButton(driverJoystick, OIConstants.lbButton).onTrue(new SingleStationIntake(ledModeSubsystem, topArm, bottomArm, gripper));
 
 
@@ -129,18 +131,18 @@ public class RobotContainer {
          
 
          //Arm Commands
-          new JoystickButton(operatorJoystick, OIConstants.yButton).onTrue(new ArmScorePostition(OIConstants.highNode, ledModeSubsystem, bottomArm, topArm));// High node
+          new JoystickButton(operatorJoystick, OIConstants.yButton).onTrue(new SmartArmScorePostition(OIConstants.highNode, ledModeSubsystem, bottomArm, topArm, swerveSubsystem, intake));// High node
           new JoystickButton(operatorJoystick, OIConstants.bButton).onTrue(new SmartArmScorePostition(OIConstants.midNode, ledModeSubsystem, bottomArm, topArm, swerveSubsystem, intake));// Middle node
-          new JoystickButton(operatorJoystick, OIConstants.aButton).onTrue(new ArmScorePostition(OIConstants.lowNode, ledModeSubsystem, bottomArm, topArm));// Low node
+          new JoystickButton(operatorJoystick, OIConstants.aButton).onTrue(new SmartArmScorePostition(OIConstants.lowNode, ledModeSubsystem, bottomArm, topArm, swerveSubsystem, intake));// Low node
 
           new JoystickButton(operatorJoystick, OIConstants.menuButton).onTrue(new ArmStowPosition(bottomArm, topArm, intake));
 
           new JoystickButton(operatorJoystick, OIConstants.xButton).onTrue(new ScoreGamePieceCommand(gripper, topArm, bottomArm, ledModeSubsystem, intake));
           //new JoystickButton(operatorJoystick, OIConstants.xButton).onTrue(new GamePieceRelease(gripper, ledModeSubsystem).withTimeout(1));
     
-
-          new JoystickButton(operatorJoystick, OIConstants.lbButton).onTrue(new InstantCommand(() -> ledModeSubsystem.cubeMode()));
-          new JoystickButton(operatorJoystick, OIConstants.rbButton).onTrue(new InstantCommand(() -> ledModeSubsystem.coneMode()));       
+          new JoystickButton(operatorJoystick, OIConstants.lbButton).onTrue(new InstantCommand(() -> ledModeSubsystem.toggleRobotMode()));
+          /*new JoystickButton(operatorJoystick, OIConstants.lbButton).onTrue(new InstantCommand(() -> ledModeSubsystem.cubeMode()));
+          new JoystickButton(operatorJoystick, OIConstants.rbButton).onTrue(new InstantCommand(() -> ledModeSubsystem.coneMode()));*/   
 
   }
   /**
