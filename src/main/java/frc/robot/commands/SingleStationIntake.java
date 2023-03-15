@@ -34,6 +34,14 @@ public class SingleStationIntake extends CommandBase {
   @Override
   public void initialize() {
 
+    
+    
+  }
+
+  // Called every time the scheduler runs while the command is scheduled.
+  @Override
+  public void execute() {
+    
     if (ledModeSubsystem.getRobotMode()) {
       topArm.setMotorPosition(0);
       bottomArm.setMotorPosition(50);
@@ -49,12 +57,8 @@ public class SingleStationIntake extends CommandBase {
       endTimer.reset();
       endTimer.start();
     }
-    
+  
   }
-
-  // Called every time the scheduler runs while the command is scheduled.
-  @Override
-  public void execute() {}
 
   // Called once the command ends or is interrupted.
   @Override

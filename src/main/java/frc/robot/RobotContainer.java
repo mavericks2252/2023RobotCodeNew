@@ -137,7 +137,7 @@ public class RobotContainer {
 
           new JoystickButton(operatorJoystick, OIConstants.menuButton).onTrue(new ArmStowPosition(bottomArm, topArm, intake));
 
-          new JoystickButton(operatorJoystick, OIConstants.xButton).onTrue(new ScoreGamePieceCommand(gripper, topArm, bottomArm, ledModeSubsystem, intake));
+          new JoystickButton(operatorJoystick, OIConstants.rbButton).onTrue(new ScoreGamePieceCommand(gripper, topArm, bottomArm, ledModeSubsystem, intake));
           //new JoystickButton(operatorJoystick, OIConstants.xButton).onTrue(new GamePieceRelease(gripper, ledModeSubsystem).withTimeout(1));
     
           new JoystickButton(operatorJoystick, OIConstants.lbButton).onTrue(new InstantCommand(() -> ledModeSubsystem.toggleRobotMode()));
@@ -164,9 +164,9 @@ public class RobotContainer {
       HashMap<String, Command> eventMap = new HashMap<>();
       eventMap.put("Wait", new WaitCommand(1));
       eventMap.put("Place Cube", new ScoreGamePiece(gripper, topArm, bottomArm, ledModeSubsystem));
-      eventMap.put("Set High Position", new ArmScorePostition(OIConstants.highNode, ledModeSubsystem, bottomArm, topArm));
-      eventMap.put("Set Node 4", new ArmScorePostition(OIConstants.autoHighNode, ledModeSubsystem, bottomArm, topArm));
-      eventMap.put("Set Mid Position", new ArmScorePostition(OIConstants.autoMidNode, ledModeSubsystem, bottomArm, topArm));
+      eventMap.put("Set High Position", new SmartArmScorePostition(OIConstants.highNode, ledModeSubsystem, bottomArm, topArm, swerveSubsystem, intake));
+      eventMap.put("Set Node 4", new SmartArmScorePostition(OIConstants.autoHighNode, ledModeSubsystem, bottomArm, topArm, swerveSubsystem, intake));
+      eventMap.put("Set Mid Position", new SmartArmScorePostition(OIConstants.autoMidNode, ledModeSubsystem, bottomArm, topArm, swerveSubsystem, intake));
       eventMap.put("Place Cone", new SequentialCommandGroup(
         new ArmScorePostition(OIConstants.highNode, ledModeSubsystem, bottomArm, topArm),
         new ScoreGamePiece(gripper, topArm, bottomArm, ledModeSubsystem),
