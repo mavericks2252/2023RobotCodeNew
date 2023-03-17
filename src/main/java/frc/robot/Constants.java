@@ -4,6 +4,7 @@
 
 package frc.robot;
 
+
 import com.pathplanner.lib.auto.PIDConstants;
 
 import edu.wpi.first.math.geometry.Translation2d;
@@ -76,6 +77,7 @@ public final class Constants {
         public static final double kbackRightAbsoluteEncoderOffsetRad = Units.degreesToRadians(235.107);
         public static final boolean kbackRightAbsoluteEncoderReversed = false;
 
+        
             //Practice Robot
         /*public static final boolean kFrontLeftDriveMotorInverted = false;
         public static final boolean kFrontLeftTurningMotorInverted = true;
@@ -100,10 +102,10 @@ public final class Constants {
         
 
         public static final double kPhysicalMaxSpeedMetersPerSecond = Units.feetToMeters(16.3);
-        public static final double kTeleDriveMaxAccelerationUnitsPerSecond = 2;
+        public static final double kTeleDriveMaxAccelerationUnitsPerSecond = 3.55;
         public static final double kTeleDriveMaxAngularAccelerationUnitsPerSecond = 10;
-        public static final double kTeleDriveMaxSpeedMetersPerSecond = 4;//10
-        public static final double kTeleDriveMaxAngularSpeedRadiansPerSecond = 5;//15
+        public static final double kTeleDriveMaxSpeedMetersPerSecond = 4.5;//10
+        public static final double kTeleDriveMaxAngularSpeedRadiansPerSecond = 7;//15
 
         public static final double kMinimumTurningSpeed = .75;
         public static final double kMinimumDriveSpeed = .3;

@@ -2,6 +2,8 @@ package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
+import com.ctre.phoenix.motorcontrol.StatorCurrentLimitConfiguration;
+import com.ctre.phoenix.motorcontrol.SupplyCurrentLimitConfiguration;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import com.ctre.phoenix.sensors.WPI_CANCoder;
 import edu.wpi.first.math.controller.PIDController;
@@ -27,6 +29,9 @@ public class SwerveModule {
     Boolean absoluteEncoderReversed;
     Double absoluteEncoderOffsetRad;
 
+    StatorCurrentLimitConfiguration drivStatorCurrentLimitConfiguration = new StatorCurrentLimitConfiguration(true, 60, 40, .5);
+    SupplyCurrentLimitConfiguration driveSupplyCurrentLimitConfiguration = new SupplyCurrentLimitConfiguration(true, 60, 40, .5);
+
     public SwerveModule(int drivingMotorId, int turningMotorId, boolean driveMotorReversed, boolean turningMotorReversed, 
     int absoluteEncoderId, double absoluteEncoderOffset, boolean absoluteEncoderReversed) {
 
@@ -49,6 +54,13 @@ public class SwerveModule {
 
         drivingMotor.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor);
         turningMotor.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor);
+
+        drivingMotor.configStatorCurrentLimit(drivStatorCurrentLimitConfiguration);
+        drivingMotor.configSupplyCurrentLimit(driveSupplyCurrentLimitConfiguration);
+
+        turningMotor.configStatorCurrentLimit(drivStatorCurrentLimitConfiguration);
+        turningMotor.configSupplyCurrentLimit(driveSupplyCurrentLimitConfiguration);
+
 
 
 

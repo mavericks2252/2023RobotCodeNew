@@ -30,8 +30,8 @@ public class AutoPaths extends SubsystemBase {
         PathPlanner.loadPathGroup(
           "One Piece Plus", 
           new PathConstraints(
-            AutoConstants.kMaxSpeedMetersPerSecond, 
-            AutoConstants.kMaxAccelerationMetersPerSecondSquared));
+            2, 
+            2));
             
       List<PathPlannerTrajectory> twoPieceLevel = 
         PathPlanner.loadPathGroup(
@@ -39,22 +39,34 @@ public class AutoPaths extends SubsystemBase {
           new PathConstraints(
             AutoConstants.kMaxSpeedMetersPerSecond, 
             AutoConstants.kMaxAccelerationMetersPerSecondSquared));
-
-      List<PathPlannerTrajectory> twoPiecePlus = 
-        PathPlanner.loadPathGroup(
-          "Two Piece Plus", 
-          new PathConstraints(
-            AutoConstants.kMaxSpeedMetersPerSecond, 
-            3.2));
       
       List<PathPlannerTrajectory> threePiece = 
         PathPlanner.loadPathGroup(
-          "Two Piece Level Copy", 
+          "Three Piece Score", 
           new PathConstraints(
             3.05, 
             3.5));
 
+      List<PathPlannerTrajectory> onlyScoreMid = 
+        PathPlanner.loadPathGroup(
+          "Only Score Mid", 
+          new PathConstraints(
+            AutoConstants.kMaxSpeedMetersPerSecond, 
+            AutoConstants.kMaxAccelerationMetersPerSecondSquared));
+
+      List<PathPlannerTrajectory> twoPieceScoreRight = 
+        PathPlanner.loadPathGroup(
+          "Two Piece Score Right", 
+          new PathConstraints(
+            2, 
+            2));
       
+      List<PathPlannerTrajectory> twoPiecePlusRight = 
+        PathPlanner.loadPathGroup(
+          "Two Piece Plus Right", 
+          new PathConstraints(
+            2, 
+            2));
 
 
 
@@ -63,8 +75,10 @@ public class AutoPaths extends SubsystemBase {
       autoChooser.addOption("Do Nothing", doNothing);
       autoChooser.addOption("One Piece Plus", onePiecePlus);
       autoChooser.addOption("Two Piece Level", twoPieceLevel);
-      autoChooser.addOption("Two Piece Plus", twoPiecePlus);
-      autoChooser.addOption("Three Piece", threePiece);
+      autoChooser.addOption("Three Piece Score", threePiece);
+      autoChooser.addOption("Only Score Mid", onlyScoreMid);
+      autoChooser.addOption("Two Piece Score Right", twoPieceScoreRight);
+      autoChooser.addOption("Two Piece Plus Right", twoPiecePlusRight);
       autoChooser.setDefaultOption("Do Nothing", doNothing);
 
       SmartDashboard.putData("Selected Auto", autoChooser);

@@ -190,7 +190,7 @@ public class RobotContainer {
         AutoConstants.kThetaController, // PID for rotation error
         swerveSubsystem::setModuleStates, 
         eventMap, 
-        false, // Should the path be mirrored depending on alliance color
+        true, // Should the path be mirrored depending on alliance color
         swerveSubsystem);
         
         Command fullAuto = autoBuilder.fullAuto(autoPaths.getSelectedAuto());
