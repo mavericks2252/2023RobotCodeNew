@@ -2,13 +2,13 @@
   "waypoints": [
     {
       "anchorPoint": {
-        "x": 2.0,
-        "y": 3.278076127580827
+        "x": 1.8408575413675243,
+        "y": 4.47060946753478
       },
       "prevControl": null,
       "nextControl": {
-        "x": 3.000000000000004,
-        "y": 3.278076127580827
+        "x": 2.840857541367522,
+        "y": 4.47060946753478
       },
       "holonomicAngle": 0,
       "isReversal": false,
@@ -16,9 +16,7 @@
       "isLocked": false,
       "isStopPoint": false,
       "stopEvent": {
-        "names": [
-          "Place Cone"
-        ],
+        "names": [],
         "executionBehavior": "parallel",
         "waitBehavior": "none",
         "waitTime": 0
@@ -26,26 +24,24 @@
     },
     {
       "anchorPoint": {
-        "x": 7.6976668239050765,
-        "y": 3.392594070902428
+        "x": 7.082313989192701,
+        "y": 4.5612921050404065
       },
       "prevControl": {
-        "x": 5.736547044522661,
-        "y": 3.321020356326427
+        "x": 5.259592975329621,
+        "y": 4.379926830029155
       },
       "nextControl": {
-        "x": 5.736547044522661,
-        "y": 3.321020356326427
+        "x": 5.259592975329621,
+        "y": 4.379926830029155
       },
       "holonomicAngle": 0,
       "isReversal": true,
       "velOverride": null,
       "isLocked": false,
-      "isStopPoint": true,
+      "isStopPoint": false,
       "stopEvent": {
-        "names": [
-          "Get Cube"
-        ],
+        "names": [],
         "executionBehavior": "parallel",
         "waitBehavior": "none",
         "waitTime": 0
@@ -53,12 +49,12 @@
     },
     {
       "anchorPoint": {
-        "x": 2.5,
-        "y": 3.292390870496027
+        "x": 6.547286427909508,
+        "y": 3.228257333707706
       },
       "prevControl": {
-        "x": 3.499851400548986,
-        "y": 3.309629687746871
+        "x": 5.547286427909508,
+        "y": 3.228257333707706
       },
       "nextControl": null,
       "holonomicAngle": 0,
@@ -67,40 +63,12 @@
       "isLocked": false,
       "isStopPoint": false,
       "stopEvent": {
-        "names": [
-          "Auto Balance"
-        ],
+        "names": [],
         "executionBehavior": "parallel",
         "waitBehavior": "none",
         "waitTime": 0
       }
     }
   ],
-  "markers": [
-    {
-      "position": 0.1,
-      "names": [
-        "Cube Mode",
-        "Stow Arm"
-      ]
-    },
-    {
-      "position": 0.6272727272727274,
-      "names": [
-        "Deploy Intake"
-      ]
-    },
-    {
-      "position": 0.7272727272727274,
-      "names": [
-        "Run Intake"
-      ]
-    },
-    {
-      "position": 1.1090909090909087,
-      "names": [
-        "Stow Arm"
-      ]
-    }
-  ]
+  "markers": []
 }

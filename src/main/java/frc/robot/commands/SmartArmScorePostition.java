@@ -110,7 +110,7 @@ public class SmartArmScorePostition extends CommandBase {
             bottomHoldPosition = 160;
           }
           else {
-          topGoalPosition = 0;
+          topGoalPosition = 3;
           bottomGoalPosition = 93;
           bottomHoldPosition = 35;
           }

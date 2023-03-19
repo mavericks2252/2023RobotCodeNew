@@ -31,14 +31,14 @@ public class BottomArm extends SubsystemBase {
   
   
   public BottomArm() {
+  // Setting motor equal to a new sparkmax 
   bottomArmMasterMotor = new CANSparkMax(PortConstants.kBottomArmMasterMotorPort, MotorType.kBrushless);
   bottomArmSlaveMotor = new CANSparkMax(PortConstants.kBottomArmSlaveMotorPort, MotorType.kBrushless);
   
   
-
+  // Configuring the motors
   bottomArmMasterMotor.restoreFactoryDefaults();
   bottomArmSlaveMotor.restoreFactoryDefaults();
-  
   bottomArmSlaveMotor.follow(bottomArmMasterMotor);
   bottomArmMasterMotor.setIdleMode(IdleMode.kBrake);
   bottomArmSlaveMotor.setIdleMode(IdleMode.kBrake);
@@ -48,11 +48,11 @@ public class BottomArm extends SubsystemBase {
   bottomArmMasterMotor.setSoftLimit(SoftLimitDirection.kForward, 160);
   bottomArmMasterMotor.setSoftLimit(SoftLimitDirection.kReverse, 55);
 
-
-
   armPidController = bottomArmMasterMotor.getPIDController();
 
-  //alternateEncoder = bottomArmMasterMotor.getAbsoluteEncoder(Type.kDutyCycle);
+  
+
+ 
   absDutyCycleEncoder = new DutyCycleEncoder(0);
   
 
@@ -60,7 +60,7 @@ public class BottomArm extends SubsystemBase {
   
   relativeEncoder.setPositionConversionFactor(360 / BottomArmConstants.kGearRatio);
 
-
+  // Configures pids on the motors
   armPidController.setP(BottomArmConstants.kP);
   armPidController.setI(BottomArmConstants.kI);
   armPidController.setD(BottomArmConstants.kD);
@@ -68,13 +68,10 @@ public class BottomArm extends SubsystemBase {
   armPidController.setFF(BottomArmConstants.kFeedForward);
   armPidController.setOutputRange(BottomArmConstants.kMinOutput, BottomArmConstants.kMaxOutput);
 
-  SmartDashboard.putNumber("Bottom Arm kP", armPidController.getP());
-  SmartDashboard.putNumber("Bottom Arm kI", armPidController.getI());
-  SmartDashboard.putNumber("Bottom Arm IZone", armPidController.getIZone());
-  SmartDashboard.putNumber("Bottom Arm kD", armPidController.getD());
+  
 
   
-  
+  // Waits one second before running the method
   new Thread(() -> {
     try {
       Thread.sleep(1000);
@@ -89,33 +86,27 @@ public class BottomArm extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
-    //armPidController.setReference(0, CANSparkMax.ControlType.kSmartMotion);
-
     SmartDashboard.putNumber("Bottom Motor Encoder Position", relativeEncoder.getPosition());
     SmartDashboard.putNumber("Bottom Absolute Encoder Position", encoderPositionAngle());
     SmartDashboard.putNumber("Bottom Absolute Position", absDutyCycleEncoder.getAbsolutePosition() * 360);
-    SmartDashboard.putNumber("Bottom Arm Percent Output", bottomArmMasterMotor.getAppliedOutput());
-
-
-    armPidController.setP(SmartDashboard.getNumber("Bottom Arm kP", 0));
-    armPidController.setI(SmartDashboard.getNumber("Bottom Arm kI", 0));
-    armPidController.setIZone(SmartDashboard.getNumber("Bottom Arm IZone", 0));
-    armPidController.setD(SmartDashboard.getNumber("Bottom Arm kD", 0));
   }
 
+  // Gets the position of the motor as an angle
   public Double encoderPositionAngle() {
     double angle = absDutyCycleEncoder.getAbsolutePosition() * 360;
     angle -= BottomArmConstants.kAbsEncoderOffset;
     return angle * (BottomArmConstants.kAbsEncoderReversed ? -1 : 1);
 
-    //return absDutyCycleEncoder.getAbsolutePosition() * 360;
+    
   }
 
+  // Sets the motor encoder equal to the position of the absolute encoder
   public void resetEncoderPosition() {
     
     relativeEncoder.setPosition(encoderPositionAngle());
   }
 
+  // Sets the motor to an angle
   public void setMotorPosition(double angle) {
     
     armPidController.setReference(angle, CANSparkMax.ControlType.kPosition);
@@ -131,3 +122,18 @@ public class BottomArm extends SubsystemBase {
 
   
 }
+
+
+/*alternateEncoder = bottomArmMasterMotor.getAbsoluteEncoder(Type.kDutyCycle);
+  SmartDashboard.putNumber("Bottom Arm kP", armPidController.getP());
+  SmartDashboard.putNumber("Bottom Arm kI", armPidController.getI());
+  SmartDashboard.putNumber("Bottom Arm IZone", armPidController.getIZone());
+  SmartDashboard.putNumber("Bottom Arm kD", armPidController.getD());
+  armPidController.setReference(0, CANSparkMax.ControlType.kSmartMotion);
+  SmartDashboard.putNumber("Bottom Arm Percent Output", bottomArmMasterMotor.getAppliedOutput());
+  armPidController.setP(SmartDashboard.getNumber("Bottom Arm kP", 0));
+  armPidController.setI(SmartDashboard.getNumber("Bottom Arm kI", 0));
+  armPidController.setIZone(SmartDashboard.getNumber("Bottom Arm IZone", 0));
+  armPidController.setD(SmartDashboard.getNumber("Bottom Arm kD", 0));
+  return absDutyCycleEncoder.getAbsolutePosition() * 360;
+  */

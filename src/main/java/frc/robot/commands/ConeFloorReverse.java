@@ -49,7 +49,7 @@ public class ConeFloorReverse extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if (!ledModeSubsystem.getRobotMode() && reverseTimer.get() > .5){
+    if (!ledModeSubsystem.getRobotMode() && reverseTimer.get() > .5){// If the robot is in cone mode and the timer has run for more than half of a second
       
       floor.reverseFloorMotor();
       intake.onlyRunIntake();
@@ -64,7 +64,7 @@ public class ConeFloorReverse extends CommandBase {
     intake.retractIntake();
     floor.stopFloorMotor();
 
-    if (!ledModeSubsystem.getRobotMode()) {
+    if (!ledModeSubsystem.getRobotMode()) {// If the robot is in cone mode it will hold the cone
       gripper.gripperHoldCone();
     }
   }

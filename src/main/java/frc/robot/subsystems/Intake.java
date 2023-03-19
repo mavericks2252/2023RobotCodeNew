@@ -22,8 +22,9 @@ public class Intake extends SubsystemBase {
   StatorCurrentLimitConfiguration currentLimit = new StatorCurrentLimitConfiguration(true, 20, 40, .5);
 
   public Intake() {
-
+    // Sets the motor equal to a new talon fx
     intakeMotor = new WPI_TalonFX(PortConstants.kIntakeMotorPort);
+    // Sets the solenoid equal to a new double acting solenoid
     intakeSolenoid = new DoubleSolenoid(PneumaticsModuleType.REVPH, PortConstants.kIntakeSolenoidForwardChannel, PortConstants.kIntakeSolenoidReverseChannel);
     
   }
@@ -33,22 +34,22 @@ public class Intake extends SubsystemBase {
     // This method will be called once per scheduler run
   }
 
-  public void runIntake(double speed) {
+  public void runIntake(double speed) {// Sets motor to an output percentage and deploys the intake
 
     intakeMotor.set(ControlMode.PercentOutput, speed);
     extendIntake();
   }
 
-  public void onlyRunIntake()  {
+  public void onlyRunIntake()  {// Sets the motor to an output percentage
     intakeMotor.set(ControlMode.PercentOutput, IntakeConstants.kIntakeMotorSpeed);
   }
 
-  public void extendIntake() {
+  public void extendIntake() {// Sets the solenoid forward
 
     intakeSolenoid.set(Value.kForward);
   }
 
-  public void retractIntake() {
+  public void retractIntake() {// Sets the solenoid to the reverse position
 
     intakeSolenoid.set(Value.kReverse);
   }

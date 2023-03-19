@@ -50,10 +50,10 @@ public class AutoBalanceCommand extends CommandBase {
     if (Math.abs(changeInAngle) > .25) {//swerveSubsystem.getBalanceAngle() <= 2 & swerveSubsystem.getBalanceAngle() >= -2
       xSpeed = 0;
     }
-    else if(swerveSubsystem.getBalanceAngle() > 2){
+    else if(swerveSubsystem.getBalanceAngle() > 2){// If the robot has tipped forward greater than 2 degrees
       xSpeed = -AutoConstants.kAutoBalanceSpeed; // drive backward
     }
-    else if(swerveSubsystem.getBalanceAngle() < -2) {
+    else if(swerveSubsystem.getBalanceAngle() < -2) {// If the robot has tipped backwards greater than 2 degrees
       xSpeed = AutoConstants.kAutoBalanceSpeed; // drive forward
     }
     else {
@@ -83,7 +83,7 @@ public class AutoBalanceCommand extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    
+    // If the robot has tipped more than two degrees in either direction it will end the command
     if (swerveSubsystem.getBalanceAngle() < 2 & swerveSubsystem.getBalanceAngle() > -2){
       if (endTimer.get() > 1){
         return true;

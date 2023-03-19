@@ -160,11 +160,11 @@
         "y": 2.1491339473907023
       },
       "prevControl": {
-        "x": 5.482373742463374,
-        "y": 2.021651015913233
+        "x": 5.921576229117371,
+        "y": 1.269512363586131
       },
       "nextControl": null,
-      "holonomicAngle": 0,
+      "holonomicAngle": 36.304497122575206,
       "isReversal": false,
       "velOverride": null,
       "isLocked": false,

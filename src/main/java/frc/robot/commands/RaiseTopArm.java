@@ -22,7 +22,7 @@ public class RaiseTopArm extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    topArmGoal = topArm.getMotorEncoderPosition() - 20; //set goal for top arm 15 degrees higher than current position
+    topArmGoal = topArm.getMotorEncoderPosition() - 20; //set goal for top arm 20 degrees higher than current position
 
   }
 
@@ -30,7 +30,7 @@ public class RaiseTopArm extends CommandBase {
   @Override
   public void execute() {
     topArmError = topArmGoal - topArm.getMotorEncoderPosition();
-    topArm.setMotorPosition(topArmGoal);
+    topArm.setMotorPosition(topArmGoal);// Sets the top arm to the position
     SmartDashboard.putNumber("raise arm error", topArmError);
   }
 
@@ -44,7 +44,8 @@ public class RaiseTopArm extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    if (Math.abs(topArmError)<3){
+
+    if (Math.abs(topArmError) < 3){// If the arm is within 3 degrees of the goal it will stop the command
       return true;
   }
   else {

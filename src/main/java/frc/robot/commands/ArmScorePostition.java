@@ -52,7 +52,7 @@ public class ArmScorePostition extends CommandBase {
     topArmHold = true;
     bottomArmHold = true;
 
-
+  /* * * Sets the goals depending on the node being passed to it * * */
     if(node == high) {
       if (ledModeSubsystem.getRobotMode()) {// Cube mode
         
@@ -126,21 +126,22 @@ public class ArmScorePostition extends CommandBase {
 
     
 
-    if (Math.abs(bottomArmError) < 1) {
+    if (Math.abs(bottomArmError) < 1) {// If the error of the bottom arm is within a degree it will let the top arm move
       topArmHold = false;
     }
-    if (topArm.getMotorEncoderPosition() < bottomHoldPosition) {
+    if (topArm.getMotorEncoderPosition() < bottomHoldPosition) {// when the top arm gets past a point it will let the top arm move
       bottomArmHold = false;
     }
 
+  // If it's no longer holding the arm it will set it to a position given to it
     if (!topArmHold) {
       topArm.setMotorPosition(topGoalPosition);
     }
     if (!bottomArmHold) {
       bottomArm.setMotorPosition(bottomGoalPosition);
     }
+
     SmartDashboard.putBoolean("Score Command Running", true);
-    
     SmartDashboard.putNumber("Top Arm Error", (Math.abs(topArm.getMotorEncoderPosition()) - Math.abs(topGoalPosition)));
     SmartDashboard.putNumber("Bottom Arm Error", (Math.abs(bottomArm.getMotorEncoderPosition()) - Math.abs(bottomGoalPosition)));
   }
@@ -158,7 +159,7 @@ public class ArmScorePostition extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-
+    // If the top arm is within 2.5 degrees of the goal and the bottom is within 1 degree it will end the command
       if (Math.abs(bottomArm.getMotorEncoderPosition() - bottomGoalPosition) < 1 && Math.abs(topArm.getMotorEncoderPosition() - topGoalPosition) < 2.5){
         ledModeSubsystem.stopBlinking();
         return true;

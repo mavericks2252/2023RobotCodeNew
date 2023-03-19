@@ -21,6 +21,8 @@ public class AutoPaths extends SubsystemBase {
   SendableChooser<List <PathPlannerTrajectory>> autoChooser;
   /** Creates a new AutoPaths. */
   public AutoPaths() {
+
+    
     List<PathPlannerTrajectory> doNothing = 
         PathPlanner.loadPathGroup(
           "do nothing", 
@@ -61,12 +63,19 @@ public class AutoPaths extends SubsystemBase {
             2, 
             2));
       
-      List<PathPlannerTrajectory> twoPiecePlusRight = 
+      List<PathPlannerTrajectory> twoPiecePlusCable = 
         PathPlanner.loadPathGroup(
           "Two Piece Plus Right", 
           new PathConstraints(
             2, 
             2));
+
+      List<PathPlannerTrajectory> onePiecePlusMidBalance = 
+        PathPlanner.loadPathGroup(
+          "One Peice Plus Mid", 
+          new PathConstraints(
+            AutoConstants.kMaxSpeedMetersPerSecond, 
+            AutoConstants.kMaxAccelerationMetersPerSecondSquared));
 
 
 
@@ -77,8 +86,9 @@ public class AutoPaths extends SubsystemBase {
       autoChooser.addOption("Two Piece Level", twoPieceLevel);
       autoChooser.addOption("Three Piece Score", threePiece);
       autoChooser.addOption("Only Score Mid", onlyScoreMid);
-      autoChooser.addOption("Two Piece Score Right", twoPieceScoreRight);
-      autoChooser.addOption("Two Piece Plus Right", twoPiecePlusRight);
+      autoChooser.addOption("Two Piece Score Cable", twoPieceScoreRight);
+      autoChooser.addOption("Two Piece Plus Cable", twoPiecePlusCable);
+      autoChooser.addOption("One Piece Plus Mid", onePiecePlusMidBalance);
       autoChooser.setDefaultOption("Do Nothing", doNothing);
 
       SmartDashboard.putData("Selected Auto", autoChooser);

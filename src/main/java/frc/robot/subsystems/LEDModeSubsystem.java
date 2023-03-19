@@ -116,6 +116,7 @@ public class LEDModeSubsystem extends SubsystemBase {
     led.setData(yellowLedBuffer);
   }
 
+  // Toggles the robot mode
   public void toggleRobotMode() {
     if (cubeMode){
       cubeMode = false;

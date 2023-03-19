@@ -137,11 +137,11 @@ public class TopArm extends SubsystemBase {
     return relativeEncoder.getPosition();
   }
 
-  public void setNodePosition(int node) {
+  public void setNodePosition(int node) {// Sets the node to be scored at
     nodePosition = node;
   }
 
-  public int getNodePosition() {
+  public int getNodePosition() {// Used in other places to get the node to score at
     return nodePosition;
   }
 
@@ -153,7 +153,7 @@ public class TopArm extends SubsystemBase {
     reverseScore = false;
   }
 
-  public boolean getScoringPosition() {
+  public boolean getScoringPosition() {// Used in other places to dictate which side of the robot to score out of
     return reverseScore;
   }
 
@@ -169,7 +169,7 @@ public class TopArm extends SubsystemBase {
     stowPosition = false;
   }
 
-  public boolean getStowPositionState(){
+  public boolean getStowPositionState(){// Checks if the robot is in stow position
     return stowPosition;
   }
   

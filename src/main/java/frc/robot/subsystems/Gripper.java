@@ -26,10 +26,11 @@ public class Gripper extends SubsystemBase {
   /** Creates a new Gripper. */
   public Gripper() {
 
-    gripperMotor = new CANSparkMax(PortConstants.kGripperMotorPort, MotorType.kBrushless);
-    gripperMotor.setIdleMode(IdleMode.kBrake);
+
+    gripperMotor = new CANSparkMax(PortConstants.kGripperMotorPort, MotorType.kBrushless);// Setting the motor equal to a new sparkmax
+    gripperMotor.setIdleMode(IdleMode.kBrake);// Sets the motor to either brake or coast mode
     gripperMotor.setInverted(false);
-    beamBreakSensor = new DigitalInput(2);
+    beamBreakSensor = new DigitalInput(2);// Sets the beam break sensor to digital input port 2
     
         
   }
@@ -44,14 +45,14 @@ public class Gripper extends SubsystemBase {
 
   }
 
-  public void runGripper(double percentOutput) {
+  public void runGripper(double percentOutput) {// Sets the motor to an output percentage 
 
     gripperMotor.set(percentOutput);
    
   }
 
 
-  public void reverseGripper(double percentOutput) {
+  public void reverseGripper(double percentOutput) {// Sets the motor to an output percentage reversed
 
     gripperMotor.set(-percentOutput);
   }
@@ -63,11 +64,11 @@ public class Gripper extends SubsystemBase {
    
   }
 
-  public double getGripperCurrent() {
+  public double getGripperCurrent() {// Returns the current being sent to the motors
     return gripperMotor.getOutputCurrent();
   }
 
-  public boolean getBeamBreakSensor() {
+  public boolean getBeamBreakSensor() {// Returns the status of the beam break sensor
     return !beamBreakSensor.get();
   }
 

@@ -87,13 +87,14 @@ public class SingleStationIntake extends CommandBase {
     }
     //cone mode
     else {
-      if (gripper.getGripperCurrent() > 10){
-        if(endTimer.get() > .5){
+      if (gripper.getGripperCurrent() > 50){
+        /*if(endTimer.get() > .2){
         return true;
         }
         else {
           return false;
-        }
+        }*/
+        return true;
       }
       else {
         endTimer.reset();

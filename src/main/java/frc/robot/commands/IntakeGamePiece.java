@@ -54,18 +54,18 @@ public class IntakeGamePiece extends CommandBase {
     floor.runFloorMotor();
     
     // Cube mode
-    if (ledModeSubsystem.getRobotMode()){
+    if (ledModeSubsystem.getRobotMode()){// If the robot is in cube mode it will send the arm to these positions and run the gripper and intake
       gripper.runGripper(GripperConstants.gripperMotorSpeed);
-      topArm.setMotorPosition(95);//95
-      bottomArm.setMotorPosition(65);
+      topArm.setMotorPosition(95);
+      bottomArm.setMotorPosition(64);
       intake.runIntake(IntakeConstants.kIntakeMotorSpeed);
     }
 
   
     // Cone mode
-    else {
+    else {// If the robot is in cone mode it will send the arm to these position and run the gripper and intake
       intake.runIntake(.6);
-      topArm.setMotorPosition(115);//119
+      topArm.setMotorPosition(115);
       bottomArm.setMotorPosition(78);
       gripper.reverseGripper(.5);
       
@@ -83,6 +83,7 @@ public class IntakeGamePiece extends CommandBase {
     intake.retractIntake();
     floor.stopFloorMotor();
 
+    // Will send the gripper to hold each game peice depending on the mode
     if (ledModeSubsystem.getRobotMode()){
       gripper.gripperHoldCube();
     }

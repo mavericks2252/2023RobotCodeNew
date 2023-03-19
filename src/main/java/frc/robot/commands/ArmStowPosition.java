@@ -31,6 +31,7 @@ public class ArmStowPosition extends CommandBase {
   @Override
   public void initialize() {
     
+    // Sets the position back at the beginning
     bottomArm.setMotorPosition(ArmConstants.kBottomReversePosition);
     topArm.setMotorPosition(topArm.getMotorEncoderPosition()-10);
     topArmHold = true;
@@ -45,13 +46,14 @@ public class ArmStowPosition extends CommandBase {
     SmartDashboard.putBoolean("Stow Top Arm Hold", topArmHold);
     SmartDashboard.putBoolean("Stow Bottom Arm Hold", bottomArmHold);
 
-    if (bottomArm.getMotorEncoderPosition() < 90) {
+    if (bottomArm.getMotorEncoderPosition() < 90) {// Once the bottom goes under 90 degrees it will let the top move
       topArmHold = false;
     }
-    if (topArm.getMotorEncoderPosition() > 25) {
+    if (topArm.getMotorEncoderPosition() > 25) {// Once the top goes above 25 it will let the bottom arm move
       bottomArmHold = false;
     }
 
+    // Once it is no longer holding the arm they will set it to the stow position
     if (!topArmHold) {
       topArm.setMotorDownPosition(ArmConstants.kTopStowPosition);
     }
@@ -64,7 +66,7 @@ public class ArmStowPosition extends CommandBase {
   @Override
   public void end(boolean interrupted) {
 
-     if (topArm.getScoringPosition()) {
+     if (topArm.getScoringPosition()) {// Waits half of a secong to rettract the intake
       new Thread(() -> {
         try {
           Thread.sleep(500);
@@ -82,6 +84,7 @@ public class ArmStowPosition extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
+    // Will end the command once it is no longer holding the arm
     if (!topArmHold && !bottomArmHold){
       
       return true;
