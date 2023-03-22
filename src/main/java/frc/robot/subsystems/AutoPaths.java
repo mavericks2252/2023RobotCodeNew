@@ -44,7 +44,14 @@ public class AutoPaths extends SubsystemBase {
       
       List<PathPlannerTrajectory> threePiece = 
         PathPlanner.loadPathGroup(
-          "Three Piece Score", 
+          "Three Piece Score Copy", 
+          new PathConstraints(
+            3.05, 
+            3.5));
+
+       List<PathPlannerTrajectory> twoAndHalfPlus= 
+        PathPlanner.loadPathGroup(
+          "2.5 Piece Level", 
           new PathConstraints(
             3.05, 
             3.5));
@@ -58,14 +65,14 @@ public class AutoPaths extends SubsystemBase {
 
       List<PathPlannerTrajectory> twoPieceScoreRight = 
         PathPlanner.loadPathGroup(
-          "Two Piece Score Right", 
+          "Two Piece Score Cable", 
           new PathConstraints(
             2, 
             2));
       
       List<PathPlannerTrajectory> twoPiecePlusCable = 
         PathPlanner.loadPathGroup(
-          "Two Piece Plus Right", 
+          "Two Piece Plus Cable", 
           new PathConstraints(
             2, 
             2));
@@ -86,6 +93,7 @@ public class AutoPaths extends SubsystemBase {
       autoChooser.addOption("Two Piece Level", twoPieceLevel);
       autoChooser.addOption("Three Piece Score", threePiece);
       autoChooser.addOption("Only Score Mid", onlyScoreMid);
+      autoChooser.addOption("2.5 Piece Level", twoAndHalfPlus);
       autoChooser.addOption("Two Piece Score Cable", twoPieceScoreRight);
       autoChooser.addOption("Two Piece Plus Cable", twoPiecePlusCable);
       autoChooser.addOption("One Piece Plus Mid", onePiecePlusMidBalance);

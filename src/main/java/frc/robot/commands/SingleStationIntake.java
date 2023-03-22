@@ -51,8 +51,8 @@ public class SingleStationIntake extends CommandBase {
     }
 
     else {
-      topArm.setMotorPosition(7);
-      bottomArm.setMotorPosition(55);
+      topArm.setMotorPosition(7);//nose first 3
+      bottomArm.setMotorPosition(55);//nose first 57
       gripper.runGripper(-GripperConstants.gripperMotorSpeed);
       endTimer.reset();
       endTimer.start();

@@ -144,7 +144,7 @@ public final class Constants {
         public static final double kP = 0.05;
         public static final double kI = 0.001;
         public static final double kD = 0.5;
-        public static final double kIntegralZone = 0.5;
+        public static final double kIntegralZone = 2;
         public static final double kFeedForward = 0;
         public static final double kMinOutput = -.5;
         public static final double kMaxOutput = .5;

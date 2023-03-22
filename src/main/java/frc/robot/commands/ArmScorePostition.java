@@ -99,6 +99,8 @@ public class ArmScorePostition extends CommandBase {
       bottomHoldPosition = 50;
     }
 
+    
+
     else{ 
       topGoalPosition = 75;
       bottomGoalPosition = 98;

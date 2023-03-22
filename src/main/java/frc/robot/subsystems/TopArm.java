@@ -61,12 +61,12 @@ public class TopArm extends SubsystemBase {
    setTrueStowPosition();
 
 
-    /*SmartDashboard.putNumber("Arm Goal Position", 0);
+    SmartDashboard.putNumber("Arm Goal Position", 0);
 
     SmartDashboard.putNumber("Top Arm kP", armPIDController.getP());
     SmartDashboard.putNumber("Top Arm kI", armPIDController.getI());
     SmartDashboard.putNumber("Top Arm kD", armPIDController.getD());
-    SmartDashboard.putNumber("Top Arm IZone", armPIDController.getIZone());*/
+    SmartDashboard.putNumber("Top Arm IZone", armPIDController.getIZone());
     
 
     new Thread(() -> {
@@ -90,12 +90,12 @@ public class TopArm extends SubsystemBase {
     armGoalPos = SmartDashboard.getNumber("Arm Goal Position", 0);
     SmartDashboard.putBoolean("Stow Position", getStowPositionState());
 
-    /*armPIDController.setP(SmartDashboard.getNumber("Top Arm kP", 0));
-    armPIDController.setI(SmartDashboard.getNumber("Top Arm kI", 0));
-    armPIDController.setD(SmartDashboard.getNumber("Top Arm kD", 0));
-    armPIDController.setIZone(SmartDashboard.getNumber("Top Arm IZone", 0));
+    armPIDController.setP(SmartDashboard.getNumber("Top Arm kP", armPIDController.getP()));
+    armPIDController.setI(SmartDashboard.getNumber("Top Arm kI", armPIDController.getI()));
+    armPIDController.setD(SmartDashboard.getNumber("Top Arm kD", armPIDController.getD()));
+    armPIDController.setIZone(SmartDashboard.getNumber("Top Arm IZone", armPIDController.getIZone()));
 
-    SmartDashboard.putNumber("Acutal Top Arm kP", armPIDController.getP());*/
+    SmartDashboard.putNumber("Acutal Top Arm kP", armPIDController.getP());
 
   
 

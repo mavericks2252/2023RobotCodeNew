@@ -25,6 +25,7 @@ import frc.robot.commands.AprilTagAutoAlign;
 import frc.robot.commands.ArmScorePostition;
 import frc.robot.commands.ArmStowPosition;
 import frc.robot.commands.AutoBalanceCommand;
+import frc.robot.commands.AutonConeScore;
 import frc.robot.commands.ConeFloorReverse;
 import frc.robot.commands.GamePieceRelease;
 import frc.robot.commands.IntakeGamePiece;
@@ -44,7 +45,6 @@ import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.LEDModeSubsystem;
 import frc.robot.subsystems.SwerveSubsystem;
 import frc.robot.subsystems.TopArm;
-import frc.robot.subsystems.Vision;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -56,8 +56,8 @@ public class RobotContainer {
   // The robot's subsystems and commands are defined here...
  
   private final SwerveSubsystem swerveSubsystem = new SwerveSubsystem();
-  private final Vision vision = new Vision();
-  private final AprilTagAutoAlign aprilTagAutoAlign = new AprilTagAutoAlign(swerveSubsystem, vision);
+  //private final Vision vision = new Vision();
+  //private final AprilTagAutoAlign aprilTagAutoAlign = new AprilTagAutoAlign(swerveSubsystem, vision);
   public final Intake intake = new Intake();
   public final BottomArm bottomArm = new BottomArm();
   public final TopArm topArm = new TopArm();
@@ -135,14 +135,19 @@ public class RobotContainer {
           new JoystickButton(operatorJoystick, OIConstants.bButton).onTrue(new SmartArmScorePostition(OIConstants.midNode, ledModeSubsystem, bottomArm, topArm, swerveSubsystem, intake));// Middle node
           new JoystickButton(operatorJoystick, OIConstants.aButton).onTrue(new SmartArmScorePostition(OIConstants.lowNode, ledModeSubsystem, bottomArm, topArm, swerveSubsystem, intake));// Low node
 
-          new JoystickButton(operatorJoystick, OIConstants.menuButton).onTrue(new ArmStowPosition(bottomArm, topArm, intake));
+          //new JoystickButton(operatorJoystick, OIConstants.menuButton).onTrue(new ArmStowPosition(bottomArm, topArm, intake));
 
           new JoystickButton(operatorJoystick, OIConstants.rbButton).onTrue(new ScoreGamePieceCommand(gripper, topArm, bottomArm, ledModeSubsystem, intake));
           //new JoystickButton(operatorJoystick, OIConstants.xButton).onTrue(new GamePieceRelease(gripper, ledModeSubsystem).withTimeout(1));
     
           new JoystickButton(operatorJoystick, OIConstants.lbButton).onTrue(new InstantCommand(() -> ledModeSubsystem.toggleRobotMode()));
           /*new JoystickButton(operatorJoystick, OIConstants.lbButton).onTrue(new InstantCommand(() -> ledModeSubsystem.cubeMode()));
-          new JoystickButton(operatorJoystick, OIConstants.rbButton).onTrue(new InstantCommand(() -> ledModeSubsystem.coneMode()));*/   
+          new JoystickButton(operatorJoystick, OIConstants.rbButton).onTrue(new InstantCommand(() -> ledModeSubsystem.coneMode()));*/ 
+          new JoystickButton(operatorJoystick, OIConstants.menuButton).onTrue(new SequentialCommandGroup (
+            new SmartArmScorePostition(6, ledModeSubsystem, bottomArm, topArm, swerveSubsystem, intake),
+            new AutonConeScore(gripper).withTimeout(.5),
+            new ArmStowPosition(bottomArm, topArm, intake)
+           ) );
 
   }
   /**
@@ -167,11 +172,17 @@ public class RobotContainer {
       eventMap.put("Set High Position", new SmartArmScorePostition(OIConstants.highNode, ledModeSubsystem, bottomArm, topArm, swerveSubsystem, intake));
       eventMap.put("Set Node 4", new SmartArmScorePostition(OIConstants.autoHighNode, ledModeSubsystem, bottomArm, topArm, swerveSubsystem, intake));
       eventMap.put("Set Mid Position", new SmartArmScorePostition(OIConstants.autoMidNode, ledModeSubsystem, bottomArm, topArm, swerveSubsystem, intake));
-      eventMap.put("Place Cone", new SequentialCommandGroup(
+     
+      /*eventMap.put("Place Cone", new SequentialCommandGroup(
         new ArmScorePostition(OIConstants.highNode, ledModeSubsystem, bottomArm, topArm),
         new ScoreGamePiece(gripper, topArm, bottomArm, ledModeSubsystem),
         new RaiseTopArm(topArm).withTimeout(.5)
+        ));*/
+        eventMap.put("Place Cone", new SequentialCommandGroup(
+          new SmartArmScorePostition(6, ledModeSubsystem, bottomArm, topArm, swerveSubsystem, intake),
+          new AutonConeScore(gripper).withTimeout(0.5)
         ));
+
       eventMap.put("Stow Arm", new ArmStowPosition(bottomArm, topArm, intake));
       eventMap.put("Get Cube", new IntakeGamePiece(intake, gripper, floor, topArm, bottomArm, ledModeSubsystem).withTimeout(.75));
       eventMap.put("Deploy Intake", new InstantCommand(() -> intake.extendIntake()));
