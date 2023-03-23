@@ -53,15 +53,15 @@
     },
     {
       "anchorPoint": {
-        "x": 2.65,
+        "x": 2.9,
         "y": 4.42
       },
       "prevControl": {
-        "x": 2.839609993152125,
+        "x": 3.089609993152125,
         "y": 4.47469474011801
       },
       "nextControl": {
-        "x": 2.839609993152125,
+        "x": 3.089609993152125,
         "y": 4.47469474011801
       },
       "holonomicAngle": 0,
@@ -93,7 +93,7 @@
       },
       "holonomicAngle": 0,
       "isReversal": false,
-      "velOverride": 3.5,
+      "velOverride": 3.05,
       "isLocked": false,
       "isStopPoint": false,
       "stopEvent": {
@@ -105,18 +105,18 @@
     },
     {
       "anchorPoint": {
-        "x": 7.24554273669951,
-        "y": 3.3189399712132768
+        "x": 7.218337945447821,
+        "y": 3.3824178174672146
       },
       "prevControl": {
-        "x": 6.928153505429819,
-        "y": 4.6157016875437265
+        "x": 6.9009487141781305,
+        "y": 4.679179533797663
       },
       "nextControl": {
-        "x": 6.928153505429819,
-        "y": 4.6157016875437265
+        "x": 6.9009487141781305,
+        "y": 4.679179533797663
       },
-      "holonomicAngle": -38.418055344821994,
+      "holonomicAngle": -29.931511840507802,
       "isReversal": true,
       "velOverride": null,
       "isLocked": false,
@@ -145,7 +145,7 @@
       },
       "holonomicAngle": 0.0,
       "isReversal": false,
-      "velOverride": 3.5,
+      "velOverride": 3.05,
       "isLocked": false,
       "isStopPoint": false,
       "stopEvent": {
@@ -157,19 +157,22 @@
     },
     {
       "anchorPoint": {
-        "x": 2.9499999999999997,
+        "x": 3.1999999999999997,
         "y": 4.2
       },
       "prevControl": {
-        "x": 3.203875336673199,
+        "x": 3.453875336673199,
         "y": 4.316073776007199
       },
-      "nextControl": null,
+      "nextControl": {
+        "x": 3.453875336673199,
+        "y": 4.316073776007199
+      },
       "holonomicAngle": 0,
-      "isReversal": false,
+      "isReversal": true,
       "velOverride": null,
       "isLocked": false,
-      "isStopPoint": false,
+      "isStopPoint": true,
       "stopEvent": {
         "names": [
           "Place Cube"
@@ -178,9 +181,58 @@
         "waitBehavior": "none",
         "waitTime": 0
       }
+    },
+    {
+      "anchorPoint": {
+        "x": 4.824316315299297,
+        "y": 4.6157016875437265
+      },
+      "prevControl": {
+        "x": 3.940032723096073,
+        "y": 4.6157016875437265
+      },
+      "nextControl": {
+        "x": 7.381566692957947,
+        "y": 4.6157016875437265
+      },
+      "holonomicAngle": 0,
+      "isReversal": false,
+      "velOverride": 3.05,
+      "isLocked": false,
+      "isStopPoint": false,
+      "stopEvent": {
+        "names": [],
+        "executionBehavior": "parallel",
+        "waitBehavior": "none",
+        "waitTime": 0
+      }
+    },
+    {
+      "anchorPoint": {
+        "x": 7.517590649216387,
+        "y": 5.595074172604486
+      },
+      "prevControl": {
+        "x": 7.463181066713012,
+        "y": 4.860544808808916
+      },
+      "nextControl": null,
+      "holonomicAngle": -90.0,
+      "isReversal": false,
+      "velOverride": null,
+      "isLocked": false,
+      "isStopPoint": false,
+      "stopEvent": {
+        "names": [
+          "Get Cube"
+        ],
+        "executionBehavior": "parallel",
+        "waitBehavior": "none",
+        "waitTime": 0
+      }
     }
   ],
-  "maxVelocity": 3.0,
+  "maxVelocity": 3.05,
   "maxAcceleration": null,
   "isReversed": null,
   "markers": [
@@ -192,13 +244,13 @@
       ]
     },
     {
-      "position": 0.4363636363636364,
+      "position": 0.44,
       "names": [
         "Deploy Intake"
       ]
     },
     {
-      "position": 0.8000000000000002,
+      "position": 0.8,
       "names": [
         "Run Intake"
       ]
@@ -210,27 +262,33 @@
       ]
     },
     {
-      "position": 2.3454545454545452,
+      "position": 2.35,
       "names": [
         "Stow Arm"
       ]
     },
     {
-      "position": 2.999999999999999,
+      "position": 3.0,
       "names": [
         "Deploy Intake"
-      ]
-    },
-    {
-      "position": 5.072727272727271,
-      "names": [
-        "Set Mid Position"
       ]
     },
     {
       "position": 3.44,
       "names": [
-        "Deploy Intake"
+        "Run Intake"
+      ]
+    },
+    {
+      "position": 5.07,
+      "names": [
+        "Set Mid Position"
+      ]
+    },
+    {
+      "position": 6.25,
+      "names": [
+        "Stow Arm"
       ]
     }
   ]

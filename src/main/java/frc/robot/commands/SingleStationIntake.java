@@ -51,8 +51,8 @@ public class SingleStationIntake extends CommandBase {
     }
 
     else {
-      topArm.setMotorPosition(7);//nose first 3
-      bottomArm.setMotorPosition(55);//nose first 57
+      topArm.setMotorPosition(7);//nose first 3 otherwise 7
+      bottomArm.setMotorPosition(55);//nose first 57 otherwise 55
       gripper.runGripper(-GripperConstants.gripperMotorSpeed);
       endTimer.reset();
       endTimer.start();
@@ -79,6 +79,7 @@ public class SingleStationIntake extends CommandBase {
     // cube Mode
     if (ledModeSubsystem.getRobotMode()){
       if (gripper.getBeamBreakSensor() & gripper.getGripperCurrent() > 7){
+        ledModeSubsystem.startBlinking();
         return true;
       }
       else {
@@ -94,6 +95,7 @@ public class SingleStationIntake extends CommandBase {
         else {
           return false;
         }*/
+        ledModeSubsystem.startBlinking();
         return true;
       }
       else {

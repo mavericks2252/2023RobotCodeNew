@@ -20,7 +20,9 @@ public class Gripper extends SubsystemBase {
 
   CANSparkMax gripperMotor;
   DigitalInput beamBreakSensor;
+  DigitalInput coneBeamBreak;
   DoubleSolenoid gripperSolenoid;
+  LEDModeSubsystem ledModeSubsystem;
 
 
   /** Creates a new Gripper. */
@@ -31,6 +33,8 @@ public class Gripper extends SubsystemBase {
     gripperMotor.setIdleMode(IdleMode.kBrake);// Sets the motor to either brake or coast mode
     gripperMotor.setInverted(false);
     beamBreakSensor = new DigitalInput(2);// Sets the beam break sensor to digital input port 2
+    coneBeamBreak = new DigitalInput(3);
+    //this.ledModeSubsystem = ledModeSubsystem;
     
         
   }
@@ -40,6 +44,7 @@ public class Gripper extends SubsystemBase {
     // This method will be called once per scheduler run
 
     SmartDashboard.putBoolean("Beam Break Sensor Value", getBeamBreakSensor());
+    SmartDashboard.putBoolean("Cone Beam Break", getBeamBreakSensor());
     SmartDashboard.putNumber("Gripper Motor Curent", gripperMotor.getOutputCurrent());
     SmartDashboard.putNumber("gripper motor output", gripperMotor.get());
 
@@ -70,6 +75,10 @@ public class Gripper extends SubsystemBase {
 
   public boolean getBeamBreakSensor() {// Returns the status of the beam break sensor
     return !beamBreakSensor.get();
+  }
+
+  public boolean getConeBeamBreak() {
+    return coneBeamBreak.get();
   }
 
   public void gripperHoldCone(){

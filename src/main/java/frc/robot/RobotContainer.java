@@ -184,7 +184,8 @@ public class RobotContainer {
         ));
 
       eventMap.put("Stow Arm", new ArmStowPosition(bottomArm, topArm, intake));
-      eventMap.put("Get Cube", new IntakeGamePiece(intake, gripper, floor, topArm, bottomArm, ledModeSubsystem).withTimeout(.75));
+      //eventMap.put("Instant Stow", new InstantCommand(() -> topArm.setSto))
+      eventMap.put("Get Cube", new IntakeGamePiece(intake, gripper, floor, topArm, bottomArm, ledModeSubsystem).withTimeout(.3));
       eventMap.put("Deploy Intake", new InstantCommand(() -> intake.extendIntake()));
       eventMap.put("Run Intake", new IntakeGamePiece(intake, gripper, floor, topArm, bottomArm, ledModeSubsystem));
       eventMap.put("Auto Balance", new AutoBalanceCommand(swerveSubsystem).withTimeout(5));

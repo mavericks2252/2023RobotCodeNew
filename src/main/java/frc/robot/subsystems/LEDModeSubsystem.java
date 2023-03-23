@@ -23,6 +23,7 @@ public class LEDModeSubsystem extends SubsystemBase {
   AddressableLEDBuffer yellowLedBuffer;
   AddressableLEDBuffer purpleLedBuffer;
   AddressableLEDBuffer redLEDBuffer;
+  AddressableLEDBuffer rainbowLEDBuffer;
   Timer ledTimerOff;
   Timer ledTimerOn;
   boolean blink = false; // sets robot to cone mode by default
@@ -41,6 +42,7 @@ public class LEDModeSubsystem extends SubsystemBase {
     purpleLedBuffer = new AddressableLEDBuffer(OIConstants.kLEDStripLength);
     yellowLedBuffer = new AddressableLEDBuffer(OIConstants.kLEDStripLength);
     redLEDBuffer = new AddressableLEDBuffer(OIConstants.kLEDStripLength);
+    rainbowLEDBuffer = new AddressableLEDBuffer(OIConstants.kLEDStripLength);
     led.setLength(yellowLedBuffer.getLength());
     led.start();
     
@@ -59,6 +61,7 @@ public class LEDModeSubsystem extends SubsystemBase {
       redLEDBuffer.setRGB(i, 255, 0, 0);// red
     }
 
+    
     
     // defualt robot to Cone Mode
     led.setData(yellowLedBuffer);
@@ -164,5 +167,13 @@ public class LEDModeSubsystem extends SubsystemBase {
 
   public void stopBlinking() {// To be called elsewhere to return the lights to a solid color
     blink = false;
+  }
+
+  private void rainbow() {
+
+    for (var i = 0; i < rainbowLEDBuffer.getLength(); i++) {
+      
+    }
+
   }
 }
