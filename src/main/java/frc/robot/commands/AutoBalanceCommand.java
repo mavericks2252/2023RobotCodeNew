@@ -47,7 +47,7 @@ public class AutoBalanceCommand extends CommandBase {
     double changeInAngle = swerveSubsystem.getBalanceAngle() - lastAngle;
     SmartDashboard.putNumber("Change in angle", changeInAngle);
 
-    if (Math.abs(changeInAngle) > .25) {//swerveSubsystem.getBalanceAngle() <= 2 & swerveSubsystem.getBalanceAngle() >= -2
+    if (Math.abs(changeInAngle) > .25) {// if the angle of robot has changed more than threshold in one program loop.... stop
       xSpeed = 0;
     }
     else if(swerveSubsystem.getBalanceAngle() > 2){// If the robot has tipped forward greater than 2 degrees
