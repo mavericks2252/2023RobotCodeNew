@@ -4,6 +4,7 @@
 
 package frc.robot.subsystems;
 
+
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.SparkMaxPIDController;
@@ -28,11 +29,13 @@ public class TopArm extends SubsystemBase {
   double armGoalPos;
   boolean cubeMode, coneMode, reverseScore, stowPosition;
   int nodePosition;
+  int storedNode;
   
   
  
   public TopArm() {
     topArmMotor = new CANSparkMax(PortConstants.kTopArmMotorPort, MotorType.kBrushless);
+    topArmMotor.setSmartCurrentLimit(40);
 
     topArmMotor.restoreFactoryDefaults();
     topArmMotor.setInverted(true);
@@ -45,7 +48,7 @@ public class TopArm extends SubsystemBase {
     //armPIDController = topArmMotor.getPIDController();
 
     absDutyCycleEncoder = new DutyCycleEncoder(PortConstants.kTopArmEncoderPort);
-    
+    absDutyCycleEncoder.setDistancePerRotation(360);
     
     relativeEncoder = topArmMotor.getEncoder();
     relativeEncoder.setPositionConversionFactor(360 / TopArmConstants.kGearRatio);
@@ -85,8 +88,10 @@ public class TopArm extends SubsystemBase {
     SmartDashboard.putNumber("Top Motor Encoder Position", relativeEncoder.getPosition());
     SmartDashboard.putNumber("Top Absolute Encoder Position", encoderPositionAngle());
     SmartDashboard.putNumber("Top Absolute Position", absDutyCycleEncoder.getAbsolutePosition() * 360);
+    SmartDashboard.putNumber("raw Absolute Encoder", absDutyCycleEncoder.get());
     SmartDashboard.putBoolean("Reverse Scoring", reverseScore);
     SmartDashboard.putNumber("Top Arm Output", topArmMotor.getAppliedOutput());
+    SmartDashboard.putNumber("Stored Node", storedNode);
     armGoalPos = SmartDashboard.getNumber("Arm Goal Position", 0);
     SmartDashboard.putBoolean("Stow Position", getStowPositionState());
 
@@ -105,6 +110,7 @@ public class TopArm extends SubsystemBase {
   public Double encoderPositionAngle() {
     double angle = absDutyCycleEncoder.getAbsolutePosition() * 360;
     angle -= TopArmConstants.kAbsEncoderOffset;
+      
     return angle * (TopArmConstants.kAbsEncoderReversed ? -1 : 1);
   }
 
@@ -143,6 +149,14 @@ public class TopArm extends SubsystemBase {
 
   public int getNodePosition() {// Used in other places to get the node to score at
     return nodePosition;
+  }
+
+  public void storeNode(int node) {
+    storedNode = node;
+  }
+
+  public int getStoredNode() {
+    return storedNode;
   }
 
   public void setReverseScoring() {

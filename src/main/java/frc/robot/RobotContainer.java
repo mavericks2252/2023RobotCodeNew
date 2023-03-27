@@ -7,6 +7,8 @@ package frc.robot;
 import java.util.HashMap;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import com.pathplanner.lib.auto.SwerveAutoBuilder;
+
+import frc.robot.Constants.ArmConstants;
 import frc.robot.Constants.AutoConstants;
 import frc.robot.Constants.DriveConstants;
 import edu.wpi.first.wpilibj.Compressor;
@@ -18,6 +20,7 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.PowerDistribution.ModuleType;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.Constants.OIConstants;
@@ -28,6 +31,7 @@ import frc.robot.commands.AutoBalanceCommand;
 import frc.robot.commands.AutonConeScore;
 import frc.robot.commands.ConeFloorReverse;
 import frc.robot.commands.GamePieceRelease;
+import frc.robot.commands.GripperCommand;
 import frc.robot.commands.IntakeGamePiece;
 import frc.robot.commands.RaiseTopArm;
 import frc.robot.commands.ReverseScorePosition;
@@ -37,6 +41,7 @@ import frc.robot.commands.SetScorePosition;
 import frc.robot.commands.SingleStationIntake;
 import frc.robot.commands.SmartArmScorePostition;
 import frc.robot.commands.SwerveJoystickCmd;
+import frc.robot.commands.SwitchNodePosition;
 import frc.robot.subsystems.AutoPaths;
 import frc.robot.subsystems.BottomArm;
 import frc.robot.subsystems.Floor;
@@ -90,6 +95,9 @@ public class RobotContainer {
           () -> driverJoystick.getRawButton(OIConstants.viewButton),
           () -> driverJoystick.getRawAxis(OIConstants.kRTrigger)));
 
+    gripper.setDefaultCommand(new GripperCommand(
+      () -> operatorJoystick.getRawAxis(3), 
+      gripper, ledModeSubsystem));
         
   
     // Configure the button bindings
@@ -110,7 +118,7 @@ public class RobotContainer {
           new JoystickButton(driverJoystick, OIConstants.menuButton).onTrue(new InstantCommand(() -> swerveSubsystem.zeroHeading()));
           
         //Arm Commands
-          new JoystickButton(driverJoystick, OIConstants.yButton).onTrue(new ArmStowPosition(bottomArm, topArm, intake));
+          new JoystickButton(driverJoystick, OIConstants.lJoyStickClick).onTrue(new ArmStowPosition(bottomArm, topArm, intake));
 
         //Gripper Commands
           
@@ -149,6 +157,7 @@ public class RobotContainer {
             new ArmStowPosition(bottomArm, topArm, intake)
            ) );
 
+          new JoystickButton(operatorJoystick, OIConstants.xButton).onTrue(new SwitchNodePosition(topArm, bottomArm, ledModeSubsystem));
   }
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.
@@ -169,6 +178,10 @@ public class RobotContainer {
       HashMap<String, Command> eventMap = new HashMap<>();
       eventMap.put("Wait", new WaitCommand(1));
       eventMap.put("Place Cube", new ScoreGamePiece(gripper, topArm, bottomArm, ledModeSubsystem));
+      eventMap.put("Score Cube", new SequentialCommandGroup(
+        new InstantCommand(() -> gripper.reverseGripper(.7)),
+        new WaitCommand(.5), 
+        new InstantCommand(() -> gripper.stopGripper())));
       eventMap.put("Set High Position", new SmartArmScorePostition(OIConstants.highNode, ledModeSubsystem, bottomArm, topArm, swerveSubsystem, intake));
       eventMap.put("Set Node 4", new SmartArmScorePostition(OIConstants.autoHighNode, ledModeSubsystem, bottomArm, topArm, swerveSubsystem, intake));
       eventMap.put("Set Mid Position", new SmartArmScorePostition(OIConstants.autoMidNode, ledModeSubsystem, bottomArm, topArm, swerveSubsystem, intake));
@@ -180,12 +193,15 @@ public class RobotContainer {
         ));*/
         eventMap.put("Place Cone", new SequentialCommandGroup(
           new SmartArmScorePostition(6, ledModeSubsystem, bottomArm, topArm, swerveSubsystem, intake),
-          new AutonConeScore(gripper).withTimeout(0.5)
+          new AutonConeScore(gripper).withTimeout(0.3)
         ));
 
-      eventMap.put("Stow Arm", new ArmStowPosition(bottomArm, topArm, intake));
-      //eventMap.put("Instant Stow", new InstantCommand(() -> topArm.setSto))
-      eventMap.put("Get Cube", new IntakeGamePiece(intake, gripper, floor, topArm, bottomArm, ledModeSubsystem).withTimeout(.3));
+      eventMap.put("Stow Position", new ArmStowPosition(bottomArm, topArm, intake));
+      eventMap.put("Stow Arm", new ParallelCommandGroup(
+            new InstantCommand(() -> topArm.setMotorDownPosition(ArmConstants.kTopStowPosition)), 
+            new InstantCommand(() -> bottomArm.setMotorPosition(ArmConstants.kBottomStowPosition)),
+            new InstantCommand(() -> topArm.setTrueStowPosition())));
+      eventMap.put("Get Cube", new IntakeGamePiece(intake, gripper, floor, topArm, bottomArm, ledModeSubsystem).withTimeout(.5));
       eventMap.put("Deploy Intake", new InstantCommand(() -> intake.extendIntake()));
       eventMap.put("Run Intake", new IntakeGamePiece(intake, gripper, floor, topArm, bottomArm, ledModeSubsystem));
       eventMap.put("Auto Balance", new AutoBalanceCommand(swerveSubsystem).withTimeout(5));
@@ -202,7 +218,7 @@ public class RobotContainer {
         AutoConstants.kThetaController, // PID for rotation error
         swerveSubsystem::setModuleStates, 
         eventMap, 
-        true
+        false
         , // Should the path be mirrored depending on alliance color
         swerveSubsystem);
         

@@ -172,7 +172,7 @@ public final class Constants {
 
     public static final class OIConstants {
 
-        public static final double kDeadBand = .15;
+        public static final double kDeadBand = .10;
         public static final int kOperatorControllerPort = 0;
         public static final int kDriverControllerPort = 1;
         public static final int kDriverXAxis = 0;
@@ -198,6 +198,7 @@ public final class Constants {
         public static final int autoHighNode = 4;
         public static final int autoMidNode = 5;
         public static final int kLEDStripLength = 75;
+        public static final int lJoyStickClick = 10;
     }         
 
     public static final class AutoConstants {

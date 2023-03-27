@@ -7,12 +7,9 @@ package frc.robot.subsystems;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
-
-
 import frc.robot.Constants.PortConstants;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
-
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
@@ -44,7 +41,8 @@ public class Gripper extends SubsystemBase {
     // This method will be called once per scheduler run
 
     SmartDashboard.putBoolean("Beam Break Sensor Value", getBeamBreakSensor());
-    SmartDashboard.putBoolean("Cone Beam Break", getBeamBreakSensor());
+    SmartDashboard.putBoolean("Cone Beam Break", getConeBeamBreak());
+
     SmartDashboard.putNumber("Gripper Motor Curent", gripperMotor.getOutputCurrent());
     SmartDashboard.putNumber("gripper motor output", gripperMotor.get());
 
@@ -62,7 +60,6 @@ public class Gripper extends SubsystemBase {
     gripperMotor.set(-percentOutput);
   }
 
- 
 
   public void stopGripper() {
     gripperMotor.stopMotor();
@@ -78,7 +75,7 @@ public class Gripper extends SubsystemBase {
   }
 
   public boolean getConeBeamBreak() {
-    return coneBeamBreak.get();
+    return !coneBeamBreak.get();
   }
 
   public void gripperHoldCone(){

@@ -48,6 +48,9 @@ public class BottomArm extends SubsystemBase {
   bottomArmMasterMotor.setSoftLimit(SoftLimitDirection.kForward, 160);
   bottomArmMasterMotor.setSoftLimit(SoftLimitDirection.kReverse, 55);
 
+  bottomArmMasterMotor.setSmartCurrentLimit(40);
+  bottomArmSlaveMotor.setSmartCurrentLimit(40);
+
   armPidController = bottomArmMasterMotor.getPIDController();
 
   

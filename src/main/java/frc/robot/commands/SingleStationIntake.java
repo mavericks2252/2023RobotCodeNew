@@ -33,7 +33,8 @@ public class SingleStationIntake extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-
+    topArm.setFalseStowPositon();
+    ledModeSubsystem.stopBlinking();
     
     
   }
@@ -71,6 +72,8 @@ public class SingleStationIntake extends CommandBase {
     else {
     gripper.gripperHoldCone();
     }
+    
+    ledModeSubsystem.startBlinking();
   }
 
   // Returns true when the command should end.
@@ -88,14 +91,14 @@ public class SingleStationIntake extends CommandBase {
     }
     //cone mode
     else {
-      if (gripper.getGripperCurrent() > 50){
+      if (gripper.getGripperCurrent() > 37){
         /*if(endTimer.get() > .2){
         return true;
         }
         else {
           return false;
         }*/
-        ledModeSubsystem.startBlinking();
+        
         return true;
       }
       else {

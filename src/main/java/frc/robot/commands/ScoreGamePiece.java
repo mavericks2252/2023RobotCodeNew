@@ -82,7 +82,7 @@ public class ScoreGamePiece extends CommandBase {
       if (nodePosition == low) {
     
         if (ledModeSubsystem.getRobotMode()){// Cube mode
-          
+          topArmGoal = topArm.getMotorEncoderPosition();
         }
 
         else {// Cone mode
@@ -99,6 +99,8 @@ public class ScoreGamePiece extends CommandBase {
   @Override
   public void execute() {
       topArm.setMotorPosition(topArmGoal);
+      
+       
 
     if (ledModeSubsystem.getRobotMode()) {
       gripper.reverseGripper(1);

@@ -60,6 +60,9 @@ public class AutoPaths extends SubsystemBase {
         PathPlanner.loadPathGroup(
           "Three Piece Level", 
           new PathConstraints(
+            3.5, 
+            4), 
+          new PathConstraints(
             3.3, 
             4));
 

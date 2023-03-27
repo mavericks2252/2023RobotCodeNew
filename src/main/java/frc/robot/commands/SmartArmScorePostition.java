@@ -84,25 +84,37 @@ public class SmartArmScorePostition extends CommandBase {
           bottomHoldPosition = 15;
         }
           
-        
-
-        else {// Cone mode
-          topGoalPosition = -30;
+        else if(!ledModeSubsystem.getRobotMode()) {// Cone mode
+          topGoalPosition = -32;
           bottomGoalPosition = 131;
           bottomHoldPosition = 50;
         }
+
+        /*else if(topArm.getStoredNode() == mid){
+
+          if(ledModeSubsystem.getRobotMode()) {// Cube mode
+  
+          }
+          else {// Cone mode
+  
+          }
+        }*/
+
         scoringNode = high;
+        topArm.storeNode(3);
       }
 
       else if(node == mid) {
 
         if (ledModeSubsystem.getRobotMode()) {// Cube mode
           topGoalPosition = 5;
-          bottomGoalPosition = 75;
+          bottomGoalPosition = 79;
           bottomHoldPosition = 35;
         }
 
-        else {// Cone mode
+        
+
+        else if(!ledModeSubsystem.getRobotMode()) {// Cone mode
           // Sets position depending on robot orientation
           if (topArm.getScoringPosition()){
             topGoalPosition = 210;
@@ -110,28 +122,45 @@ public class SmartArmScorePostition extends CommandBase {
             bottomHoldPosition = 160;
           }
           else {
-          topGoalPosition = 3;
-          bottomGoalPosition = 93;
-          bottomHoldPosition = 35;
+            topGoalPosition = 7;
+            bottomGoalPosition = 92;
+            bottomHoldPosition = 35;
           }
         }
+        
+        /*else if(topArm.getStoredNode() == high){// If the previous node was high node
+
+          if(ledModeSubsystem.getRobotMode()) {// Cube mode
+  
+          }
+          else {// Cone mode
+  
+          }
+        }*/
         scoringNode = mid;
+        topArm.storeNode(2);
       }
+
 
       else if(node == 4) {
         topGoalPosition = -40;
         bottomGoalPosition = 135;
-        bottomHoldPosition = 50;
+        //bottomHoldPosition = 50;
+        topArmHold = false;
+        bottomArmHold = false;
+        
       }
 
       else if(node == 5) {
         topGoalPosition = -10;
         bottomGoalPosition = 135;
         bottomHoldPosition = 50;
+        topArmHold = false;
+        bottomArmHold = false;
       }
 
       else if(node == 6)  {
-        topGoalPosition = -17;
+        topGoalPosition = -15;
         bottomGoalPosition = 113;
         bottomHoldPosition = 20;
       }

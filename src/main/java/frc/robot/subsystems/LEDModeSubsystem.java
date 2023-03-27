@@ -169,11 +169,4 @@ public class LEDModeSubsystem extends SubsystemBase {
     blink = false;
   }
 
-  private void rainbow() {
-
-    for (var i = 0; i < rainbowLEDBuffer.getLength(); i++) {
-      
-    }
-
-  }
 }
