@@ -81,7 +81,7 @@ public class SingleStationIntake extends CommandBase {
   public boolean isFinished() {
     // cube Mode
     if (ledModeSubsystem.getRobotMode()){
-      if (gripper.getBeamBreakSensor() & gripper.getGripperCurrent() > 7){
+      if (gripper.getBeamBreakSensor() && gripper.getGripperCurrent() > 7){
         ledModeSubsystem.startBlinking();
         return true;
       }
@@ -91,7 +91,7 @@ public class SingleStationIntake extends CommandBase {
     }
     //cone mode
     else {
-      if (gripper.getGripperCurrent() > 37){
+      if (gripper.getGripperCurrent() > 10 && gripper.getConeBeamBreak()){
         /*if(endTimer.get() > .2){
         return true;
         }

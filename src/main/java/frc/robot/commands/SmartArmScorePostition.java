@@ -85,7 +85,7 @@ public class SmartArmScorePostition extends CommandBase {
         }
           
         else if(!ledModeSubsystem.getRobotMode()) {// Cone mode
-          topGoalPosition = -32;
+          topGoalPosition = -33;
           bottomGoalPosition = 131;
           bottomHoldPosition = 50;
         }
@@ -123,7 +123,7 @@ public class SmartArmScorePostition extends CommandBase {
           }
           else {
             topGoalPosition = 7;
-            bottomGoalPosition = 92;
+            bottomGoalPosition = 94;
             bottomHoldPosition = 35;
           }
         }
