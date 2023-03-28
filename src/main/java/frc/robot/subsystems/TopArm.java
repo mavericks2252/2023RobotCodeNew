@@ -91,7 +91,7 @@ public class TopArm extends SubsystemBase {
     SmartDashboard.putNumber("raw Absolute Encoder", absDutyCycleEncoder.get());
     SmartDashboard.putBoolean("Reverse Scoring", reverseScore);
     SmartDashboard.putNumber("Top Arm Output", topArmMotor.getAppliedOutput());
-    SmartDashboard.putNumber("Stored Node", storedNode);
+    SmartDashboard.putNumber("TopArmNodePos", getNodePosition());
     armGoalPos = SmartDashboard.getNumber("Arm Goal Position", 0);
     SmartDashboard.putBoolean("Stow Position", getStowPositionState());
 
@@ -151,14 +151,7 @@ public class TopArm extends SubsystemBase {
     return nodePosition;
   }
 
-  public void storeNode(int node) {
-    storedNode = node;
-  }
-
-  public int getStoredNode() {
-    return storedNode;
-  }
-
+ 
   public void setReverseScoring() {
     reverseScore = true;
   }

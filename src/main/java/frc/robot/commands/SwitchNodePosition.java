@@ -4,7 +4,10 @@
 
 package frc.robot.commands;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.Constants.BottomArmConstants;
+import frc.robot.Constants.TopArmConstants;
 import frc.robot.subsystems.BottomArm;
 import frc.robot.subsystems.LEDModeSubsystem;
 import frc.robot.subsystems.TopArm;
@@ -29,21 +32,21 @@ public class SwitchNodePosition extends CommandBase {
   @Override
   public void initialize() {
    
-    if (topArm.getStoredNode() == highNode) {// All placeholders
-      topArmGoal = 7;
-      bottomArmGoal = 92;
-      bottomHoldPos = 2;// Hold the bottom arm until the top reaches this angle
+    if (topArm.getNodePosition() == highNode) {// Going to mid node
+      topArmGoal = TopArmConstants.kMidNodeScorePosCone;
+      bottomArmGoal = BottomArmConstants.kMidNodeScorePosCone;
+      bottomHoldPos = 100;// Hold the bottom arm until the top reaches this angle
       topArmHold = true;
       bottomArmHold = false;
-      topArm.setNodePosition(midNode);
+      bottomArm.setMotorPosition(bottomArmGoal);
     }
-    else if (topArm.getStoredNode() == midNode) {
-      topArmGoal = -32;
-      bottomArmGoal = 131;
-      topHoldPos = 100;// Hold the top arm until the bottom reaches this angle
+    else if (topArm.getNodePosition() == midNode) {// Going to high node
+      topArmGoal = TopArmConstants.kHighNodeScorePosCone;
+      bottomArmGoal = BottomArmConstants.kHighNodeScorePosCone;
+      topHoldPos = 4;// Hold the top arm until the bottom reaches this angle
       topArmHold = false;
       bottomArmHold = true;
-      topArm.setNodePosition(highNode);
+      topArm.setMotorPosition(topArmGoal);
     }
     else {
       topArmGoal = topArm.getMotorEncoderPosition();
@@ -55,40 +58,46 @@ public class SwitchNodePosition extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    topArmError = Math.abs(topArm.getMotorEncoderPosition() - bottomHoldPos);
-    bottomArmError = Math.abs(bottomArm.getMotorEncoderPosition() - topHoldPos);
+    topArmError = Math.abs(topArm.getMotorEncoderPosition() - topHoldPos);
+    bottomArmError = Math.abs(bottomArm.getMotorEncoderPosition() - bottomHoldPos);
+    SmartDashboard.putBoolean("Top Arm Hold", topArmHold);
+    SmartDashboard.putBoolean("Bottom Arm Hold", bottomArmHold);
 
-    if (topArmError < 1 && topArm.getStoredNode() == midNode) {
+    // is at mid node heading to high node move top arm up and hold bottom arm until hold position reached
+    if (topArmError < 1 && topArm.getNodePosition() == midNode) { 
       bottomArmHold = false;
-    }
-    else if (bottomArmError < 1 && topArm.getStoredNode() == highNode) {
-      topArmHold = false;
+      
     }
 
-    if (topArm.getStoredNode() == midNode) {
-      topArm.setMotorPosition(topArmGoal);
-      if (!bottomArmHold) {
+    // is at hight node going to mid node.  Hold top arm until bottom arm retracts to hold position
+    if (bottomArmError < 1 && topArm.getNodePosition() == highNode) {
+      topArmHold = false;
+      
+    }
+
+    if (!bottomArmHold) {
         bottomArm.setMotorPosition(bottomArmGoal);
       }
-    }
-    else if (topArm.getStoredNode() == highNode) {
-      bottomArm.setMotorPosition(bottomArmGoal);
-      if (!topArmHold) {
+    
+    
+    if (!topArmHold) {
         topArm.setMotorDownPosition(topArmGoal);
       }
-    }
-
   }
+
+  
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    if (topArm.getStoredNode() == highNode) {
-      topArm.storeNode(midNode);
+    if (topArm.getNodePosition() == midNode){
+      topArm.setNodePosition(highNode);
     }
-    else if (topArm.getStoredNode() == midNode) {
-      topArm.storeNode(highNode);
+
+    else if (topArm.getNodePosition() == highNode){
+      topArm.setNodePosition(midNode);
     }
+   
   }
 
   // Returns true when the command should end.
@@ -97,10 +106,12 @@ public class SwitchNodePosition extends CommandBase {
     if (ledModeSubsystem.getRobotMode()) {
       return true;
     }
-    else if (Math.abs(topArm.getMotorEncoderPosition() - topArmGoal) < 1 
-    && Math.abs(bottomArm.getMotorEncoderPosition() - bottomArmGoal) < 1) {
-    return true;
+
+    else if ( Math.abs(topArm.getMotorEncoderPosition() - topArmGoal) < 1 
+              && Math.abs(bottomArm.getMotorEncoderPosition() - bottomArmGoal) < 1) {
+      return true;
     }
+
     else {
       return false;
     }

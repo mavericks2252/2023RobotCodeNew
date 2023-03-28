@@ -108,8 +108,60 @@
         "y": 1.133488407327693
       },
       "prevControl": {
-        "x": 2.8219233631449714,
-        "y": 1.1901650557687087
+        "x": 2.702653485462474,
+        "y": 0.9815856866736669
+      },
+      "nextControl": {
+        "x": 2.238446323389307,
+        "y": 1.3295408708891185
+      },
+      "holonomicAngle": 0,
+      "isReversal": false,
+      "velOverride": null,
+      "isLocked": false,
+      "isStopPoint": true,
+      "stopEvent": {
+        "names": [
+          "Place Cube"
+        ],
+        "executionBehavior": "sequential",
+        "waitBehavior": "none",
+        "waitTime": 0
+      }
+    },
+    {
+      "anchorPoint": {
+        "x": 2.907119981687062,
+        "y": 2.1912709783556217
+      },
+      "prevControl": {
+        "x": 2.1212222004337677,
+        "y": 2.1912709783556217
+      },
+      "nextControl": {
+        "x": 4.366005999400999,
+        "y": 2.1912709783556217
+      },
+      "holonomicAngle": 0,
+      "isReversal": false,
+      "velOverride": 1.0,
+      "isLocked": false,
+      "isStopPoint": false,
+      "stopEvent": {
+        "names": [],
+        "executionBehavior": "parallel",
+        "waitBehavior": "none",
+        "waitTime": 0
+      }
+    },
+    {
+      "anchorPoint": {
+        "x": 4.886224943507997,
+        "y": 2.19
+      },
+      "prevControl": {
+        "x": 3.983776300651073,
+        "y": 2.19
       },
       "nextControl": null,
       "holonomicAngle": 0,
@@ -119,10 +171,9 @@
       "isStopPoint": false,
       "stopEvent": {
         "names": [
-          "Place Cube",
-          "Stow Arm"
+          "Auto Balance"
         ],
-        "executionBehavior": "sequential",
+        "executionBehavior": "parallel",
         "waitBehavior": "none",
         "waitTime": 0
       }
@@ -157,7 +208,13 @@
     {
       "position": 3.0909090909090846,
       "names": [
-        "Set Node 4"
+        "Set High Position"
+      ]
+    },
+    {
+      "position": 4.199999999999996,
+      "names": [
+        "Stow Position"
       ]
     }
   ]

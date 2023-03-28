@@ -118,11 +118,11 @@ public class ArmScorePostition extends CommandBase {
   @Override
   public void execute() {
     
-    SmartDashboard.putBoolean("Top Arm Hold", topArmHold);
+    /*SmartDashboard.putBoolean("Top Arm Hold", topArmHold);
     SmartDashboard.putBoolean("Bottom Arm hold", bottomArmHold);
     SmartDashboard.putNumber("Scoring Node", scoringNode);
     SmartDashboard.putNumber("Top Arm Goal", topGoalPosition);
-    //SmartDashboard.putNumber("Bottom Arm Error", Math.abs(bottomArmError));*/
+    SmartDashboard.putNumber("Bottom Arm Error", Math.abs(bottomArmError));*/
 
     bottomArmError = ArmConstants.kBottomReversePosition - bottomArm.getMotorEncoderPosition();
 

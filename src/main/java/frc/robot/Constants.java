@@ -135,6 +135,12 @@ public final class Constants {
         public static final double kAbsEncoderOffset = -39;
         public static final boolean kAbsEncoderReversed = false;
         public static final double kClosedLoopRampRate = 0.5;
+        
+        public static final double kMidNodeScorePosCone = 7;
+        public static final double kMidNodeScorePosCube = 5;
+        
+        public static final double kHighNodeScorePosCube = -10;
+        public static final double kHighNodeScorePosCone = -33;
 
 
     }
@@ -154,6 +160,12 @@ public final class Constants {
         public static final double kAbsEncoderOffset = 180.45;
         public static final boolean kAbsEncoderReversed = false;
         public static final double kClosedLoopRampRate = 0.5;
+        
+        public static final double kMidNodeScorePosCone = 94;
+        public static final double kMidNodeScorePosCube = 79;
+
+        public static final double kHighNodeScorePosCube = 105;
+        public static final double kHighNodeScorePosCone = 131;
 
 
     }

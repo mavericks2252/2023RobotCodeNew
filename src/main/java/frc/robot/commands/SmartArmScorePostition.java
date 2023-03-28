@@ -7,6 +7,8 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants.ArmConstants;
+import frc.robot.Constants.BottomArmConstants;
+import frc.robot.Constants.TopArmConstants;
 import frc.robot.subsystems.BottomArm;
 import frc.robot.subsystems.Gripper;
 import frc.robot.subsystems.Intake;
@@ -79,36 +81,26 @@ public class SmartArmScorePostition extends CommandBase {
       if(node == high) {
         if (ledModeSubsystem.getRobotMode()) {// Cube mode
           
-          topGoalPosition = -10;
-          bottomGoalPosition = 105;
+          topGoalPosition = TopArmConstants.kHighNodeScorePosCube;
+          bottomGoalPosition = BottomArmConstants.kHighNodeScorePosCube;
           bottomHoldPosition = 15;
         }
           
         else if(!ledModeSubsystem.getRobotMode()) {// Cone mode
-          topGoalPosition = -33;
-          bottomGoalPosition = 131;
+          topGoalPosition = TopArmConstants.kHighNodeScorePosCone;
+          bottomGoalPosition = BottomArmConstants.kHighNodeScorePosCone;
           bottomHoldPosition = 50;
         }
 
-        /*else if(topArm.getStoredNode() == mid){
-
-          if(ledModeSubsystem.getRobotMode()) {// Cube mode
-  
-          }
-          else {// Cone mode
-  
-          }
-        }*/
-
         scoringNode = high;
-        topArm.storeNode(3);
+       
       }
 
       else if(node == mid) {
 
         if (ledModeSubsystem.getRobotMode()) {// Cube mode
-          topGoalPosition = 5;
-          bottomGoalPosition = 79;
+          topGoalPosition = TopArmConstants.kMidNodeScorePosCube;
+          bottomGoalPosition = BottomArmConstants.kMidNodeScorePosCube;
           bottomHoldPosition = 35;
         }
 
@@ -122,23 +114,14 @@ public class SmartArmScorePostition extends CommandBase {
             bottomHoldPosition = 160;
           }
           else {
-            topGoalPosition = 7;
-            bottomGoalPosition = 94;
+            topGoalPosition = TopArmConstants.kMidNodeScorePosCone;
+            bottomGoalPosition = BottomArmConstants.kMidNodeScorePosCone;
             bottomHoldPosition = 35;
           }
         }
         
-        /*else if(topArm.getStoredNode() == high){// If the previous node was high node
-
-          if(ledModeSubsystem.getRobotMode()) {// Cube mode
-  
-          }
-          else {// Cone mode
-  
-          }
-        }*/
         scoringNode = mid;
-        topArm.storeNode(2);
+        
       }
 
 
@@ -192,8 +175,8 @@ public class SmartArmScorePostition extends CommandBase {
   @Override
   public void execute() {
     
-    SmartDashboard.putBoolean("Top Arm Hold", topArmHold);
-    SmartDashboard.putBoolean("Bottom Arm hold", bottomArmHold);
+    /*SmartDashboard.putBoolean("Top Arm Hold", topArmHold);
+    SmartDashboard.putBoolean("Bottom Arm hold", bottomArmHold);*/
     SmartDashboard.putNumber("Scoring Node", scoringNode);
     //SmartDashboard.putNumber("Bottom Arm Error", Math.abs(bottomArmError));*/
 

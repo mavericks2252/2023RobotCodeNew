@@ -81,12 +81,12 @@ public class AutoPaths extends SubsystemBase {
             AutoConstants.kMaxSpeedMetersPerSecond, 
             AutoConstants.kMaxAccelerationMetersPerSecondSquared));
 
-      List<PathPlannerTrajectory> twoPieceScoreRight = 
+      List<PathPlannerTrajectory> twoPieceScoreCable = 
         PathPlanner.loadPathGroup(
-          "Two Piece Score Cable", 
-          new PathConstraints(
-            2, 
-            2));
+          "Two Piece Score Level Cable", 
+          new PathConstraints(2, 2), 
+          new PathConstraints(2, 2),
+          new PathConstraints(3, 3));
       
       List<PathPlannerTrajectory> twoPiecePlusCable = 
         PathPlanner.loadPathGroup(
@@ -114,7 +114,7 @@ public class AutoPaths extends SubsystemBase {
       autoChooser.addOption("Three Piece Level", threePieceLevel);
       autoChooser.addOption("Only Score Mid", onlyScoreMid);
       autoChooser.addOption("2.5 Piece Level", twoAndHalfPlus);
-      autoChooser.addOption("Two Piece Score Cable", twoPieceScoreRight);
+      autoChooser.addOption("Two Piece Cable Level", twoPieceScoreCable);
       autoChooser.addOption("Two Piece Plus Cable", twoPiecePlusCable);
       autoChooser.addOption("One Piece Plus Mid", onePiecePlusMidBalance);
       autoChooser.setDefaultOption("Do Nothing", doNothing);
